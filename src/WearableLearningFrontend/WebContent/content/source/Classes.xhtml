@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="templates/HeaderMenuTableContentFooter/HeaderMenuTableContentFooter.xhtml">
+	<ui:param name="HeaderText" value="Your Classes" />
+	<ui:param name="NewOnClick" value="PF('NewClass').show();"></ui:param>
+	<ui:param name="NewButton" value="New Class"/>
+	<ui:param name="EditButton" value="Edit Class"/>
+	<ui:param name="DeleteButton" value="Delete Class"/>
+	<ui:param name="TablePanelName" value="Classes"/>
+	<ui:param name="TableData" value="#{classes.classes}" />
+	<ui:param name="TableSelection" value="#{classes.selectedClass}" />
+	<ui:param name="TableRowIndex" value="#{classes.rowIndex}" />
+	<ui:param name="ColumnsList" value="#{classes.columns}"/>
+		<ui:define name="content">
+		    <h:body>
+		    	<h:form>
+			    	<p:dialog header="New Class" widgetVar="NewClass" minHeight="40">
+	    				<h:outputText value="Create a new class"/>
+	    				<br/><br/>
+	    				<div class="new">
+		    				<span><p:inputText id="className" value="#{classes.className}" placeholder="Class Name"/></span>
+		    				<span><p:inputText placeholder="School"/></span>
+		    				<span><p:inputText placeholder="Grade"/></span>
+		    				<span><p:inputText placeholder="Year"/></span>
+	    				</div>
+	    				<p:commandButton id="createButton" value="Create Class" styleClass="buttonSize" action="#{classes.createPressed}"/>
+					</p:dialog>
+				</h:form>
+		    </h:body>
+		</ui:define>
+</ui:composition>
+</html>

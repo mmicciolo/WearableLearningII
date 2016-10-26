@@ -1,0 +1,18 @@
+@CHARSET "UTF-8";
+
+#header {
+	background-color:#0099FF;
+}
+
+body {
+/* 	background-image: url("http://localhost:8080/WearableLearningFrontend/content/images/darkgreybackground.jpg"); */
+	background-color: #515255;
+}
+
+#footer {
+	position:fixed;
+	bottom:0;
+	left:0;
+	right:0;
+	height:50px;
+}

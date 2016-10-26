@@ -1,0 +1,42 @@
+@CHARSET "UTF-8";
+
+.headerText {
+	color:white; 
+	text-align:center; 
+	margin-top:20px; 
+	margin-bottom:20px; 
+	font-size:50px;
+	text-shadow: 1px 1px 3px #000000;
+}
+
+.tableButtonPanel {
+	width:75%; 
+	position:relative; 
+	margin-left: auto; 
+	margin-right: auto; 
+	left: 0; 
+	right: 0;
+}
+
+.tablePanel {
+	margin-top:20px; 
+	width:75%; 
+	text-align:center; 
+	position:relative; 
+	margin-left: auto; 
+	margin-right: auto; 
+	left: 0; 
+	right: 0;
+}
+
+.new span {
+	display: block;
+	margin-bottom:20px;
+}
+
+.buttonSize {
+	width:100px;
+	height:25px;
+}
+
+

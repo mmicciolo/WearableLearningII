@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+      
+<head>
+  <title><ui:insert name="title">Physical Game For Learning Control Panel</ui:insert></title>
+  <h:outputStylesheet name="css/CommonTemplate.css"></h:outputStylesheet>
+  <h:outputStylesheet name="css/TableTemplate.css"/>
+</head>
+
+<body>
+
+<div id="header">
+    <ui:insert name="header">
+    	<ui:include src ="../HeaderContentFooter/Header.xhtml"/>
+    </ui:insert>
+</div>
+
+<div id="menu">
+	<ui:insert name="menu">
+		<ui:include src="../HeaderMenuContentFooter/Menu.xhtml"/>
+	</ui:insert>
+</div>
+
+
+<div id="content">
+  <div class="headerText">#{HeaderText}</div>
+  <div class="tableButtonPanel">
+  		<p:panel>
+	  		<p:commandButton value="#{NewButton}" onclick="#{NewOnClick}" styleClass="buttonSize" style="margin-right:33%;"/>
+	  		<p:commandButton value="#{EditButton}" styleClass="buttonSize" style="margin-right:33%;"/>
+	  		<p:commandButton value="#{DeleteButton}" styleClass="buttonSize"/>
+  		</p:panel>
+  </div>
+  <div class="tablePanel">
+	  <p:panel header="#{TablePanelName}">
+	  		<p:dataTable var="classdata" value="#{TableData}" selectionMode="single" selection="#{TableSelection}" rowKey="#{TableRowIndex}">
+				<p:columns value="#{ColumnsList}" var="columns">
+					<f:facet name="header">
+	                	<h:outputText value="#{columns.header}"/>
+	                </f:facet>
+	                <h:outputText value="#{classdata[columns.property]}"/>
+				</p:columns>
+			</p:dataTable>
+	  </p:panel>
+  </div>
+  <ui:insert name="content"/>
+</div>
+
+<div id="footer">
+  <ui:insert name="footer">
+		<ui:include src="../HeaderContentFooter/Footer.xhtml"/>
+  </ui:insert>
+</div>
+
+</body>
+
+</html>
