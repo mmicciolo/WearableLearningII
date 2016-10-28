@@ -62,6 +62,9 @@ public class Classes {
 				statement.close();
 			} catch(Exception e) {
 				e.printStackTrace();
+				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error has occured");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+				return;
 			}
 		}
 	}
@@ -86,12 +89,15 @@ public class Classes {
 					statement.close();
 				} catch (Exception e) {
 					e.printStackTrace();
+					FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error has occured");
+					FacesContext.getCurrentInstance().addMessage(null, message);
+					return;
 				}	
-				RequestContext.getCurrentInstance().addCallbackParam("success", true);
 				classes.add(new ClassData(newId, className, "Teacher", school, grade, year));
-				RequestContext.getCurrentInstance().update("mainTable");
+				RequestContext.getCurrentInstance().update("main:mainTable");
 				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Sucessfully Deleted");
 				FacesContext.getCurrentInstance().addMessage(null, message);
+				RequestContext.getCurrentInstance().execute("PF('NewClass').hide();");
 			}
 		}
 		else {
@@ -125,13 +131,19 @@ public class Classes {
 				statement.close();
 			} catch (Exception e) {
 				e.printStackTrace();
+				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error has occured");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+				return;
 			}
-			RequestContext.getCurrentInstance().addCallbackParam("success", true);
+			RequestContext.getCurrentInstance().update("main:mainTable");
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Sucessfully Deleted");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 			classes.get(classes.lastIndexOf(selectedClass)).setName(className);
 			classes.get(classes.lastIndexOf(selectedClass)).setSchool(school);
 			classes.get(classes.lastIndexOf(selectedClass)).setGrade(grade);
 			classes.get(classes.lastIndexOf(selectedClass)).setYear(year);
-			RequestContext.getCurrentInstance().update("mainTable");
+			RequestContext.getCurrentInstance().update("main:mainTable");
+			RequestContext.getCurrentInstance().execute("PF('EditClass').hide();");
 		}
 	}
 	
@@ -143,10 +155,13 @@ public class Classes {
 				statement.executeUpdate();
 				statement.close();
 			} catch(Exception e) {
+				e.printStackTrace();
 				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error has occured");
 				FacesContext.getCurrentInstance().addMessage(null, message);
 				return;
 			}
+			classes.remove(selectedClass);
+			RequestContext.getCurrentInstance().update("main:mainTable");
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Sucessfully Deleted");
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		}

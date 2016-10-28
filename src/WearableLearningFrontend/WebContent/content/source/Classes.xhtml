@@ -21,44 +21,33 @@
 	<ui:param name="TableSelection" value="#{classes.selectedClass}" />
 	<ui:param name="ColumnsList" value="#{classes.columns}"/>
 		<ui:define name="content">
-	    	<p:dialog id="dlgNew" header="New Class" widgetVar="NewClass" modal="true" minHeight="40" >
-	    	<p:ajax event="close" update=":main:dlgNew" resetValues="true" listener="#{classes.clear}"/>
+	    	<p:dialog id="dlgNew" header="New Class" widgetVar="NewClass" modal="true" minHeight="40">
+	    	<p:ajax event="close" update=":dlgNew" resetValues="true" listener="#{classes.clear}"/>
    				<h:outputText value="Create a new class"/>
    				<br/><br/>
-   				<div class="new">
+   				<h:form><div class="new">
     				<span><p:inputText id="className" value="#{classes.className}" placeholder="Class Name"/></span>
     				<span><p:inputText value="#{classes.school}" placeholder="School"/></span>
     				<span><p:inputText value="#{classes.grade}" placeholder="Grade"/></span>
     				<span><p:inputText value="#{classes.year}" placeholder="Year"/></span>
    				</div>
-   				<p:commandButton id="createButton" value="Create Class" styleClass="buttonSize" action="#{classes.createPressed}" oncomplete="if(
-args &amp;&amp; args.success)
-{
-  PF('NewClass).hide();
-}" />
+   				<p:commandButton value="Create Class" styleClass="buttonSize" action="#{classes.createPressed}" update="main:messages"/></h:form>
 			</p:dialog>
 			<p:dialog id="dlg" header="Edit Class" widgetVar="EditClass" modal="true" minHeight="40">
-			<p:ajax event="close" update=":main:dlg" resetValues="true" listener="#{classes.clear}" />
    				<h:outputText value="Edit a class"/>
    				<br/><br/>
-   				<div class="new">
+   				<h:form><div class="new">
     				<span><p:inputText value="#{classes.className}" placeholder="Class Name"/></span>
     				<span><p:inputText value="#{classes.school}" placeholder="School"/></span>
     				<span><p:inputText value="#{classes.grade}" placeholder="Grade"/></span>
     				<span><p:inputText value="#{classes.year}" placeholder="Year"/></span>
    				</div>
-   				<p:commandButton id="createButton2" value="Edit Class" styleClass="buttonSize" action="#{classes.editConfirmPressed}" oncomplete="if(
-args &amp;&amp; args.success)
-{
-  PF('EditClass).hide();
-}" />
+   				<p:commandButton value="Edit Class" styleClass="buttonSize" action="#{classes.editConfirmPressed}" update="main:messages"/></h:form>
 			</p:dialog>
-			
-			    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-        <p:commandButton value="Yes" type="submit" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-    </p:confirmDialog>
-			
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+        		<p:commandButton value="Yes" type="submit" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+        		<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
 		</ui:define>
 </ui:composition>
 </html>

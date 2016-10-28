@@ -28,32 +28,32 @@
 
 
 <div id="content">
-	<h:form id="main">
+  <h:form id="main">
 	  <div class="headerText">#{HeaderText}</div>
 	  <div class="tableButtonPanel">
 	  		<p:panel>
 		  		<p:commandButton value="#{NewButton}" onclick="#{NewOnClick}" styleClass="buttonSize" style="margin-right:33%;"/>
-		  		<p:commandButton value="#{EditButton}" action="#{ManagedBean[EditOnClick]}" update=":main:dlg" styleClass="buttonSize" style="margin-right:33%;"/>
+		  		<p:commandButton value="#{EditButton}" action="#{ManagedBean[EditOnClick]}" update=":dlg" styleClass="buttonSize" style="margin-right:33%;"/>
 		  		<p:growl id="messages"/>
-		  		<p:commandButton update="messages" value="#{DeleteButton}" actionListener="#{classes.deletePressed}" styleClass="buttonSize">
-		  			<p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
-		  		</p:commandButton>
+			  	<p:commandButton update="messages" value="#{DeleteButton}" actionListener="#{classes.deletePressed}" styleClass="buttonSize">
+			  			<p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+				</p:commandButton>
 	  		</p:panel>
 	  </div>
 	  <div class="tablePanel">
 		  <p:panel header="#{TablePanelName}">
-		  		<p:dataTable id ="mainTable" var="classdata" value="#{TableData}" selectionMode="single" selection="#{TableSelection}" rowKey="#{classdata.name}">
+		  		<p:dataTable id="mainTable" var="classdata" value="#{TableData}" selectionMode="single" selection="#{TableSelection}" rowKey="#{classdata.name}">
 					<p:columns value="#{ColumnsList}" var="columns">
 						<f:facet name="header">
 		                	<h:outputText value="#{columns.header}"/>
 		                </f:facet>
 		                <h:outputText value="#{classdata[columns.property]}"/>
 					</p:columns>
-				</p:dataTable>
+				</p:dataTable>	
 		  </p:panel>
 	  </div>
-	  <ui:insert name="content"/>
-  	</h:form>
+  </h:form>
+  <ui:insert name="content"/>
 </div>
 
 <div id="footer">
