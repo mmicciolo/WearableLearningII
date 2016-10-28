@@ -2,6 +2,7 @@ package wlfe.model;
 
 public class ClassData {
 	
+	private int classId;
 	private String name;
 	private String teacher;
 	private String school;
@@ -13,12 +14,17 @@ public class ClassData {
 		
 	}
 	
-	public ClassData(String name, String teacher, String school, int grade, int year) {
+	public ClassData(int classId, String name, String teacher, String school, int grade, int year) {
+		this.classId = classId;
 		this.name = name;
 		this.teacher = teacher;
 		this.school = school;
 		this.grade = grade;
 		this.year = year;
+	}
+	
+	public void setClassId(int classId) {
+		this.classId = classId;
 	}
 	
 	public void setName(String name) {
@@ -39,6 +45,10 @@ public class ClassData {
 	
 	public void setYear(int year) {
 		this.year = year;
+	}
+	
+	public int getClassId() {
+		return this.classId;
 	}
 	
 	public String getName() {
