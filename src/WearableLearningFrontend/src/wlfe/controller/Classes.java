@@ -20,14 +20,11 @@ public class Classes {
 	
 	private List<ClassData> classes = new ArrayList<ClassData>();;
 	private List<DataTableColumn> columns = new ArrayList<DataTableColumn>();;
+	private List<DataTableColumn> inputTextNames = new ArrayList<DataTableColumn>();
 	
 	private ClassData selectedClass;
 	
 	private int classId;
-	private String className;
-	private String school;
-	private int grade;
-	private int year;
 	
 	@PostConstruct
 	public void init() {
@@ -41,6 +38,11 @@ public class Classes {
 		columns.add(new DataTableColumn("School", "school"));
 		columns.add(new DataTableColumn("Grade", "grade"));
 		columns.add(new DataTableColumn("Year", "year"));
+		
+		inputTextNames.add(new DataTableColumn("Class Name", ""));
+		inputTextNames.add(new DataTableColumn("School", ""));
+		inputTextNames.add(new DataTableColumn("Grade", ""));
+		inputTextNames.add(new DataTableColumn("Year", ""));
 	}
 	
 	private void initData() {
@@ -70,7 +72,7 @@ public class Classes {
 	}
 	
 	public void createPressed() {
-		if(!className.equals("") && !school.equals("") && (grade > 0) && year > 0 ) {
+		if(!DataTableColumn.getPropertyFromHeader("Class Name", inputTextNames).equals("") && !DataTableColumn.getPropertyFromHeader("School", inputTextNames).equals("") && !DataTableColumn.getPropertyFromHeader("Grade", inputTextNames).equals("") && !DataTableColumn.getPropertyFromHeader("Year", inputTextNames).equals("")) {
 			MySQLAccessor accessor = MySQLAccessor.getInstance();
 			int newId = -1;
 			if(accessor.Connect()) {
@@ -79,10 +81,10 @@ public class Classes {
 					PreparedStatement statement = accessor.GetConnection().prepareStatement("INSERT INTO class (teacherId, className, grade, school, year) VALUES (?, ?, ?, ?, ?)", key);
 					//statement.setInt(1, Teacher.getInstance().GetID());
 					statement.setInt(1, 1);
-					statement.setString(2, className);
-					statement.setInt(3, grade);
-					statement.setString(4, school);
-					statement.setInt(5, year);
+					statement.setString(2, DataTableColumn.getPropertyFromHeader("Class Name", inputTextNames));
+					statement.setInt(3, Integer.parseInt(DataTableColumn.getPropertyFromHeader("Grade", inputTextNames)));
+					statement.setString(4, DataTableColumn.getPropertyFromHeader("School", inputTextNames));
+					statement.setInt(5, Integer.parseInt(DataTableColumn.getPropertyFromHeader("Year", inputTextNames)));
 					statement.executeUpdate();
 					ResultSet rs = statement.getGeneratedKeys();
 					if(rs.next()) { newId = (int)rs.getLong(1); }
@@ -93,7 +95,7 @@ public class Classes {
 					FacesContext.getCurrentInstance().addMessage(null, message);
 					return;
 				}	
-				classes.add(new ClassData(newId, className, "Teacher", school, grade, year));
+				classes.add(new ClassData(newId, DataTableColumn.getPropertyFromHeader("Class Name", inputTextNames), "Teacher", DataTableColumn.getPropertyFromHeader("School", inputTextNames), Integer.parseInt(DataTableColumn.getPropertyFromHeader("Grade", inputTextNames)), Integer.parseInt(DataTableColumn.getPropertyFromHeader("Year", inputTextNames))));
 				RequestContext.getCurrentInstance().update("main:mainTable");
 				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Sucessfully Deleted");
 				FacesContext.getCurrentInstance().addMessage(null, message);
@@ -110,10 +112,10 @@ public class Classes {
 	public void editPressed() {
 		if(selectedClass != null) {
 			classId = selectedClass.getClassId();
-			className = selectedClass.getName();
-			school = selectedClass.getSchool();
-			grade = selectedClass.getGrade();
-			year = selectedClass.getYear();
+			DataTableColumn.setPropertyFromHeader("Class Name", selectedClass.getName(), inputTextNames);
+			DataTableColumn.setPropertyFromHeader("School", selectedClass.getSchool(), inputTextNames);
+			DataTableColumn.setPropertyFromHeader("Grade", String.valueOf(selectedClass.getGrade()), inputTextNames);
+			DataTableColumn.setPropertyFromHeader("Year", String.valueOf(selectedClass.getYear()), inputTextNames);
 			RequestContext.getCurrentInstance().execute("PF('EditClass').show();");
 		}
 	}
@@ -123,10 +125,10 @@ public class Classes {
 		if(accessor.Connect()) {
 			try {
 				PreparedStatement statement = accessor.GetConnection().prepareStatement("UPDATE class SET className = ?, school = ?, grade = ?, year = ? WHERE classId=" + classId);
-				statement.setString(1, className);
-				statement.setString(2, school);
-				statement.setInt(3, grade);
-				statement.setInt(4, year);
+				statement.setString(1, DataTableColumn.getPropertyFromHeader("Class Name", inputTextNames));
+				statement.setString(2, DataTableColumn.getPropertyFromHeader("School", inputTextNames));
+				statement.setInt(3, Integer.parseInt(DataTableColumn.getPropertyFromHeader("Grade", inputTextNames)));
+				statement.setInt(4, Integer.parseInt(DataTableColumn.getPropertyFromHeader("Year", inputTextNames)));
 				statement.executeUpdate();
 				statement.close();
 			} catch (Exception e) {
@@ -138,10 +140,10 @@ public class Classes {
 			RequestContext.getCurrentInstance().update("main:mainTable");
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Sucessfully Deleted");
 			FacesContext.getCurrentInstance().addMessage(null, message);
-			classes.get(classes.lastIndexOf(selectedClass)).setName(className);
-			classes.get(classes.lastIndexOf(selectedClass)).setSchool(school);
-			classes.get(classes.lastIndexOf(selectedClass)).setGrade(grade);
-			classes.get(classes.lastIndexOf(selectedClass)).setYear(year);
+			classes.get(classes.lastIndexOf(selectedClass)).setName(DataTableColumn.getPropertyFromHeader("Class Name", inputTextNames));
+			classes.get(classes.lastIndexOf(selectedClass)).setSchool(DataTableColumn.getPropertyFromHeader("School", inputTextNames));
+			classes.get(classes.lastIndexOf(selectedClass)).setGrade(Integer.parseInt(DataTableColumn.getPropertyFromHeader("Grade", inputTextNames)));
+			classes.get(classes.lastIndexOf(selectedClass)).setYear(Integer.parseInt(DataTableColumn.getPropertyFromHeader("Year", inputTextNames)));
 			RequestContext.getCurrentInstance().update("main:mainTable");
 			RequestContext.getCurrentInstance().execute("PF('EditClass').hide();");
 		}
@@ -168,10 +170,10 @@ public class Classes {
 	}
 	
 	public void clear() {
-		className = "";
-		school = "";
-		grade = 0;
-		year = 0;
+		DataTableColumn.setPropertyFromHeader("Class Name", "", inputTextNames);
+		DataTableColumn.setPropertyFromHeader("School", "", inputTextNames);
+		DataTableColumn.setPropertyFromHeader("Grade", "", inputTextNames);
+		DataTableColumn.setPropertyFromHeader("Year", "", inputTextNames);
 	}
 	
 	public void setClasses(List<ClassData> classes) {
@@ -186,20 +188,8 @@ public class Classes {
 		this.selectedClass = selectedClass;
 	}
 	
-	public void setClassName(String className) {
-		this.className = className;
-	}
-	
-	public void setSchool(String school) {
-		this.school = school;
-	}
-	
-	public void setGrade(int grade) {
-		this.grade = grade;
-	}
-	
-	public void setYear(int year) {
-		this.year = year;
+	public void setInputTextNames(List<DataTableColumn> inputTextNames) {
+		this.inputTextNames = inputTextNames;
 	}
 	
 	public List<ClassData> getClasses() {
@@ -214,19 +204,7 @@ public class Classes {
 		return this.selectedClass;
 	}
 	
-	public String getClassName() {
-		return this.className;
-	}
-	
-	public String getSchool() {
-		return this.school;
-	}
-	
-	public int getGrade() {
-		return this.grade;
-	}
-	
-	public int getYear() {
-		return this.year;
+	public List<DataTableColumn> getInputTextNames() {
+		return this.inputTextNames;
 	}
 }

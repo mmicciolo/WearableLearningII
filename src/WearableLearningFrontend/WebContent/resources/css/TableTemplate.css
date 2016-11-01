@@ -39,4 +39,21 @@
 	height:25px;
 }
 
+.shadow {
+	box-shadow: 7px 10px 5px #303030;"
+}
+
+#parent {
+  text-align: justify;
+  font-size: 0.1px; /* IE 9/10 fix */
+}
+#parent li {
+  display: inline-block;
+}
+#parent:after {
+  content: '';
+  width: 100%; /* Ensures justification for single lines */
+  display: inline-block;
+}
+
 

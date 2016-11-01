@@ -26,22 +26,23 @@
 	</ui:insert>
 </div>
 
-
 <div id="content">
   <h:form id="main">
 	  <div class="headerText">#{HeaderText}</div>
-	  <div class="tableButtonPanel">
-	  		<p:panel>
-		  		<p:commandButton value="#{NewButton}" onclick="#{NewOnClick}" styleClass="buttonSize" style="margin-right:33%;"/>
-		  		<p:commandButton value="#{EditButton}" action="#{ManagedBean[EditOnClick]}" update=":dlg" styleClass="buttonSize" style="margin-right:33%;"/>
+	  <div class="tableButtonPanel" >
+	  		<p:panel styleClass="shadow">
+	  		<ul id="parent">
+		  		<li><p:commandButton value="#{NewButton}" onclick="#{NewOnClick}" styleClass="buttonSize"/></li>
+		  		<li><p:commandButton value="#{EditButton}" action="#{ManagedBean[EditOnClick]}" update=":dlgEdit" styleClass="buttonSize"/></li>
 		  		<p:growl id="messages"/>
-			  	<p:commandButton update="messages" value="#{DeleteButton}" actionListener="#{classes.deletePressed}" styleClass="buttonSize">
+			  	<li><p:commandButton update="messages" value="#{DeleteButton}" actionListener="#{classes.deletePressed}" styleClass="buttonSize">
 			  			<p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
-				</p:commandButton>
+				</p:commandButton></li>
+			</ul>
 	  		</p:panel>
 	  </div>
 	  <div class="tablePanel">
-		  <p:panel header="#{TablePanelName}">
+		  <p:panel header="#{TablePanelName}" styleClass="shadow">
 		  		<p:dataTable id="mainTable" var="classdata" value="#{TableData}" selectionMode="single" selection="#{TableSelection}" rowKey="#{classdata.name}">
 					<p:columns value="#{ColumnsList}" var="columns">
 						<f:facet name="header">
@@ -53,6 +54,31 @@
 		  </p:panel>
 	  </div>
   </h:form>
+  <p:dialog id="dlgNew" header="New Class" widgetVar="NewClass" modal="true" minHeight="40" style="box-shadow: 7px 10px 5px #303030;">
+		<h:outputText value="Create a new class"/>
+		<p:ajax event="close" update=":dlgNew" resetValues="true" listener="#{classes.clear}"/>
+		<br/><br/>
+		<h:form><div class="new">
+			<ui:repeat var="list" value="#{classes.inputTextNames}">
+				<span><p:inputText value="#{list.property}" placeholder="#{list.header}"/></span>
+			</ui:repeat>
+		</div>
+		<p:commandButton value="Create Class" styleClass="buttonSize" action="#{classes.createPressed}" update="main:messages"/></h:form>
+	</p:dialog>
+	<p:dialog id="dlgEdit" header="Edit Class" widgetVar="EditClass" modal="true" minHeight="40" style="box-shadow: 7px 10px 5px #303030;">
+		<h:outputText value="Edit a class"/>
+		<br/><br/>
+		<h:form><div class="new">
+		<ui:repeat var="list" value="#{classes.inputTextNames}">
+				<span><p:inputText value="#{list.property}" placeholder="#{list.header}"/></span>
+		</ui:repeat>
+		</div>
+		<p:commandButton value="Edit Class" styleClass="buttonSize" action="#{classes.editConfirmPressed}" update="main:messages"/></h:form>
+	</p:dialog>
+	<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" style="box-shadow: 7px 10px 5px #303030;">
+    	<p:commandButton value="Yes" type="submit" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+	</p:confirmDialog>
   <ui:insert name="content"/>
 </div>
 
