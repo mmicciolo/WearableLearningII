@@ -30,7 +30,7 @@
   <h:form id="main">
 	  <div class="headerText">#{HeaderText}</div>
 	  <div class="tableButtonPanel" >
-	  		<p:panel styleClass="shadow">
+	  		<p:panel>
 	  		<ul id="parent">
 		  		<li><p:commandButton value="#{NewButton}" onclick="#{NewOnClick}" styleClass="buttonSize"/></li>
 		  		<li><p:commandButton value="#{EditButton}" action="#{ManagedBean[EditOnClick]}" update=":dlgEdit" styleClass="buttonSize"/></li>
@@ -42,7 +42,7 @@
 	  		</p:panel>
 	  </div>
 	  <div class="tablePanel">
-		  <p:panel header="#{TablePanelName}" styleClass="shadow">
+		  <p:panel header="#{TablePanelName}">
 		  		<p:dataTable id="mainTable" var="classdata" value="#{TableData}" selectionMode="single" selection="#{TableSelection}" rowKey="#{classdata.name}">
 					<p:columns value="#{ColumnsList}" var="columns">
 						<f:facet name="header">
