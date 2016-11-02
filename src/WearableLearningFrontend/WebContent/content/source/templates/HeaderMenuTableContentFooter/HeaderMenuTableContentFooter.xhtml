@@ -43,8 +43,8 @@
 	  </div>
 	  <div class="tablePanel">
 		  <p:panel header="#{TablePanelName}">
-		  		<p:dataTable id="mainTable" var="tabledata" value="#{TableData}" selectionMode="single" selection="#{TableSelection}" rowKey="#{tabledata.className}">
-					<p:columns value="#{ColumnsList}" var="columns">
+		  		<p:dataTable id="mainTable" var="tabledata" value="#{ManagedBean.tableObjects}" selectionMode="single" selection="#{ManagedBean.selectedObject}" rowKey="#{tabledata.className}">
+					<p:columns value="#{ManagedBean.columns}" var="columns">
 						<f:facet name="header">
 		                	<h:outputText value="#{columns.header}"/>
 		                </f:facet>

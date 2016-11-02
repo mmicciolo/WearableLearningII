@@ -19,10 +19,8 @@ import wlfe.common.DataTableColumn;
 import wlfe.common.MySQLAccessor;
 import wlfe.model.ClassData;
 
-public class Classes extends BaseHeaderMenuTableContentFooter {
+public class Classes extends BaseHeaderMenuTableContentFooter<ClassData> {
 	
-	private List<ClassData> classes = new ArrayList<ClassData>();
-	private ClassData selectedClass;
 	private int classId;
 	
 	protected boolean initColumns() {
@@ -52,7 +50,7 @@ public class Classes extends BaseHeaderMenuTableContentFooter {
 					ClassData classData = new ClassData();
 					String returnId[] = {""};
 					MySQLSetGet(false, null, returnId, results, fields, classData, 1);
-					classes.add(classData);
+					tableObjects.add(classData);
 				}
 				results.close();
 				statement.close();
@@ -81,7 +79,7 @@ public class Classes extends BaseHeaderMenuTableContentFooter {
 				e.printStackTrace();
 				Common.ErrorMessage();
 			}
-			classes.add(new ClassData(Integer.parseInt(fields.get("classId").getProperty()), fields.get("className").getProperty(), "teacher", fields.get("school").getProperty(), Integer.parseInt(fields.get("grade").getProperty()), Integer.parseInt(fields.get("year").getProperty())));
+			tableObjects.add(new ClassData(Integer.parseInt(fields.get("classId").getProperty()), fields.get("className").getProperty(), "teacher", fields.get("school").getProperty(), Integer.parseInt(fields.get("grade").getProperty()), Integer.parseInt(fields.get("year").getProperty())));
 			RequestContext.getCurrentInstance().update("main:mainTable");
 			RequestContext.getCurrentInstance().execute("PF('NewClass').hide();");
 			Common.SuccessMessage();
@@ -90,12 +88,12 @@ public class Classes extends BaseHeaderMenuTableContentFooter {
 	}
 	
 	public void editPressed() {
-		if(selectedClass != null) {
-			classId = selectedClass.getClassId();
-			fields.get("className").setProperty(selectedClass.getClassName());
-			fields.get("school").setProperty(selectedClass.getSchool());
-			fields.get("grade").setProperty(String.valueOf(selectedClass.getGrade()));
-			fields.get("year").setProperty(String.valueOf(selectedClass.getYear()));
+		if(selectedObject != null) {
+			classId = selectedObject.getClassId();
+			fields.get("className").setProperty(selectedObject.getClassName());
+			fields.get("school").setProperty(selectedObject.getSchool());
+			fields.get("grade").setProperty(String.valueOf(selectedObject.getGrade()));
+			fields.get("year").setProperty(String.valueOf(selectedObject.getYear()));
 			RequestContext.getCurrentInstance().execute("PF('EditClass').show();");
 		}
 	}
@@ -117,48 +115,16 @@ public class Classes extends BaseHeaderMenuTableContentFooter {
 			RequestContext.getCurrentInstance().update("main:mainTable");
 			Common.SuccessMessage();
 			accessor.Disconnect();
-			selectedClass.setClassName(fields.get("className").getProperty());
-			selectedClass.setSchool(fields.get("school").getProperty());
-			selectedClass.setGrade(Integer.parseInt(fields.get("grade").getProperty()));
-			selectedClass.setYear(Integer.parseInt(fields.get("year").getProperty()));
+			selectedObject.setClassName(fields.get("className").getProperty());
+			selectedObject.setSchool(fields.get("school").getProperty());
+			selectedObject.setGrade(Integer.parseInt(fields.get("grade").getProperty()));
+			selectedObject.setYear(Integer.parseInt(fields.get("year").getProperty()));
 			RequestContext.getCurrentInstance().update("main:mainTable");
 			RequestContext.getCurrentInstance().execute("PF('EditClass').hide();");
 		}
 	}
 	
-	public void deletePressed() {
-		MySQLAccessor accessor = MySQLAccessor.getInstance();
-		if(accessor.Connect()) {
-			try {
-				PreparedStatement statement = accessor.GetConnection().prepareStatement("DELETE FROM class WHERE classId=" + selectedClass.getClassId());
-				statement.executeUpdate();
-				statement.close();
-			} catch(Exception e) {
-				e.printStackTrace();
-				Common.ErrorMessage();
-				accessor.Disconnect();
-				return;
-			}
-			classes.remove(selectedClass);
-			RequestContext.getCurrentInstance().update("main:mainTable");
-			Common.SuccessMessage();
-			accessor.Disconnect();
-		}
-	}
-	
-	public void setClasses(List<ClassData> classes) {
-		this.classes = classes;
-	}
-	
-	public void setSelectedClass(ClassData selectedClass) {
-		this.selectedClass = selectedClass;
-	}
-	
-	public List<ClassData> getClasses() {
-		return this.classes;
-	}
-	
-	public ClassData getSelectedClass() {
-		return this.selectedClass;
+	public void deletePressed(String query) {
+		super.deletePressed("DELETE FROM class WHERE classId=" + selectedObject.getClassId());
 	}
 }

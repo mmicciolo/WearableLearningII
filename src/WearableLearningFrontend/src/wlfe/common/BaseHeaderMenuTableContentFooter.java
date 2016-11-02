@@ -16,10 +16,12 @@ import javax.annotation.PostConstruct;
 
 import org.primefaces.context.RequestContext;
 
-public class BaseHeaderMenuTableContentFooter {
+public class BaseHeaderMenuTableContentFooter<T> {
 	
 	protected List<DataTableColumn> columns = new ArrayList<DataTableColumn>();
-	protected Map<String, DataTableColumn> fields = new LinkedHashMap<String, DataTableColumn>(); 
+	protected Map<String, DataTableColumn> fields = new LinkedHashMap<String, DataTableColumn>();
+	protected List<T> tableObjects = new ArrayList<T>();
+	protected T selectedObject;
 	
 	/**
 	 * This function is called when the manage bean is first created.
@@ -70,8 +72,24 @@ public class BaseHeaderMenuTableContentFooter {
 		
 	}
 	
-	public void deletePressed() {
-		
+	public void deletePressed(String query) {
+		MySQLAccessor accessor = MySQLAccessor.getInstance();
+		if(accessor.Connect()) {
+			try {
+				PreparedStatement statement = accessor.GetConnection().prepareStatement(query);
+				statement.executeUpdate();
+				statement.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+				Common.ErrorMessage();
+				accessor.Disconnect();
+				return;
+			}
+			tableObjects.remove(selectedObject);
+			RequestContext.getCurrentInstance().update("main:mainTable");
+			Common.SuccessMessage();
+			accessor.Disconnect();
+		}
 	}
 
 	public void clear() {
@@ -130,6 +148,14 @@ public class BaseHeaderMenuTableContentFooter {
 	public void setFields(Map<String, DataTableColumn> fields) {
 		this.fields = fields;
 	}
+	
+	public void setTableObjects(List<T> tableObjects) {
+		this.tableObjects = tableObjects;
+	}
+	
+	public void setSelectedObject(T selectedObject) {
+		this.selectedObject = selectedObject;
+	}
 		
 	public List<DataTableColumn> getColumns() {
 		return this.columns;
@@ -137,5 +163,13 @@ public class BaseHeaderMenuTableContentFooter {
 	
 	public Map<String, DataTableColumn> getFields() {
 		return this.fields;
+	}
+	
+	public List<T> getTableObjects() {
+		return this.tableObjects;
+	}
+	
+	public T getSelectedObject() {
+		return this.selectedObject;
 	}
 }
