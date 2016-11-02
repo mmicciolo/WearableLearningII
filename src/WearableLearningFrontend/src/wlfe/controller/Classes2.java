@@ -4,7 +4,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -12,18 +14,20 @@ import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
 
 import wlfe.common.BaseHeaderMenuTableContentFooter;
+import wlfe.common.Common;
 import wlfe.common.DataTableColumn;
 import wlfe.common.MySQLAccessor;
 import wlfe.model.ClassData;
 
 public class Classes2 extends BaseHeaderMenuTableContentFooter {
 	
-	private List<ClassData> classes = new ArrayList<ClassData>();;
+	private List<ClassData> classes = new ArrayList<ClassData>();
+	private Map<String, DataTableColumn> classes2 = new LinkedHashMap<String, DataTableColumn>();
 	private ClassData selectedClass;
 	private int classId;
 	
 	protected boolean initColumns() {
-		if(columns.add(new DataTableColumn("Name", "name")) &&
+		if(columns.add(new DataTableColumn("Name", "className")) &&
 		   columns.add(new DataTableColumn("Teacher", "teacher")) &&
 		   columns.add(new DataTableColumn("School", "school")) &&
 		   columns.add(new DataTableColumn("Grade", "grade")) &&
@@ -33,11 +37,17 @@ public class Classes2 extends BaseHeaderMenuTableContentFooter {
 		   inputTextNames.add(new DataTableColumn("School", "")) &&
 		   inputTextNames.add(new DataTableColumn("Grade", "")) &&
 		   inputTextNames.add(new DataTableColumn("Year", ""))) { 
+		   classes2.put("classId", new DataTableColumn("Class Id", ""));
+		   classes2.put("className", new DataTableColumn("Class Name", ""));
+		   classes2.put("", new DataTableColumn("Teacher", "teacher"));
+		   classes2.put("school", new DataTableColumn("School", ""));
+		   classes2.put("grade", new DataTableColumn("Grade", ""));
+		   classes2.put("year", new DataTableColumn("Year", ""));
 		   return true;
 		}
 		return false;
 	}
-	
+			
 	public boolean initData() {
 		MySQLAccessor accessor = MySQLAccessor.getInstance();
 		if(accessor.Connect()) {
@@ -45,69 +55,47 @@ public class Classes2 extends BaseHeaderMenuTableContentFooter {
 				Statement statement = accessor.GetConnection().createStatement();
 				ResultSet results = statement.executeQuery("SELECT * from class where teacherId=1");
 				while(results.next()) {
-					int classId = results.getInt("classId");
-					String className = results.getString("className");
-					String teacher = "Teacher";
-					int grade = results.getInt("grade");
-					int year = results.getInt("year");
-					String school = results.getString("school");
-					classes.add(new ClassData(classId, className, teacher, school, grade, year));
+					ClassData classData = new ClassData();
+					String returnId[] = {""};
+					MySQLSetGet(false, null, returnId, results, classes2, classData, 1);
+					classes.add(classData);
 				}
 				results.close();
 				statement.close();
-				return true;
-			} catch(Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
-				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error has occured");
-				FacesContext.getCurrentInstance().addMessage(null, message);
+				Common.ErrorMessage();
 				return false;
 			}
+			return true;
 		}
 		return false;
 	}
 	
 	public void createPressed() {
-		if(!DataTableColumn.getPropertyFromHeader("Class Name", inputTextNames).equals("") && !DataTableColumn.getPropertyFromHeader("School", inputTextNames).equals("") && !DataTableColumn.getPropertyFromHeader("Grade", inputTextNames).equals("") && !DataTableColumn.getPropertyFromHeader("Year", inputTextNames).equals("")) {
-			MySQLAccessor accessor = MySQLAccessor.getInstance();
-			int newId = -1;
-			if(accessor.Connect()) {
-				try {
-					String key[] = {"classId"};
-					PreparedStatement statement = accessor.GetConnection().prepareStatement("INSERT INTO class (teacherId, className, grade, school, year) VALUES (?, ?, ?, ?, ?)", key);
-					//statement.setInt(1, Teacher.getInstance().GetID());
-					statement.setInt(1, 1);
-					statement.setString(2, DataTableColumn.getPropertyFromHeader("Class Name", inputTextNames));
-					statement.setInt(3, Integer.parseInt(DataTableColumn.getPropertyFromHeader("Grade", inputTextNames)));
-					statement.setString(4, DataTableColumn.getPropertyFromHeader("School", inputTextNames));
-					statement.setInt(5, Integer.parseInt(DataTableColumn.getPropertyFromHeader("Year", inputTextNames)));
-					statement.executeUpdate();
-					ResultSet rs = statement.getGeneratedKeys();
-					if(rs.next()) { newId = (int)rs.getLong(1); }
-					statement.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-					FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error has occured");
-					FacesContext.getCurrentInstance().addMessage(null, message);
-					return;
-				}	
-				classes.add(new ClassData(newId, DataTableColumn.getPropertyFromHeader("Class Name", inputTextNames), "Teacher", DataTableColumn.getPropertyFromHeader("School", inputTextNames), Integer.parseInt(DataTableColumn.getPropertyFromHeader("Grade", inputTextNames)), Integer.parseInt(DataTableColumn.getPropertyFromHeader("Year", inputTextNames))));
-				RequestContext.getCurrentInstance().update("main:mainTable");
-				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Sucessfully Deleted");
-				FacesContext.getCurrentInstance().addMessage(null, message);
-				RequestContext.getCurrentInstance().execute("PF('NewClass').hide();");
+		MySQLAccessor accessor = MySQLAccessor.getInstance();
+		if(accessor.Connect()) {
+			try {
+				String returnId[] = {"classId"};
+				PreparedStatement preparedStatment = accessor.GetConnection().prepareStatement("INSERT INTO class (teacherId, className, school, grade, year) VALUES (?, ?, ?, ?, ?)", returnId);
+				ClassData classData = new ClassData();
+				preparedStatment.setInt(1, 1);
+				createMySQLEntry(preparedStatment, classes2, classData, returnId);
+			} catch (Exception e) {
+				e.printStackTrace();
+				Common.ErrorMessage();
 			}
-		}
-		else {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error has occured");
-			FacesContext.getCurrentInstance().addMessage(null, message);
-			return;
+			classes.add(new ClassData(Integer.parseInt(classes2.get("classId").getProperty()), classes2.get("className").getProperty(), "teacher", classes2.get("school").getProperty(), Integer.parseInt(classes2.get("grade").getProperty()), Integer.parseInt(classes2.get("year").getProperty())));
+			RequestContext.getCurrentInstance().update("main:mainTable");
+			RequestContext.getCurrentInstance().execute("PF('NewClass').hide();");
+			Common.SuccessMessage();
 		}
 	}
 	
 	public void editPressed() {
 		if(selectedClass != null) {
 			classId = selectedClass.getClassId();
-			DataTableColumn.setPropertyFromHeader("Class Name", selectedClass.getName(), inputTextNames);
+			DataTableColumn.setPropertyFromHeader("Class Name", selectedClass.getClassName(), inputTextNames);
 			DataTableColumn.setPropertyFromHeader("School", selectedClass.getSchool(), inputTextNames);
 			DataTableColumn.setPropertyFromHeader("Grade", String.valueOf(selectedClass.getGrade()), inputTextNames);
 			DataTableColumn.setPropertyFromHeader("Year", String.valueOf(selectedClass.getYear()), inputTextNames);
@@ -135,7 +123,7 @@ public class Classes2 extends BaseHeaderMenuTableContentFooter {
 			RequestContext.getCurrentInstance().update("main:mainTable");
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Sucessfully Deleted");
 			FacesContext.getCurrentInstance().addMessage(null, message);
-			classes.get(classes.lastIndexOf(selectedClass)).setName(DataTableColumn.getPropertyFromHeader("Class Name", inputTextNames));
+			classes.get(classes.lastIndexOf(selectedClass)).setClassName(DataTableColumn.getPropertyFromHeader("Class Name", inputTextNames));
 			classes.get(classes.lastIndexOf(selectedClass)).setSchool(DataTableColumn.getPropertyFromHeader("School", inputTextNames));
 			classes.get(classes.lastIndexOf(selectedClass)).setGrade(Integer.parseInt(DataTableColumn.getPropertyFromHeader("Grade", inputTextNames)));
 			classes.get(classes.lastIndexOf(selectedClass)).setYear(Integer.parseInt(DataTableColumn.getPropertyFromHeader("Year", inputTextNames)));
@@ -153,26 +141,28 @@ public class Classes2 extends BaseHeaderMenuTableContentFooter {
 				statement.close();
 			} catch(Exception e) {
 				e.printStackTrace();
-				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error has occured");
-				FacesContext.getCurrentInstance().addMessage(null, message);
+				Common.ErrorMessage();
 				return;
 			}
 			classes.remove(selectedClass);
 			RequestContext.getCurrentInstance().update("main:mainTable");
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Sucessfully Deleted");
-			FacesContext.getCurrentInstance().addMessage(null, message);
+			Common.SuccessMessage();
 		}
 	}
 	
 	public void clear() {
-		DataTableColumn.setPropertyFromHeader("Class Name", "", inputTextNames);
-		DataTableColumn.setPropertyFromHeader("School", "", inputTextNames);
-		DataTableColumn.setPropertyFromHeader("Grade", "", inputTextNames);
-		DataTableColumn.setPropertyFromHeader("Year", "", inputTextNames);
+		classes2.get("className").setProperty("");
+		classes2.get("school").setProperty("");
+		classes2.get("grade").setProperty("");
+		classes2.get("year").setProperty("");
 	}
 	
 	public void setClasses(List<ClassData> classes) {
 		this.classes = classes;
+	}
+	
+	public void setClasses2(Map<String, DataTableColumn> classes) {
+		this.classes2 = classes;
 	}
 	
 	public void setSelectedClass(ClassData selectedClass) {
@@ -181,6 +171,10 @@ public class Classes2 extends BaseHeaderMenuTableContentFooter {
 	
 	public List<ClassData> getClasses() {
 		return this.classes;
+	}
+	
+	public Map<String, DataTableColumn> getClasses2() {
+		return this.classes2;
 	}
 	
 	public ClassData getSelectedClass() {

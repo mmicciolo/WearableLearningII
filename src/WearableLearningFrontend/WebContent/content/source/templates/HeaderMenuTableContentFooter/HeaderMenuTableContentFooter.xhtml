@@ -43,7 +43,7 @@
 	  </div>
 	  <div class="tablePanel">
 		  <p:panel header="#{TablePanelName}">
-		  		<p:dataTable id="mainTable" var="classdata" value="#{TableData}" selectionMode="single" selection="#{TableSelection}" rowKey="#{classdata.name}">
+		  		<p:dataTable id="mainTable" var="classdata" value="#{TableData}" selectionMode="single" selection="#{TableSelection}" rowKey="#{classdata.className}">
 					<p:columns value="#{ColumnsList}" var="columns">
 						<f:facet name="header">
 		                	<h:outputText value="#{columns.header}"/>
@@ -54,18 +54,18 @@
 		  </p:panel>
 	  </div>
   </h:form>
-  <p:dialog id="dlgNew" header="New Class" widgetVar="NewClass" modal="true" minHeight="40" style="box-shadow: 7px 10px 5px #303030;">
+  <p:dialog id="dlgNew" header="New Class" widgetVar="NewClass" modal="true" minHeight="40" style="box-shadow: 7px 10px 5px #303030;" showEffect="fade" hideEffect="shake">
 		<h:outputText value="Create a new class"/>
 		<p:ajax event="close" update=":dlgNew" resetValues="true" listener="#{classes.clear}"/>
 		<br/><br/>
 		<h:form><div class="new">
-			<ui:repeat var="list" value="#{classes.inputTextNames}">
-				<span><p:inputText value="#{list.property}" placeholder="#{list.header}"/></span>
+			<ui:repeat var="key" value="#{classes.classes2.keySet().toArray()}">
+				<ui:fragment rendered="#{key != 'classId' &amp;&amp; key != ''}"><span><p:inputText value="#{classes.classes2[key].property}" placeholder="#{classes.classes2[key].header}" target="_blank"/></span></ui:fragment>
 			</ui:repeat>
 		</div>
 		<p:commandButton value="Create Class" styleClass="buttonSize" action="#{classes.createPressed}" update="main:messages"/></h:form>
 	</p:dialog>
-	<p:dialog id="dlgEdit" header="Edit Class" widgetVar="EditClass" modal="true" minHeight="40" style="box-shadow: 7px 10px 5px #303030;">
+	<p:dialog id="dlgEdit" header="Edit Class" widgetVar="EditClass" modal="true" minHeight="40" style="box-shadow: 7px 10px 5px #303030;" showEffect="fade" hideEffect="shake">
 		<h:outputText value="Edit a class"/>
 		<br/><br/>
 		<h:form><div class="new">
@@ -75,7 +75,7 @@
 		</div>
 		<p:commandButton value="Edit Class" styleClass="buttonSize" action="#{classes.editConfirmPressed}" update="main:messages"/></h:form>
 	</p:dialog>
-	<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" style="box-shadow: 7px 10px 5px #303030;">
+	<p:confirmDialog global="true" showEffect="fade" hideEffect="shake" style="box-shadow: 7px 10px 5px #303030;">
     	<p:commandButton value="Yes" type="submit" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
         <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 	</p:confirmDialog>
