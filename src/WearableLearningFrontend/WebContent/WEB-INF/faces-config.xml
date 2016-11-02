@@ -16,7 +16,7 @@
 	</managed-bean>
 	<managed-bean>
 		<managed-bean-name>classes</managed-bean-name>
-		<managed-bean-class>wlfe.controller.Classes2</managed-bean-class>
+		<managed-bean-class>wlfe.controller.Classes</managed-bean-class>
 		<managed-bean-scope>view</managed-bean-scope>
 	</managed-bean>
 	<navigation-rule>

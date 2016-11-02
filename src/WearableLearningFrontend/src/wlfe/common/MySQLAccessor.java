@@ -46,6 +46,20 @@ public class MySQLAccessor {
 		}	
 	}
 	
+	public boolean Disconnect() {
+		if(connection != null) {
+			try {
+				connection.close();
+				connection = null;
+				return true;
+			} catch(Exception e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+		return false;
+	}
+	
 	public boolean ExecuteStatement(String query) {
 		try {
 			statement = connection.createStatement();

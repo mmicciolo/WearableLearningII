@@ -7,16 +7,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.annotation.PostConstruct;
 
+import org.primefaces.context.RequestContext;
+
 public class BaseHeaderMenuTableContentFooter {
 	
-	protected List<DataTableColumn> columns = new ArrayList<DataTableColumn>();;
-	protected List<DataTableColumn> inputTextNames = new ArrayList<DataTableColumn>();
+	protected List<DataTableColumn> columns = new ArrayList<DataTableColumn>();
+	protected Map<String, DataTableColumn> fields = new LinkedHashMap<String, DataTableColumn>(); 
 	
 	/**
 	 * This function is called when the manage bean is first created.
@@ -70,12 +73,14 @@ public class BaseHeaderMenuTableContentFooter {
 	public void deletePressed() {
 		
 	}
-	
+
 	public void clear() {
-		
+		for(Entry<String, DataTableColumn> entry : fields.entrySet()) {
+			entry.getValue().setProperty("");
+		}
 	}
 	
-	protected void MySQLSetGet(boolean set, PreparedStatement preparedStatment, String[] returns, ResultSet results, Map<String, DataTableColumn> queryData, Object modelData, int count) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IntrospectionException, SQLException {
+	protected void MySQLSetGet(boolean set, PreparedStatement preparedStatement, String[] returns, ResultSet results, Map<String, DataTableColumn> queryData, Object modelData, int count) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IntrospectionException, SQLException {
 		for(Entry<String, DataTableColumn> entry : queryData.entrySet()) {
 			Object value = null;
 			Object resultValue = null;
@@ -83,7 +88,7 @@ public class BaseHeaderMenuTableContentFooter {
 				value =  new PropertyDescriptor(entry.getKey(), modelData.getClass()).getReadMethod().invoke(modelData);
 				if(value.getClass().getName().equals("java.lang.String")) {
 					if(set) {
-						preparedStatment.setString(count, entry.getValue().getProperty());
+						preparedStatement.setString(count, entry.getValue().getProperty());
 						count++;
 					} else {
 						resultValue = results.getString(entry.getKey());
@@ -91,7 +96,7 @@ public class BaseHeaderMenuTableContentFooter {
 					}
 				} else if(value.getClass().getName().equals("java.lang.Integer")) {
 					if(set) {
-						preparedStatment.setInt(count, Integer.parseInt(entry.getValue().getProperty()));
+						preparedStatement.setInt(count, Integer.parseInt(entry.getValue().getProperty()));
 						count++;
 					} else {
 						resultValue = results.getInt(entry.getKey());
@@ -107,30 +112,30 @@ public class BaseHeaderMenuTableContentFooter {
 		}
 	}
 	
-	protected void createMySQLEntry(PreparedStatement preparedStatment, Map<String, DataTableColumn> queryData, Object modelData, String returnId[]) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IntrospectionException, SQLException {
-		MySQLSetGet(true, preparedStatment, returnId, null, queryData, modelData, 2);
-		preparedStatment.executeUpdate();
-		ResultSet rs = preparedStatment.getGeneratedKeys();
+	protected void createMySQLEntry(PreparedStatement preparedStatement, Map<String, DataTableColumn> queryData, Object modelData, String returnId[], int count) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IntrospectionException, SQLException {
+		MySQLSetGet(true, preparedStatement, returnId, null, queryData, modelData, count);
+		preparedStatement.executeUpdate();
+		ResultSet rs = preparedStatement.getGeneratedKeys();
 		int newId = 0;
 		if(rs.next()) { newId = (int)rs.getLong(1); }
 		queryData.get(returnId[0]).setProperty(String.valueOf(newId));
 		rs.close();
-		preparedStatment.close();
+		preparedStatement.close();
 	}
 	
 	public void setColumns(List<DataTableColumn> columns) {
 		this.columns= columns;
 	}
 	
-	public void setInputTextNames(List<DataTableColumn> inputTextNames) {
-		this.inputTextNames = inputTextNames;
+	public void setFields(Map<String, DataTableColumn> fields) {
+		this.fields = fields;
 	}
-	
+		
 	public List<DataTableColumn> getColumns() {
 		return this.columns;
 	}
 	
-	public List<DataTableColumn> getInputTextNames() {
-		return this.inputTextNames;
+	public Map<String, DataTableColumn> getFields() {
+		return this.fields;
 	}
 }

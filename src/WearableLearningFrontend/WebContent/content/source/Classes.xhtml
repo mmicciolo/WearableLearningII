@@ -8,11 +8,8 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <ui:composition template="templates/HeaderMenuTableContentFooter/HeaderMenuTableContentFooter.xhtml">
-	<ui:param name="HeaderText" value="Your Classes" />
 	<ui:param name="ManagedBean" value="#{classes}"></ui:param>
-	<ui:param name="NewOnClick" value="PF('NewClass').show();"></ui:param>
-	<ui:param name="EditOnClick" value="editPressed"></ui:param>
-	<ui:param name="DeleteOnClick" value="PF('DeleteClass').show();"></ui:param>
+	<ui:param name="HeaderText" value="Your Classes" />
 	<ui:param name="NewButton" value="New Class"/>
 	<ui:param name="EditButton" value="Edit Class"/>
 	<ui:param name="DeleteButton" value="Delete Class"/>
@@ -20,6 +17,11 @@
 	<ui:param name="TableData" value="#{classes.classes}" />
 	<ui:param name="TableSelection" value="#{classes.selectedClass}" />
 	<ui:param name="ColumnsList" value="#{classes.columns}"/>
+	<ui:param name="NewDialogHeader" value="New Class"></ui:param>
+	<ui:param name="NewDialogOutputText" value="Create a new class"></ui:param>
+	<ui:param name="EditDialogHeader" value="Edit Class"></ui:param>
+	<ui:param name="EditDialogOutputText" value="Edit a class"></ui:param>
+	<ui:param name="FieldRender" value="#{key != 'classId' &amp;&amp; key != ''}"></ui:param>
 		<ui:define name="content">
 		</ui:define>
 </ui:composition>
