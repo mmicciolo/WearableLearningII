@@ -43,7 +43,7 @@
 	  </div>
 	  <div class="tablePanel">
 		  <p:panel header="#{TablePanelName}">
-		  		<p:dataTable id="mainTable" var="tabledata" value="#{ManagedBean.tableObjects}" selectionMode="single" selection="#{ManagedBean.selectedObject}" rowKey="#{tabledata.className}">
+		  		<p:dataTable id="mainTable" var="tabledata" value="#{ManagedBean.tableObjects}" selectionMode="single" selection="#{ManagedBean.selectedObject}" rowKey="#{tabledata[TableRowKey]}">
 					<p:columns value="#{ManagedBean.columns}" var="columns">
 						<f:facet name="header">
 		                	<h:outputText value="#{columns.header}"/>
@@ -59,8 +59,9 @@
 		<p:ajax event="close" update=":dlgNew" resetValues="true" listener="#{ManagedBean.clear}"/>
 		<br/><br/>
 		<h:form><div class="new">
-			<ui:repeat var="key" value="#{classes.fields.keySet().toArray()}">
-				<ui:fragment rendered="#{FieldRender}"><span><p:inputText value="#{classes.fields[key].property}" placeholder="#{classes.fields[key].header}"/></span></ui:fragment>
+			<ui:repeat var="key" value="#{ManagedBean.fields.keySet().toArray()}">
+				<ui:fragment rendered="#{RenderInputBox}"><span><p:inputText value="#{ManagedBean.fields[key].property}" placeholder="#{ManagedBean.fields[key].header}"/></span></ui:fragment>
+				<ui:fragment rendered="#{RenderDropDownBox}"><span><p:autoComplete id="dd" dropdown="true" value="#{ManagedBean.fields[key].property}" placeholder="#{ManagedBean.fields[key].header}" completeMethod="#{ManagedBean.fillDropDown(key)}"/></span></ui:fragment>
 			</ui:repeat>
 		</div>
 		<p:commandButton value="Create Class" styleClass="buttonSize" action="#{ManagedBean.createPressed}" update="main:messages"/></h:form>
@@ -69,8 +70,9 @@
 		<h:outputText value="#{EditDialogOutputText}"/>
 		<br/><br/>
 		<h:form><div class="new">
-		<ui:repeat var="key" value="#{classes.fields.keySet().toArray()}">
-				<ui:fragment rendered="#{FieldRender}"><span><p:inputText value="#{classes.fields[key].property}" placeholder="#{classes.fields[key].header}"/></span></ui:fragment>
+		<ui:repeat var="key" value="#{ManagedBean.fields.keySet().toArray()}">
+				<ui:fragment rendered="#{RenderInputBox}"><span><p:inputText value="#{ManagedBean.fields[key].property}" placeholder="#{ManagedBean.fields[key].header}"/></span></ui:fragment>
+				<ui:fragment rendered="#{RenderDropDownBox}"><span><p:autoComplete id="dd" dropdown="true" value="#{ManagedBean.fields[key].property}" placeholder="#{ManagedBean.fields[key].header}" completeMethod="#{ManagedBean.fillDropDown(key)}"/></span></ui:fragment>
 		</ui:repeat>
 		</div>
 		<p:commandButton value="Edit Class" styleClass="buttonSize" action="#{ManagedBean.editConfirmPressed}" update="main:messages"/></h:form>

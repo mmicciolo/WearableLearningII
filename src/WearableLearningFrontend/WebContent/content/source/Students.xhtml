@@ -6,11 +6,21 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-<ui:composition template="templates/HeaderMenuContentFooter/HeaderMenuContentFooter.xhtml">
-	<ui:define name="content">
-		<h:body>
-			<div style="color:white; text-align:center; margin-top:20px; font-size:50px;">Students</div>
-		</h:body>
-	</ui:define>
+<ui:composition template="templates/HeaderMenuTableContentFooter/HeaderMenuTableContentFooter.xhtml">
+	<ui:param name="ManagedBean" value="#{students}"></ui:param>
+	<ui:param name="HeaderText" value="Your Students" />
+	<ui:param name="NewButton" value="New Student"/>
+	<ui:param name="EditButton" value="Edit Student"/>
+	<ui:param name="DeleteButton" value="Delete Student"/>
+	<ui:param name="TablePanelName" value="Students"/>
+	<ui:param name="TableRowKey" value="firstName"></ui:param>
+	<ui:param name="NewDialogHeader" value="New Student"></ui:param>
+	<ui:param name="NewDialogOutputText" value="Create a new Student"></ui:param>
+	<ui:param name="EditDialogHeader" value="Edit Student"></ui:param>
+	<ui:param name="EditDialogOutputText" value="Edit a student"></ui:param>
+	<ui:param name="RenderInputBox" value="#{key != 'studentId' &amp;&amp; key != 'classId' &amp;&amp; key != 'gender' &amp;&amp; key != ''}"></ui:param>
+	<ui:param name="RenderDropDownBox" value="#{key == 'classId' or key == 'gender'}"></ui:param>
+		<ui:define name="content">
+		</ui:define>
 </ui:composition>
 </html>

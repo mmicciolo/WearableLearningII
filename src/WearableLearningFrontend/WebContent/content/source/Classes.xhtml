@@ -14,11 +14,13 @@
 	<ui:param name="EditButton" value="Edit Class"/>
 	<ui:param name="DeleteButton" value="Delete Class"/>
 	<ui:param name="TablePanelName" value="Classes"/>
+	<ui:param name="TableRowKey" value="className"></ui:param>
 	<ui:param name="NewDialogHeader" value="New Class"></ui:param>
 	<ui:param name="NewDialogOutputText" value="Create a new class"></ui:param>
 	<ui:param name="EditDialogHeader" value="Edit Class"></ui:param>
 	<ui:param name="EditDialogOutputText" value="Edit a class"></ui:param>
-	<ui:param name="FieldRender" value="#{key != 'classId' &amp;&amp; key != ''}"></ui:param>
+	<ui:param name="RenderInputBox" value="#{key != 'classId' &amp;&amp; key != ''}"></ui:param>
+	<ui:param name="RenderDropDownBox" value=""></ui:param>
 		<ui:define name="content">
 		</ui:define>
 </ui:composition>

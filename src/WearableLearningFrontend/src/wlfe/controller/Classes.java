@@ -3,13 +3,6 @@ package wlfe.controller;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 
 import org.primefaces.context.RequestContext;
 
@@ -20,8 +13,6 @@ import wlfe.common.MySQLAccessor;
 import wlfe.model.ClassData;
 
 public class Classes extends BaseHeaderMenuTableContentFooter<ClassData> {
-	
-	private int classId;
 	
 	protected boolean initColumns() {
 		if(columns.add(new DataTableColumn("Name", "className")) &&
@@ -75,6 +66,7 @@ public class Classes extends BaseHeaderMenuTableContentFooter<ClassData> {
 				ClassData classData = new ClassData();
 				preparedStatement.setInt(1, 1);
 				createMySQLEntry(preparedStatement, fields, classData, returnId, 2);
+				preparedStatement.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 				Common.ErrorMessage();
@@ -88,14 +80,7 @@ public class Classes extends BaseHeaderMenuTableContentFooter<ClassData> {
 	}
 	
 	public void editPressed() {
-		if(selectedObject != null) {
-			classId = selectedObject.getClassId();
-			fields.get("className").setProperty(selectedObject.getClassName());
-			fields.get("school").setProperty(selectedObject.getSchool());
-			fields.get("grade").setProperty(String.valueOf(selectedObject.getGrade()));
-			fields.get("year").setProperty(String.valueOf(selectedObject.getYear()));
-			RequestContext.getCurrentInstance().execute("PF('EditClass').show();");
-		}
+		super.editPressed();
 	}
 	
 	public void editConfirmPressed() {
@@ -103,9 +88,10 @@ public class Classes extends BaseHeaderMenuTableContentFooter<ClassData> {
 		if(accessor.Connect()) {
 			try {
 				String returnId[] = {"classId"};
-				PreparedStatement preparedStatement = accessor.GetConnection().prepareStatement("UPDATE class SET className = ?, school = ?, grade = ?, year = ? WHERE classId=" + classId, returnId);
+				PreparedStatement preparedStatement = accessor.GetConnection().prepareStatement("UPDATE class SET className = ?, school = ?, grade = ?, year = ? WHERE classId=" + fields.get("classId").getProperty(), returnId);
 				ClassData classData = new ClassData();
 				createMySQLEntry(preparedStatement, fields, classData, returnId, 1);
+				preparedStatement.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 				Common.ErrorMessage();

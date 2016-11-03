@@ -25,6 +25,7 @@ public class BaseHeaderMenuTableContentFooter<T> {
 	
 	/**
 	 * This function is called when the manage bean is first created.
+	 * @author Matthew Micciolo
 	 */
 	@PostConstruct
 	public void init() {
@@ -59,13 +60,25 @@ public class BaseHeaderMenuTableContentFooter<T> {
 	protected boolean initData() {
 		return false;
 	}
-	
+		
 	public void createPressed() {
 		
 	}
 	
 	public void editPressed() {
-		
+		if(selectedObject != null) {
+			for(Entry<String, DataTableColumn> entry : fields.entrySet()) {
+				if(!entry.getKey().equals("")) {
+					try {
+						Object value =  new PropertyDescriptor(entry.getKey(), selectedObject.getClass()).getReadMethod().invoke(selectedObject);
+						entry.getValue().setProperty(String.valueOf(value));
+						RequestContext.getCurrentInstance().execute("PF('EditClass').show();");
+					} catch(Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
 	}
 	
 	public void editConfirmPressed() {
@@ -96,6 +109,10 @@ public class BaseHeaderMenuTableContentFooter<T> {
 		for(Entry<String, DataTableColumn> entry : fields.entrySet()) {
 			entry.getValue().setProperty("");
 		}
+	}
+	
+	public List<String> fillDropDown(String query) {
+		return null;
 	}
 	
 	protected void MySQLSetGet(boolean set, PreparedStatement preparedStatement, String[] returns, ResultSet results, Map<String, DataTableColumn> queryData, Object modelData, int count) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IntrospectionException, SQLException {

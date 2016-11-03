@@ -63,7 +63,7 @@ public class MySQLAccessor {
 	public boolean ExecuteStatement(String query) {
 		try {
 			statement = connection.createStatement();
-			int rs = statement.executeUpdate(query);
+			statement.executeUpdate(query);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
