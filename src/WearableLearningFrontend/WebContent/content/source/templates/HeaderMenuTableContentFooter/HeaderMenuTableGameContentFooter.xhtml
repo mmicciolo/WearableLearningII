@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+      
+<h:head>
+  <title><ui:insert name="title">Physical Game For Learning Control Panel</ui:insert></title>
+  <h:outputStylesheet name="css/CommonTemplate.css"></h:outputStylesheet>
+  <h:outputStylesheet name="css/TableTemplate.css"/>
+</h:head>
+
+<body>
+
+<div id="header">
+    <ui:insert name="header">
+    	<ui:include src ="../HeaderContentFooter/Header.xhtml"/>
+    </ui:insert>
+</div>
+
+<div id="menu">
+	<ui:insert name="menu">
+		<ui:include src="../HeaderMenuContentFooter/Menu.xhtml"/>
+	</ui:insert>
+</div>
+
+<div id="content">
+  <h:form id="main">
+	  <div class="headerText">#{HeaderText}</div>
+	  <div class="tableButtonPanel" >
+	  		<p:panel>
+	  		<ul id="parent">
+		  		<li><p:commandButton value="#{NewButton}" onclick="PF('NewDialog').show();" styleClass="buttonSize"/></li>
+		  		<li><p:commandButton value="#{EditButton}" action="#{ManagedBean.editPressed}" update=":dlgEdit" styleClass="buttonSize"/></li>
+		  		<p:growl id="messages"/>
+			  	<li><p:commandButton update="messages" value="#{DeleteButton}" actionListener="#{ManagedBean.deletePressed}" styleClass="buttonSize">
+			  			<p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+				</p:commandButton></li>
+			</ul>
+	  		</p:panel>
+	  </div>
+	  <div class="tablePanel">
+		  <p:panel header="#{TablePanelName}">
+		  		<p:dataTable id="mainTable" var="tabledata" value="#{ManagedBean.tableObjects}" selectionMode="single" selection="#{ManagedBean.selectedObject}" rowKey="#{tabledata[TableRowKey]}">
+					<p:columns value="#{ManagedBean.columns}" var="columns">
+						<f:facet name="header">
+		                	<h:outputText value="#{columns.header}"/>
+		                </f:facet>
+		                <h:outputText value="#{tabledata[columns.property]}"/>
+					</p:columns>
+				</p:dataTable>	
+		  </p:panel>
+	  </div>
+  </h:form>
+  <p:dialog id="dlgNew" header="#{NewDialogHeader}" widgetVar="NewDialog" modal="true" width="90%" height="500" style="box-shadow: 7px 10px 5px #303030;" showEffect="fade" hideEffect="shake">
+  		<h:form>
+  		<div style="margin-left:auto; margin-right:auto;"><p:wizard widgetVar="newGame" showNavBar="flase">
+  			<p:tab title="General Setup">
+  				<p:panel header="General Setup">
+  				<div style="text-align:center; font-size:50px;">Game Creation General Setup</div>
+  				<div class="new" style="margin-left:45%; margin-top:20px;">
+  				<span><p:inputText  placeholder="Game Title"></p:inputText></span>
+  				<span><p:inputText  placeholder="Team Count"></p:inputText></span>
+  				<span><p:inputText  placeholder="Players Per Team"></p:inputText></span>
+  				</div>
+  				</p:panel>
+  			</p:tab>
+  			<p:tab title="Game States">
+  			<div style="text-align:center; font-size:50px;">Main Setup</div>
+  			</p:tab>
+  		</p:wizard></div>
+  		<div class="tableButtonPanel" >
+		<ul id="parent">
+		<li><p:commandButton value="Back" style="height:50px; width:200px; margin-top:50px;"/></li>
+		<li><p:commandButton value="Next" onclick="PF('newGame').next();" style="height:50px; width:200px; margin-top:50px;"/></li>
+		</ul>
+		</div>
+  		</h:form>
+	</p:dialog>
+	<p:dialog id="dlgEdit" header="#{EditDialogHeader}" widgetVar="EditClass" modal="true" minHeight="40" style="box-shadow: 7px 10px 5px #303030;" showEffect="fade" hideEffect="shake">
+		<h:outputText value="#{EditDialogOutputText}"/>
+		<br/><br/>
+		<h:form><div class="new">
+		<ui:repeat var="key" value="#{ManagedBean.fields.keySet().toArray()}">
+				<ui:fragment rendered="#{RenderInputBox}"><span><p:inputText value="#{ManagedBean.fields[key].property}" placeholder="#{ManagedBean.fields[key].header}"/></span></ui:fragment>
+				<ui:fragment rendered="#{RenderDropDownBox}"><span><p:autoComplete id="dd" dropdown="true" value="#{ManagedBean.fields[key].property}" placeholder="#{ManagedBean.fields[key].header}" completeMethod="#{ManagedBean.fillDropDown(key)}"/></span></ui:fragment>
+		</ui:repeat>
+		</div>
+		<p:commandButton value="Edit Class" styleClass="buttonSize" action="#{ManagedBean.editConfirmPressed}" update="main:messages"/></h:form>
+	</p:dialog>
+	<p:confirmDialog global="true" showEffect="fade" hideEffect="shake" style="box-shadow: 7px 10px 5px #303030;">
+    	<p:commandButton value="Yes" type="submit" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+	</p:confirmDialog>
+  <ui:insert name="content"/>
+</div>
+
+<div id="footer">
+  <ui:insert name="footer">
+		<ui:include src="../HeaderContentFooter/Footer.xhtml"/>
+  </ui:insert>
+</div>
+
+</body>
+
+</html>

@@ -24,6 +24,16 @@
 		<managed-bean-class>wlfe.controller.Students</managed-bean-class>
 		<managed-bean-scope>view</managed-bean-scope>
 	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>games</managed-bean-name>
+		<managed-bean-class>wlfe.controller.Games</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>devices</managed-bean-name>
+		<managed-bean-class>wlfe.controller.Device</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+	</managed-bean>
 	<navigation-rule>
 		<display-name>content/source/Login.xhtml</display-name>
 		<from-view-id>/content/source/Login.xhtml</from-view-id>

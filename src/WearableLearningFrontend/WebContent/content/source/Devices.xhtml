@@ -6,11 +6,21 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-<ui:composition template="templates/HeaderMenuContentFooter/HeaderMenuContentFooter.xhtml">
-	<ui:define name="content">
-		<h:body>
-			<div style="color:white; text-align:center; margin-top:20px; font-size:50px;">Devices</div>
-		</h:body>
-	</ui:define>
+<ui:composition template="templates/HeaderMenuTableContentFooter/HeaderMenuTableContentFooter.xhtml">
+	<ui:param name="ManagedBean" value="#{devices}"></ui:param>
+	<ui:param name="HeaderText" value="Your Devices" />
+	<ui:param name="NewButton" value="New Device"/>
+	<ui:param name="EditButton" value="Edit Edit"/>
+	<ui:param name="DeleteButton" value="Delete Device"/>
+	<ui:param name="TablePanelName" value="Devices"/>
+	<ui:param name="TableRowKey" value="ipAddress"></ui:param>
+	<ui:param name="NewDialogHeader" value="New Device"></ui:param>
+	<ui:param name="NewDialogOutputText" value="Create a new device"></ui:param>
+	<ui:param name="EditDialogHeader" value="Edit Device"></ui:param>
+	<ui:param name="EditDialogOutputText" value="Edit a device"></ui:param>
+	<ui:param name="RenderInputBox" value="#{key != 'deviceId' &amp;&amp; key != ''}"></ui:param>
+	<ui:param name="RenderDropDownBox" value=""></ui:param>
+		<ui:define name="content">
+		</ui:define>
 </ui:composition>
 </html>
