@@ -56,27 +56,29 @@
   </h:form>
   <p:dialog id="dlgNew" header="#{NewDialogHeader}" widgetVar="NewDialog" modal="true" width="90%" height="500" style="box-shadow: 7px 10px 5px #303030;" showEffect="fade" hideEffect="shake">
   		<h:form>
-  		<div style="margin-left:auto; margin-right:auto;"><p:wizard widgetVar="newGame" showNavBar="flase">
-  			<p:tab title="General Setup">
-  				<p:panel header="General Setup">
-  				<div style="text-align:center; font-size:50px;">Game Creation General Setup</div>
-  				<div class="new" style="margin-left:45%; margin-top:20px;">
-  				<span><p:inputText  placeholder="Game Title"></p:inputText></span>
-  				<span><p:inputText  placeholder="Team Count"></p:inputText></span>
-  				<span><p:inputText  placeholder="Players Per Team"></p:inputText></span>
-  				</div>
-  				</p:panel>
-  			</p:tab>
-  			<p:tab title="Game States">
-  			<div style="text-align:center; font-size:50px;">Main Setup</div>
-  			</p:tab>
-  		</p:wizard></div>
-  		<div class="tableButtonPanel" >
-		<ul id="parent">
-		<li><p:commandButton value="Back" style="height:50px; width:200px; margin-top:50px;"/></li>
-		<li><p:commandButton value="Next" onclick="PF('newGame').next();" style="height:50px; width:200px; margin-top:50px;"/></li>
-		</ul>
-		</div>
+	  		<div style="margin-left:auto; margin-right:auto;">
+		  		<p:wizard widgetVar="newGame" showNavBar="flase">
+		  			<p:tab title="General Setup">
+		  				<p:panel header="General Setup">
+			  				<div style="text-align:center; font-size:50px;">Game Creation General Setup</div>
+			  				<div class="new" style="margin-left:45%; margin-top:20px;">
+			  				<span><p:inputText  placeholder="Game Title"></p:inputText></span>
+			  				<span><p:inputText  placeholder="Team Count"></p:inputText></span>
+			  				<span><p:inputText  placeholder="Players Per Team"></p:inputText></span>
+			  				</div>
+		  				</p:panel>
+		  			</p:tab>
+		  			<p:tab title="Game States">
+		  			<div style="text-align:center; font-size:50px;">Main Setup</div>
+		  			</p:tab>
+		  		</p:wizard>
+	  		</div>
+	  		<div class="tableButtonPanel" >
+				<ul id="parent">
+					<li><p:commandButton value="Back" style="height:50px; width:200px; margin-top:50px;"/></li>
+					<li><p:commandButton value="Next" onclick="PF('newGame').next();" style="height:50px; width:200px; margin-top:50px;"/></li>
+				</ul>
+		    </div>
   		</h:form>
 	</p:dialog>
 	<p:dialog id="dlgEdit" header="#{EditDialogHeader}" widgetVar="EditClass" modal="true" minHeight="40" style="box-shadow: 7px 10px 5px #303030;" showEffect="fade" hideEffect="shake">
