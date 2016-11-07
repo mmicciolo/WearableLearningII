@@ -70,6 +70,22 @@
 		  			</p:tab>
 		  			<p:tab title="Game States">
 		  			<div style="text-align:center; font-size:50px;">Main Setup</div>
+		  			<p:scrollPanel width="90%">
+		  			<h:form>
+		  			<p:accordionPanel multiple="true">
+        <p:tab title="State 1">
+            <p:layout  style="min-width:400px;min-height:200px;">
+            <p:layoutUnit position="west" size="250">
+            <p:autoComplete dropdown="true" placeholder="Output Options" style="margin-right:80%;" value="#{autoCompleteView.txt6}" completeMethod="#{autoCompleteView.completeText}" />
+            </p:layoutUnit>
+            <p:layoutUnit position="center">
+            <p:autoComplete dropdown="true" placeholder="Transition Type" value="#{autoCompleteView.txt6}" completeMethod="#{autoCompleteView.completeText}" />
+    		</p:layoutUnit>
+          
+            </p:layout>
+        </p:tab></p:accordionPanel>
+		  			</h:form>
+		  			</p:scrollPanel>
 		  			</p:tab>
 		  		</p:wizard>
 	  		</div>
