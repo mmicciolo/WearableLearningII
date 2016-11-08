@@ -54,38 +54,50 @@
 		  </p:panel>
 	  </div>
   </h:form>
-  <p:dialog id="dlgNew" header="#{NewDialogHeader}" widgetVar="NewDialog" modal="true" width="90%" height="500" style="box-shadow: 7px 10px 5px #303030;" showEffect="fade" hideEffect="shake">
-  		<h:form>
+  <p:dialog id="dlgNew" header="#{NewDialogHeader}" widgetVar="NewDialog" modal="true" width="90%" height="700" style="box-shadow: 7px 10px 5px #303030;" showEffect="fade" hideEffect="shake">
+  		<h:form id='gameState'>
 	  		<div style="margin-left:auto; margin-right:auto;">
 		  		<p:wizard widgetVar="newGame" showNavBar="flase">
 		  			<p:tab title="General Setup">
 		  				<p:panel header="General Setup">
 			  				<div style="text-align:center; font-size:50px;">Game Creation General Setup</div>
 			  				<div class="new" style="margin-left:45%; margin-top:20px;">
-			  				<span><p:inputText  placeholder="Game Title"></p:inputText></span>
-			  				<span><p:inputText  placeholder="Team Count"></p:inputText></span>
-			  				<span><p:inputText  placeholder="Players Per Team"></p:inputText></span>
+			  				<span><p:inputText placeholder="Game Title"></p:inputText></span>
+			  				<span><p:inputText placeholder="Team Count"></p:inputText></span>
+			  				<span><p:inputText placeholder="Players Per Team"></p:inputText></span>
 			  				</div>
 		  				</p:panel>
 		  			</p:tab>
 		  			<p:tab title="Game States">
-		  			<div style="text-align:center; font-size:50px;">Main Setup</div>
-		  			<p:scrollPanel width="90%">
-		  			<h:form>
-		  			<p:accordionPanel multiple="true">
-        <p:tab title="State 1">
-            <p:layout  style="min-width:400px;min-height:200px;">
-            <p:layoutUnit position="west" size="250">
-            <p:autoComplete dropdown="true" placeholder="Output Options" style="margin-right:80%;" value="#{autoCompleteView.txt6}" completeMethod="#{autoCompleteView.completeText}" />
-            </p:layoutUnit>
-            <p:layoutUnit position="center">
-            <p:autoComplete dropdown="true" placeholder="Transition Type" value="#{autoCompleteView.txt6}" completeMethod="#{autoCompleteView.completeText}" />
-    		</p:layoutUnit>
-          
-            </p:layout>
-        </p:tab></p:accordionPanel>
-		  			</h:form>
-		  			</p:scrollPanel>
+			  			<div style="text-align:center; font-size:50px;">Main Setup</div>
+			  			<p:scrollPanel mode="native" width="90%">
+		  					<p:accordionPanel multiple="true" value="#{gameCreation.accordionPanels}" var="panel">
+        						<p:tab title="State #{panel.id}">
+            						<p:layout style="min-width:400px;min-height:400px;">
+						            	<p:layoutUnit position="west" size="400">
+						            		<div style="text-align:center;">
+						            			<p:autoComplete dropdown="true" placeholder="Output Type" value="#{panel.outputType}" completeMethod="#{panel.fillDropDown}" style="margin-top:25px; margin-bottom:50px;">
+													<p:ajax event="itemSelect" listener="#{panel.outputTypeChanged}" update="gameState"/> 
+						            			</p:autoComplete> <br/>	
+						            			<ui:fragment rendered="#{panel.outputType == 'Text'}">
+						            				<p:inputTextarea id="textArea" rows="10" cols="20" completeMethod="#{inputTextareaView.completeArea}"/>
+						            			</ui:fragment>
+						            			<ui:fragment rendered="#{panel.outputType == 'LED'}">
+						            				<p:colorPicker value="#{colorView.colorInline}" mode="inline"/>
+						            			</ui:fragment>
+						            			<ui:fragment rendered="#{panel.outputType == 'Buzzer'}">
+						            				<p:inputSwitch value="#{selectBooleanView.value1}" style="margin-bottom:15px;" /> <br/>
+						            				<p:knob value="#{knobView.value}"></p:knob>
+						            			</ui:fragment>
+						            		</div>
+						            	</p:layoutUnit>
+						            	<p:layoutUnit position="center">
+						            		<p:autoComplete dropdown="true" placeholder="Transition Type" value="#{autoCompleteView.txt6}" completeMethod="#{autoCompleteView.completeText}" />
+						    			</p:layoutUnit>
+            						</p:layout>
+        						</p:tab>
+        					</p:accordionPanel>
+			  			</p:scrollPanel>
 		  			</p:tab>
 		  		</p:wizard>
 	  		</div>
