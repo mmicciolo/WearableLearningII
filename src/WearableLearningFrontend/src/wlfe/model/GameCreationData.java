@@ -3,6 +3,8 @@ package wlfe.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.primefaces.context.RequestContext;
+
 public class GameCreationData {
 
 	private String title;
@@ -16,6 +18,8 @@ public class GameCreationData {
 	private String buzzerDuration;
 	private String responseTo;
 	private String responseType;
+	private List<String> dataTable = new ArrayList<String>();
+	private int columnCount;
 
 	public GameCreationData() {
 		
@@ -30,7 +34,36 @@ public class GameCreationData {
 	public List<String> fillDropDown(String query) {
 		List<String> list = new ArrayList<String>();
 		list.add("Game Wide");
-		return list;
+		int teamC = Integer.parseInt(teamCount);
+		int playersPerTeamC = Integer.parseInt(playersPerTeam);
+		List<String> tempCollection = new ArrayList<String>();
+		tempCollection.add("Game Wide");
+		for(int i = 1; i < teamC + 1; i++) {
+			tempCollection.add("Team " + i);
+			for(int n = 1; n < playersPerTeamC + 1; n++) {
+				tempCollection.add("--Player " + n);
+			}
+		}
+		return tempCollection;
+	}
+	
+	public void responseToChanged() {
+		dataTable.clear();
+		if(responseType.equals("Single")) {
+			if(responseTo.equals("Game Wide")) {
+				columnCount = Integer.parseInt(teamCount);
+				for(int i = 0; i < columnCount * 4; i++) {
+					dataTable.add("Hi");
+				}
+			} else if(!responseTo.equals("")) {
+				columnCount = 1;
+				for(int i = 0; i < 4; i++) {
+					dataTable.add("Hi");
+				}
+			}
+		} else if(responseType.equals("Sequence")) {
+			
+		}
 	}
 	
 	public GameCreationData(int id) {
@@ -69,6 +102,14 @@ public class GameCreationData {
 		this.responseType = responseType;
 	}
 	
+	public void setDataTable(List<String> dataTable) {
+		this.dataTable = dataTable;
+	}
+	
+	public void setColumnCount(int columnCount) {
+		this.columnCount = columnCount;
+	}
+	
 	public int getId() {
 		return this.id;
 	}
@@ -99,5 +140,13 @@ public class GameCreationData {
 	
 	public String getResponseType() {
 		return this.responseType;
+	}
+	
+	public List<String> getDataTable() {
+		return this.dataTable;
+	}
+	
+	public int getColumnCount() {
+		return this.columnCount;
 	}
 }

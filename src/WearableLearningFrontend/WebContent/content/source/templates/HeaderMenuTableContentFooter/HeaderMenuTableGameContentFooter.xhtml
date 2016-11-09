@@ -93,14 +93,21 @@
 						            	<p:layoutUnit position="center">
 						            		<div style="text-align:center;">State Configuration</div><br/>
        									    <div style="text-align:center;">
-       									    	<p:autoComplete dropdown="true" value="#{panel.responseTo}"  completeMethod="#{panel.fillDropDown}" size="100" />
+       									    	<p:autoComplete dropdown="true" value="#{panel.responseTo}" completeMethod="#{panel.fillDropDown}" size="100">
+       									    		<p:ajax event="itemSelect" listener="#{panel.responseToChanged}" process="@form" /> 
+    												<p:ajax event="change" listener="#{panel.responseToChanged}" process="@form"/>
+    												<p:ajax event="itemSelect" update="dataGrid"/>
+       									    	</p:autoComplete>
        									    </div>
 											<p:selectOneRadio id="customRadio" value="#{panel.responseType}" style="width: 200px;display: block; margin-left: auto;margin-right: auto; margin-top:15px;">
+								            	<p:ajax event="click" listener="#{panel.responseToChanged}" process="@form" />
+								            	<p:ajax event="click" listener="#{panel.responseToChanged}" update="dataGrid" />
 								            	<f:selectItem itemLabel="Single Push" itemValue="Single" />
 								            	<f:selectItem itemLabel="Sequence Push" itemValue="Sequence" />
 								        	</p:selectOneRadio>
 								        	<p:fieldset legend="States">
-								        		<p:dataGrid rows="4">
+								        		<p:dataGrid id="dataGrid" value="#{panel.dataTable}" var="data" columns="#{panel.columnCount}">
+								        			<p:selectOneMenu prompt="#{data}" style="width:200px;"></p:selectOneMenu>
 								        		</p:dataGrid>
 								        	</p:fieldset>
 						    			</p:layoutUnit>

@@ -31,7 +31,7 @@ public class GameCreation {
 	public void saveData() {
 		
 	}
-	
+		
 	public void clear() {
 		title = null;
 		teamCount = null;
@@ -67,7 +67,6 @@ public class GameCreation {
 	public List<GameCreationData> getAccordionPanels() {
 		return this.accordionPanels;
 	}
-	
 	
 	public String getTitle() {
 		return this.title;
