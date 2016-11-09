@@ -4,8 +4,8 @@ public class GameData {
 	
 	private int gameId = 0;
 	private String title = "";
-	private int teamCount = 0;
-	private int playersPerTeam = 0;
+	private int teamCount ;
+	private int playersPerTeam;
 	
 	public GameData() {
 		

@@ -4,60 +4,100 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameCreationData {
-	
-	
-	private final String text = "Text";
-	private final String led = "LED";
-	private final String buzzer = "Buzzer";
-	
+
+	private String title;
+	private String teamCount;
+	private String playersPerTeam;
 	private int id;
-	
-	private String outputType = "Text";
+	private String text;
+	private String ledColor;
+	private String ledDuration;
+	private String buzzerOn;
+	private String buzzerDuration;
+	private String responseTo;
+	private String responseType;
 
 	public GameCreationData() {
 		
 	}
 	
-	public GameCreationData(int id) {
-		this.id = id;
+	public void updateGeneralSetup(String title, String teamCount, String playersPerTeam) {
+		this.title = title;
+		this.teamCount = teamCount;
+		this.playersPerTeam = playersPerTeam;
 	}
 	
-	public void outputTypeChanged() {
-		if(outputType.equals(text)) {
-			outputType = text;
-			
-		} else if(outputType.equals(led)) {
-			outputType = led;
-			
-		} else if(outputType.equals(buzzer)) {
-			outputType = buzzer;
-		} else {
-			//Error
-			outputType = "";
-		}
-	}
-	
-	public List<String> fillDropDown(String key) {
+	public List<String> fillDropDown(String query) {
 		List<String> list = new ArrayList<String>();
-		list.add(text);
-		list.add(led);
-		list.add(buzzer);
+		list.add("Game Wide");
 		return list;
 	}
 	
+	public GameCreationData(int id) {
+		this.id = id;
+	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
 	
-	public void setOutputType(String outputType) {
-		this.outputType = outputType;
+	public void setText(String text) {
+		this.text = text;
+	}
+	
+	public void setLedColor(String ledColor) {
+		this.ledColor = ledColor;
+	}
+	
+	public void setLedDuration(String ledDuration) {
+		this.ledDuration = ledDuration;
+	}
+	
+	public void setBuzzerOn(String buzzerOn) {
+		this.buzzerOn = buzzerOn;
+	}
+	
+	public void setBuzzerDuration(String buzzerDuration) {
+		this.buzzerDuration = buzzerDuration;
+	}
+	
+	public void setResponseTo(String responseTo) {
+		this.responseTo = responseTo;
+	}
+	
+	public void setResponseType(String responseType) {
+		this.responseType = responseType;
 	}
 	
 	public int getId() {
 		return this.id;
 	}
-		
-	public String getOutputType() {
-		return this.outputType;
+	
+	public String getText() {
+		return this.text;
+	}	
+	
+	public String getLedColor() {
+		return this.ledColor;
+	}
+	
+	public String getLedDuration() {
+		return this.ledDuration;
+	}
+	
+	public String getBuzzerOn() {
+		return this.buzzerOn;
+	}
+	
+	public String getBuzzerDuration() {
+		return this.buzzerDuration;
+	}
+	
+	public String getResponseTo() {
+		return this.responseTo;
+	}
+	
+	public String getResponseType() {
+		return this.responseType;
 	}
 }
