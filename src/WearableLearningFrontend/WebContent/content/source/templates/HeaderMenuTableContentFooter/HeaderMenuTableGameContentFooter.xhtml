@@ -72,9 +72,9 @@
 		  			<p:tab id="tab1" title="Game States">
 			  			<div style="text-align:center; font-size:50px;">Main Setup</div>
 			  			<p:scrollPanel style="width:98%;height:600px;display:block; margin:auto;">
-		  					<p:accordionPanel multiple="true" value="#{gameCreation.accordionPanels}" var="panel" styleClass="disable-scroll">
+		  					<p:accordionPanel multiple="true" value="#{gameCreation.accordionPanels}" var="panel" styleClass="disableAccordionScroll">
         						<p:tab title="State #{panel.id}">
-            						<p:layout style="min-width:450px;min-height:600px;">
+            						<p:layout style="min-width:450px;min-height:600px;" styleClass="disableLayoutScroll">
 						            	<p:layoutUnit position="west" size="450">
 						            		<div style="text-align:center;">Modify Outputs</div><br/>
 						            		<p:accordionPanel>

@@ -61,7 +61,11 @@
 	height:25px;
 }
 
-.disable-scroll .ui-accordion-content {
+.disableAccordionScroll .ui-accordion-content {
+	overflow:hidden !important;
+}
+
+.disableLayoutScroll .ui-layout-content {
 	overflow:hidden !important;
 }
 
