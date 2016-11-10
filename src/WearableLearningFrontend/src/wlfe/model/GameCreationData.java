@@ -7,6 +7,8 @@ import javax.annotation.PostConstruct;
 
 import org.primefaces.context.RequestContext;
 
+import wlfe.common.DataTableColumn;
+
 public class GameCreationData {
 
 	private String title;
@@ -20,12 +22,17 @@ public class GameCreationData {
 	private String buzzerDuration;
 	private String responseTo;
 	private String responseType;
-	private List<String> dataTable = new ArrayList<String>();
+	private List<DataTableColumn> dataTable = new ArrayList<DataTableColumn>();
 	private int columnCount;
 	private List<String> colorValues = new ArrayList<String>();
+	private String[] buttonColors = {"red", "green", "blue", "black"};
 
 	public GameCreationData() {
 		
+	}
+	
+	public GameCreationData(int id) {
+		this.id = id;
 	}
 	
 	public void updateGeneralSetup(String title, String teamCount, String playersPerTeam) {
@@ -55,35 +62,44 @@ public class GameCreationData {
 		colorValues.clear();
 		if(responseType.equals("Single")) {
 			if(responseTo.equals("Game Wide")) {
-				columnCount = Integer.parseInt(teamCount);
-				for(int i = 0; i < columnCount * 4; i++) {
-					dataTable.add("Hi");
+				columnCount = Integer.parseInt(teamCount) + 1;
+				int colorCount = 0;
+				for(int i = 0; i < (columnCount * 5); i++) {
+					if(i == 0) {
+						dataTable.add(new DataTableColumn("Text", ""));
+					}
+					else if(i < columnCount) {
+						dataTable.add(new DataTableColumn("Text", "Team " + i));
+					}
+					else if((i % columnCount) == 0) {
+						dataTable.add(new DataTableColumn("Color", buttonColors[colorCount]));
+						colorCount++;
+					}
+					else {
+						dataTable.add(new DataTableColumn("SelectOne", ""));
+					}
 				}
 			} else if(!responseTo.equals("")) {
 				columnCount = 1;
 				for(int i = 0; i < 4; i++) {
-					dataTable.add("Hi");
+					//dataTable.add("Hi");
 				}
 			}
 		} else if(responseType.equals("Sequence")) {
 			columnCount = Integer.parseInt(teamCount);
-			dataTable.add("Hi");
-			dataTable.add("Hi");
-			dataTable.add("Hi");
-			dataTable.add("Hi");
-			colorValues.add("Hi");
-			colorValues.add("Hi");
-			colorValues.add("Hi");
-			colorValues.add("Hi");
+//			dataTable.add("Hi");
+//			dataTable.add("Hi");
+//			dataTable.add("Hi");
+//			dataTable.add("Hi");
+//			colorValues.add("Hi");
+//			colorValues.add("Hi");
+//			colorValues.add("Hi");
+//			colorValues.add("Hi");
 		}
 	}
 	
 	public void onDrop() {
 		
-	}
-	
-	public GameCreationData(int id) {
-		this.id = id;
 	}
 
 	public void setId(int id) {
@@ -118,7 +134,7 @@ public class GameCreationData {
 		this.responseType = responseType;
 	}
 	
-	public void setDataTable(List<String> dataTable) {
+	public void setDataTable(List<DataTableColumn> dataTable) {
 		this.dataTable = dataTable;
 	}
 	
@@ -162,7 +178,7 @@ public class GameCreationData {
 		return this.responseType;
 	}
 	
-	public List<String> getDataTable() {
+	public List<DataTableColumn> getDataTable() {
 		return this.dataTable;
 	}
 	

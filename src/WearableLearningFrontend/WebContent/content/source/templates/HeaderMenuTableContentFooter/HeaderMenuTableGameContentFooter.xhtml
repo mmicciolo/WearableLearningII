@@ -57,6 +57,7 @@
   <p:dialog id="dlgNew" header="#{NewDialogHeader}" widgetVar="NewDialog" modal="true" width="95%" height="800"  style="box-shadow: 7px 10px 5px #303030;" showEffect="fade" hideEffect="shake">
   		<p:ajax event="close" update=":dlgNew" resetValues="true" listener="#{gameCreation.clear}"/>
   		<h:form id='gameState'>
+  			<p:growl id="msgs" showDetail="true" />
 	  		<div style="margin-left:auto; margin-right:auto;">
 		  		<p:wizard widgetVar="newGame" flowListener="#{gameCreation.flowControl}">
 		  			<p:tab id="tab0" title="General Setup">
@@ -71,8 +72,9 @@
 		  			</p:tab>
 		  			<p:tab id="tab1" title="Game States">
 			  			<div style="text-align:center; font-size:50px;">Main Setup</div>
+			  			<p:commandButton value="Add State" actionListener="#{gameCreation.addState}" update="gameState:msgs" styleClass="buttonSize" />
 			  			<p:scrollPanel style="width:98%;height:600px;display:block; margin:auto;">
-		  					<p:accordionPanel multiple="true" value="#{gameCreation.accordionPanels}" var="panel" styleClass="disableAccordionScroll">
+		  					<p:accordionPanel id="mainAccordion" multiple="true" value="#{gameCreation.accordionPanels}" var="panel" styleClass="disableAccordionScroll" activeIndex="#{gameCreation.stateCount}">
         						<p:tab title="State #{panel.id}">
             						<p:layout style="min-width:450px;min-height:600px;" styleClass="disableLayoutScroll">
 						            	<p:layoutUnit position="west" size="450">
@@ -108,7 +110,15 @@
 								        	<p:fieldset id="selectedStates" legend="States">
 								        		<p:dataGrid id="dataGrid" value="#{panel.dataTable}" var="data" columns="#{panel.columnCount}" style="float:left; display:inline;" >
 								        			<ui:fragment rendered="#{panel.responseType == 'Single'}">
-								        				<p:selectOneMenu prompt="#{data}" style="width:200px;"></p:selectOneMenu>
+								        				<ui:fragment rendered="#{data.header == 'Text'}">
+								        					<div style="text-align:center;"><h:outputText value="#{data.property}"></h:outputText></div>
+								        				</ui:fragment>
+								        				<ui:fragment rendered="#{data.header == 'Color'}">
+								        					<div class="foo #{data.property}">    </div>
+								        				</ui:fragment>
+								        				<ui:fragment rendered="#{data.header == 'SelectOne'}">
+								        					<p:autoComplete dropdown="true" placeholder="Select State" value="#{data.property}" completeMethod="#{gameCreation.fillStateDropDowns}"/>
+								        				</ui:fragment>
 								        			</ui:fragment>
 								        			<ui:fragment rendered="#{panel.responseType == 'Sequence'}">
 								        				 <p:fieldset id="selectedCars" legend="Selected Cars" style="margin-top:20px">

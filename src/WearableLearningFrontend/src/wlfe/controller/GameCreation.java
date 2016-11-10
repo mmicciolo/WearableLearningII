@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FlowEvent;
@@ -17,15 +19,32 @@ public class GameCreation {
 	private String title;
 	private String teamCount;
 	private String playersPerTeam;
+	private int stateCount = 0;
 	
 	@PostConstruct
 	public void init() {
-		accordionPanels.add(new GameCreationData(1));
+		accordionPanels.add(new GameCreationData(stateCount));
 	}
 	
 	public String flowControl(FlowEvent e) {
 		updateGeneralSetup();
 		return e.getNewStep();
+	}
+	
+	public List<String> fillStateDropDowns(String query) {
+		List<String> list = new ArrayList<String>();
+		for(int i = 0; i < accordionPanels.size(); i++) {
+			list.add("Go to " + (i + 1));
+		}
+		return list;
+	}
+	
+	public void addState() {
+		stateCount++;
+		accordionPanels.add(new GameCreationData(stateCount));
+		RequestContext.getCurrentInstance().update("gameState:mainAccordion");
+		FacesMessage msg = new FacesMessage("State Added", "State Added");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 	
 	public void saveData() {
@@ -64,6 +83,10 @@ public class GameCreation {
 		this.playersPerTeam = playersPerTeam;
 	}
 	
+	public void setStateCount(int stateCount) {
+		this.stateCount = stateCount;
+	}
+	
 	public List<GameCreationData> getAccordionPanels() {
 		return this.accordionPanels;
 	}
@@ -78,5 +101,9 @@ public class GameCreation {
 	
 	public String getPlayersPerTeam() {
 		return this.playersPerTeam;
+	}
+	
+	public int getStateCount() {
+		return this.stateCount;
 	}
 }

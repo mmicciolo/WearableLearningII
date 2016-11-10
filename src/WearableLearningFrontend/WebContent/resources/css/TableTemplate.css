@@ -69,4 +69,29 @@
 	overflow:hidden !important;
 }
 
+.foo {
+  float: left;
+  width: 20px;
+  height: 20px;
+  margin: 5px;
+  border: 1px solid rgba(0, 0, 0, .2);
+}
+
+.red {
+  background: #CA1C18;
+}
+
+.green {
+  background: #42AD49;
+}
+
+.blue {
+  background: #2E6CFF;
+}
+
+.black {
+  background: #000000;
+}
+
+
 
