@@ -90,7 +90,7 @@
 						            			</p:tab>
 						            		</p:accordionPanel>
 						            	</p:layoutUnit>
-						            	<p:layoutUnit position="center">
+						            	<p:layoutUnit position="center" >
 						            		<div style="text-align:center;">State Configuration</div><br/>
        									    <div style="text-align:center;">
        									    	<p:autoComplete dropdown="true" value="#{panel.responseTo}" completeMethod="#{panel.fillDropDown}" size="100">
@@ -100,16 +100,34 @@
        									    	</p:autoComplete>
        									    </div>
 											<p:selectOneRadio id="customRadio" value="#{panel.responseType}" style="width: 200px;display: block; margin-left: auto;margin-right: auto; margin-top:15px;">
-								            	<p:ajax event="click" listener="#{panel.responseToChanged}" process="@form" />
-								            	<p:ajax event="click" listener="#{panel.responseToChanged}" update="dataGrid" />
+								            	<p:ajax event="click" listener="#{panel.responseToChanged}" process="@form"/>
+								            	<p:ajax event="click" listener="#{panel.responseToChanged}" update="dataGrid colorGrid" />
 								            	<f:selectItem itemLabel="Single Push" itemValue="Single" />
 								            	<f:selectItem itemLabel="Sequence Push" itemValue="Sequence" />
 								        	</p:selectOneRadio>
-								        	<p:fieldset legend="States">
-								        		<p:dataGrid id="dataGrid" value="#{panel.dataTable}" var="data" columns="#{panel.columnCount}">
-								        			<p:selectOneMenu prompt="#{data}" style="width:200px;"></p:selectOneMenu>
+								        	<p:fieldset id="selectedStates" legend="States">
+								        		<p:dataGrid id="dataGrid" value="#{panel.dataTable}" var="data" columns="#{panel.columnCount}" style="float:left; display:inline;" >
+								        			<ui:fragment rendered="#{panel.responseType == 'Single'}">
+								        				<p:selectOneMenu prompt="#{data}" style="width:200px;"></p:selectOneMenu>
+								        			</ui:fragment>
+								        			<ui:fragment rendered="#{panel.responseType == 'Sequence'}">
+								        				 <p:fieldset id="selectedCars" legend="Selected Cars" style="margin-top:20px">
+        													<p:outputPanel id="dropArea">
+            													<h:outputText value="!!!Drop here!!!" style="font-size:24px;" />
+            												</p:outputPanel>
+            											</p:fieldset>
+								        			</ui:fragment>
 								        		</p:dataGrid>
+								        		<h:panelGroup id="colorGrid">
+							        			<p:dataGrid value="#{panel.colorValues}" var="color" columns="1" style="float:left; display:inline;" rendered="#{panel.responseType == 'Sequence'}">
+							        				<p:panel id="colorPanel" header="color" style="background-color:green;"></p:panel>
+							        				<p:draggable for="colorPanel" revert="true" handle=".ui-panel-titlebar" stack=".ui-panel" snapMode="inner" snap="true"/>
+							        			</p:dataGrid>
+							        			</h:panelGroup>
 								        	</p:fieldset>
+								        	<p:droppable for="selectedStates" tolerance="touch" datasource="dataGrid" snapMode="inner" snap="true">
+        											<p:ajax listener="#{panel.onDrop}" />
+    										</p:droppable>
 						    			</p:layoutUnit>
             						</p:layout>
         						</p:tab>

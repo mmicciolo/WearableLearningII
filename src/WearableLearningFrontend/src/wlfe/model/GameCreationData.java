@@ -3,6 +3,8 @@ package wlfe.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.primefaces.context.RequestContext;
 
 public class GameCreationData {
@@ -20,6 +22,7 @@ public class GameCreationData {
 	private String responseType;
 	private List<String> dataTable = new ArrayList<String>();
 	private int columnCount;
+	private List<String> colorValues = new ArrayList<String>();
 
 	public GameCreationData() {
 		
@@ -49,6 +52,7 @@ public class GameCreationData {
 	
 	public void responseToChanged() {
 		dataTable.clear();
+		colorValues.clear();
 		if(responseType.equals("Single")) {
 			if(responseTo.equals("Game Wide")) {
 				columnCount = Integer.parseInt(teamCount);
@@ -62,8 +66,20 @@ public class GameCreationData {
 				}
 			}
 		} else if(responseType.equals("Sequence")) {
-			
+			columnCount = Integer.parseInt(teamCount);
+			dataTable.add("Hi");
+			dataTable.add("Hi");
+			dataTable.add("Hi");
+			dataTable.add("Hi");
+			colorValues.add("Hi");
+			colorValues.add("Hi");
+			colorValues.add("Hi");
+			colorValues.add("Hi");
 		}
+	}
+	
+	public void onDrop() {
+		
 	}
 	
 	public GameCreationData(int id) {
@@ -110,6 +126,10 @@ public class GameCreationData {
 		this.columnCount = columnCount;
 	}
 	
+	public void setColorValues(List<String> colorValues) {
+		this.colorValues = colorValues;
+	}
+	
 	public int getId() {
 		return this.id;
 	}
@@ -148,5 +168,9 @@ public class GameCreationData {
 	
 	public int getColumnCount() {
 		return this.columnCount;
+	}
+	
+	public List<String> getColorValues() {
+		return this.colorValues;
 	}
 }
