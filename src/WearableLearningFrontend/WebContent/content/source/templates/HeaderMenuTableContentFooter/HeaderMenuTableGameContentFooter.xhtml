@@ -54,7 +54,7 @@
 		  </p:panel>
 	  </div>
   </h:form>
-  <p:dialog id="dlgNew" header="#{NewDialogHeader}" widgetVar="NewDialog" modal="true" width="90%" height="700" style="box-shadow: 7px 10px 5px #303030;" showEffect="fade" hideEffect="shake">
+  <p:dialog id="dlgNew" header="#{NewDialogHeader}" widgetVar="NewDialog" modal="true" width="95%" height="800"  style="box-shadow: 7px 10px 5px #303030;" showEffect="fade" hideEffect="shake">
   		<p:ajax event="close" update=":dlgNew" resetValues="true" listener="#{gameCreation.clear}"/>
   		<h:form id='gameState'>
 	  		<div style="margin-left:auto; margin-right:auto;">
@@ -71,10 +71,10 @@
 		  			</p:tab>
 		  			<p:tab id="tab1" title="Game States">
 			  			<div style="text-align:center; font-size:50px;">Main Setup</div>
-			  			<p:scrollPanel mode="native" width="90%">
-		  					<p:accordionPanel multiple="true" value="#{gameCreation.accordionPanels}" var="panel">
+			  			<p:scrollPanel style="width:98%;height:600px;display:block; margin:auto;">
+		  					<p:accordionPanel multiple="true" value="#{gameCreation.accordionPanels}" var="panel" styleClass="disable-scroll">
         						<p:tab title="State #{panel.id}">
-            						<p:layout style="min-width:450px;min-height:400px;">
+            						<p:layout style="min-width:450px;min-height:600px;">
 						            	<p:layoutUnit position="west" size="450">
 						            		<div style="text-align:center;">Modify Outputs</div><br/>
 						            		<p:accordionPanel>
@@ -93,7 +93,7 @@
 						            	<p:layoutUnit position="center" >
 						            		<div style="text-align:center;">State Configuration</div><br/>
        									    <div style="text-align:center;">
-       									    	<p:autoComplete dropdown="true" value="#{panel.responseTo}" completeMethod="#{panel.fillDropDown}" size="100">
+       									    	<p:autoComplete dropdown="true" value="#{panel.responseTo}" placeholder="Respond To" completeMethod="#{panel.fillDropDown}">
        									    		<p:ajax event="itemSelect" listener="#{panel.responseToChanged}" process="@form" /> 
     												<p:ajax event="change" listener="#{panel.responseToChanged}" process="@form"/>
     												<p:ajax event="itemSelect" update="dataGrid"/>
