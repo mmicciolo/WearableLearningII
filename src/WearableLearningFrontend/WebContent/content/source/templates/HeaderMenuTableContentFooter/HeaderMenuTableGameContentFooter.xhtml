@@ -71,10 +71,10 @@
 		  				</p:panel>
 		  			</p:tab>
 		  			<p:tab id="tab1" title="Game States">
-			  			<div style="text-align:center; font-size:50px;">Main Setup</div>
+			  			<div style="text-align:center; font-size:50px;">Game State Setup</div>
 			  			<p:commandButton value="Add State" actionListener="#{gameCreation.addState}" update="gameState:msgs" styleClass="buttonSize" />
 			  			<p:scrollPanel style="width:98%;height:600px;display:block; margin:auto;">
-		  					<p:accordionPanel id="mainAccordion" multiple="true" value="#{gameCreation.accordionPanels}" var="panel" styleClass="disableAccordionScroll" activeIndex="#{gameCreation.stateCount}">
+		  					<p:accordionPanel id="mainAccordion" multiple="true" value="#{gameCreation.accordionPanels}" var="panel" styleClass="disableAccordionScroll" >
         						<p:tab title="State #{panel.id}">
             						<p:layout style="min-width:450px;min-height:600px;" styleClass="disableLayoutScroll">
 						            	<p:layoutUnit position="west" size="450">
@@ -114,7 +114,7 @@
 								        					<div style="text-align:center;"><h:outputText value="#{data.property}"></h:outputText></div>
 								        				</ui:fragment>
 								        				<ui:fragment rendered="#{data.header == 'Color'}">
-								        					<div class="foo #{data.property}">    </div>
+								        					<div class="foo #{data.property}"></div>
 								        				</ui:fragment>
 								        				<ui:fragment rendered="#{data.header == 'SelectOne'}">
 								        					<p:autoComplete dropdown="true" placeholder="Select State" value="#{data.property}" completeMethod="#{gameCreation.fillStateDropDowns}"/>
@@ -143,7 +143,7 @@
         						</p:tab>
         					</p:accordionPanel>
 			  			</p:scrollPanel>
-			  			<p:commandButton value="Create Game" actionListener="#{gameCreation.saveData}" onclick="submit()" process="@this" style="width:100px; height:50px;" styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left ui-wizard-nav-next"/>
+			  			<p:commandButton value="Create Game" actionListener="#{gameCreation.saveData}" process="@form" style="width:100px; height:50px;" styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left ui-wizard-nav-next"/>
 		  			</p:tab>
 		  		</p:wizard>
 	  		</div>

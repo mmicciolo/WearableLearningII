@@ -62,21 +62,18 @@ public class GameCreationData {
 		colorValues.clear();
 		if(responseType.equals("Single")) {
 			if(responseTo.equals("Game Wide")) {
-				columnCount = Integer.parseInt(teamCount) + 1;
-				int colorCount = 0;
-				for(int i = 0; i < (columnCount * 5); i++) {
-					if(i == 0) {
-						dataTable.add(new DataTableColumn("Text", ""));
-					}
-					else if(i < columnCount) {
-						dataTable.add(new DataTableColumn("Text", "Team " + i));
-					}
-					else if((i % columnCount) == 0) {
-						dataTable.add(new DataTableColumn("Color", buttonColors[colorCount]));
-						colorCount++;
-					}
-					else {
-						dataTable.add(new DataTableColumn("SelectOne", ""));
+				columnCount = 5;
+				dataTable.add(new DataTableColumn("Text", ""));
+				for(int i = 0; i < 4; i++) {
+					dataTable.add(new DataTableColumn("Color", buttonColors[i]));
+				}
+				for(int i = 0; i < Integer.parseInt(teamCount); i++) {
+					for(int n = 0; n < columnCount; n++) {
+						if(n == 0) {
+							dataTable.add(new DataTableColumn("Text", "Team " + (i + 1)));
+						} else {
+							dataTable.add(new DataTableColumn("SelectOne", ""));
+						}
 					}
 				}
 			} else if(!responseTo.equals("")) {
@@ -96,6 +93,25 @@ public class GameCreationData {
 //			colorValues.add("Hi");
 //			colorValues.add("Hi");
 		}
+	}
+	
+	public List<String> responseToList() {
+//		List<String> responses = new ArrayList<String>();
+//		List<String> returnValue = new ArrayList<String>();
+//		for(int i = 0; i < dataTable.size(); i++) {
+//			if(dataTable.get(i).getHeader().equals("SelectOne")) {
+//				responses.add(dataTable.get(i).getProperty());
+//			}
+//		}
+//		for(int i = 0; i < Integer.parseInt(teamCount); i++) {
+//			for(int n = 0; n < responses.size(); n++) {
+//				if((n % (Integer.parseInt(teamCount) + i)) == 0) {
+//					returnValue.add(responses.get(i));
+//				}
+//			}
+//		}		
+//		return returnValue;
+		return null;
 	}
 	
 	public void onDrop() {

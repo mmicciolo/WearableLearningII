@@ -55,25 +55,25 @@ public class Games extends BaseHeaderMenuTableContentFooter<GameData> {
 	}
 	
 	public void createPressed() {
-		MySQLAccessor accessor = MySQLAccessor.getInstance();
-		if(accessor.Connect()) {
-			String className = "";
-			try {
-				String returnId[] = {"gameId"};
-				PreparedStatement preparedStatement = accessor.GetConnection().prepareStatement("INSERT INTO games (title, teamCount, playersPerTeam) VALUES (?, ?, ?)", returnId);
-				StudentData classData = new StudentData();
-				createMySQLEntry(preparedStatement, fields, classData, returnId, 1);
-				preparedStatement.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-				Common.ErrorMessage();
-			}
-			tableObjects.add(new GameData(Integer.parseInt(fields.get("gameId").getProperty()), fields.get("title").getProperty(), Integer.parseInt(fields.get("teamCount").getProperty()), Integer.parseInt(fields.get("playersPerTeam").getProperty())));
-			RequestContext.getCurrentInstance().update("main:mainTable");
-			RequestContext.getCurrentInstance().execute("PF('NewClass').hide();");
-			Common.SuccessMessage();
-			accessor.Disconnect();
-		}
+//		MySQLAccessor accessor = MySQLAccessor.getInstance();
+//		if(accessor.Connect()) {
+//			String className = "";
+//			try {
+//				String returnId[] = {"gameId"};
+//				PreparedStatement preparedStatement = accessor.GetConnection().prepareStatement("INSERT INTO games (title, teamCount, playersPerTeam) VALUES (?, ?, ?)", returnId);
+//				StudentData classData = new StudentData();
+//				createMySQLEntry(preparedStatement, fields, classData, returnId, 1);
+//				preparedStatement.close();
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//				Common.ErrorMessage();
+//			}
+//			tableObjects.add(new GameData(Integer.parseInt(fields.get("gameId").getProperty()), fields.get("title").getProperty(), Integer.parseInt(fields.get("teamCount").getProperty()), Integer.parseInt(fields.get("playersPerTeam").getProperty())));
+//			RequestContext.getCurrentInstance().update("main:mainTable");
+//			RequestContext.getCurrentInstance().execute("PF('NewClass').hide();");
+//			Common.SuccessMessage();
+//			accessor.Disconnect();
+//		}
 	}
 	
 	public void editPressed() {

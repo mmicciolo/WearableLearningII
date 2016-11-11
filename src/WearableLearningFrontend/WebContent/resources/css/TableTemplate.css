@@ -70,11 +70,12 @@
 }
 
 .foo {
-  float: left;
-  width: 20px;
+  width: 100px;
   height: 20px;
   margin: 5px;
   border: 1px solid rgba(0, 0, 0, .2);
+  display: block; 
+  margin: auto;
 }
 
 .red {
