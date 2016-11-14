@@ -1,0 +1,51 @@
+.center {
+	text-align:center;
+}
+
+.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only.buttonRed {
+	width:100px;
+	height:25px;
+	background:#CA1C18;
+	border-color:#CA1C18;
+	box-shadow: 0 1px 0 #CA1C18 inset, 0 1px 2px rgba(0,0,0,0.2) !important;
+}
+
+.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only.buttonRed.ui-state-focus {
+	background:#CA1C18 !important;
+}
+
+.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only.buttonGreen {
+	width:100px;
+	height:25px;
+	background:#42AD49;
+	border-color:#42AD49;
+	box-shadow: 0 1px 0 #42AD49 inset, 0 1px 2px rgba(0,0,0,0.2) !important;
+}
+
+.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only.buttonGreen.ui-state-focus {
+	background:#42AD49 !important;
+}
+
+.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only.buttonBlue {
+	width:100px;
+	height:25px;
+	background:#2E6CFF;
+	border-color:#2E6CFF;
+	box-shadow: 0 1px 0 #2E6CFF inset, 0 1px 2px rgba(0,0,0,0.2) !important;
+}
+
+.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only.buttonBlue.ui-state-focus {
+	background:#2E6CFF !important;
+}
+
+.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only.buttonBlack {
+	width:100px;
+	height:25px;
+	background:#000000;
+	border-color:#000000;
+	box-shadow: 0 1px 0 #000000 inset, 0 1px 2px rgba(0,0,0,0.2) !important;
+}
+
+.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only.buttonBlack.ui-state-focus {
+	background:#000000 !important;
+}

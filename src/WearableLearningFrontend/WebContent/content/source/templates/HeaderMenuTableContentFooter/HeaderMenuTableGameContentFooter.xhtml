@@ -74,7 +74,7 @@
 			  			<div style="text-align:center; font-size:50px;">Game State Setup</div>
 			  			<p:commandButton value="Add State" actionListener="#{gameCreation.addState}" update="gameState:msgs" styleClass="buttonSize" />
 			  			<p:scrollPanel style="width:98%;height:600px;display:block; margin:auto;">
-		  					<p:accordionPanel id="mainAccordion" multiple="true" value="#{gameCreation.accordionPanels}" var="panel" styleClass="disableAccordionScroll" >
+		  					<p:accordionPanel id="mainAccordion" multiple="true" value="#{gameCreation.accordionPanels}" var="panel" styleClass="disableAccordionScroll" activeIndex="#{gameCreation.stateCount}">
         						<p:tab title="State #{panel.id}">
             						<p:layout style="min-width:450px;min-height:600px;" styleClass="disableLayoutScroll">
 						            	<p:layoutUnit position="west" size="450">

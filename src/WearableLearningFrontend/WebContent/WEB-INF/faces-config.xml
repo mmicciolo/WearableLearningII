@@ -39,6 +39,11 @@
 		<managed-bean-class>wlfe.controller.GameCreation</managed-bean-class>
 		<managed-bean-scope>view</managed-bean-scope>
 	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>virtualDevice</managed-bean-name>
+		<managed-bean-class>wlfe.controller.VirtualDevice</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+	</managed-bean>
 	<navigation-rule>
 		<display-name>content/source/Login.xhtml</display-name>
 		<from-view-id>/content/source/Login.xhtml</from-view-id>
