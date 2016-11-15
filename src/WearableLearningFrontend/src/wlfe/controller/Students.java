@@ -121,7 +121,7 @@ public class Students extends BaseHeaderMenuTableContentFooter<StudentData> {
 			}
 			tableObjects.add(new StudentData(Integer.parseInt(fields.get("studentId").getProperty()), fields.get("firstName").getProperty(), fields.get("lastName").getProperty(), fields.get("gender").getProperty(), Integer.parseInt(fields.get("age").getProperty()), Integer.parseInt(fields.get("classId").getProperty()), className));
 			RequestContext.getCurrentInstance().update("main:mainTable");
-			RequestContext.getCurrentInstance().execute("PF('NewClass').hide();");
+			RequestContext.getCurrentInstance().execute("PF('NewDialog').hide();");
 			Common.SuccessMessage();
 			accessor.Disconnect();
 		}
@@ -156,7 +156,7 @@ public class Students extends BaseHeaderMenuTableContentFooter<StudentData> {
 			selectedObject.setAge(Integer.parseInt(fields.get("age").getProperty()));
 			selectedObject.setClassId(Integer.parseInt(fields.get("classId").getProperty()));
 			RequestContext.getCurrentInstance().update("main:mainTable");
-			RequestContext.getCurrentInstance().execute("PF('EditClass').hide();");
+			RequestContext.getCurrentInstance().execute("PF('EditDialog').hide();");
 		}
 	}
 	

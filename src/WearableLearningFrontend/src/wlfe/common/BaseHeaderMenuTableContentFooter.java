@@ -72,7 +72,7 @@ public class BaseHeaderMenuTableContentFooter<T> {
 					try {
 						Object value =  new PropertyDescriptor(entry.getKey(), selectedObject.getClass()).getReadMethod().invoke(selectedObject);
 						entry.getValue().setProperty(String.valueOf(value));
-						RequestContext.getCurrentInstance().execute("PF('EditClass').show();");
+						RequestContext.getCurrentInstance().execute("PF('EditDialog').show();");
 					} catch(Exception e) {
 						e.printStackTrace();
 					}

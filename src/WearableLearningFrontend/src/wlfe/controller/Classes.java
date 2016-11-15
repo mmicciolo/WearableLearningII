@@ -73,7 +73,7 @@ public class Classes extends BaseHeaderMenuTableContentFooter<ClassData> {
 			}
 			tableObjects.add(new ClassData(Integer.parseInt(fields.get("classId").getProperty()), fields.get("className").getProperty(), "teacher", fields.get("school").getProperty(), Integer.parseInt(fields.get("grade").getProperty()), Integer.parseInt(fields.get("year").getProperty())));
 			RequestContext.getCurrentInstance().update("main:mainTable");
-			RequestContext.getCurrentInstance().execute("PF('NewClass').hide();");
+			RequestContext.getCurrentInstance().execute("PF('NewDialog').hide();");
 			Common.SuccessMessage();
 			accessor.Disconnect();
 		}
@@ -106,7 +106,7 @@ public class Classes extends BaseHeaderMenuTableContentFooter<ClassData> {
 			selectedObject.setGrade(Integer.parseInt(fields.get("grade").getProperty()));
 			selectedObject.setYear(Integer.parseInt(fields.get("year").getProperty()));
 			RequestContext.getCurrentInstance().update("main:mainTable");
-			RequestContext.getCurrentInstance().execute("PF('EditClass').hide();");
+			RequestContext.getCurrentInstance().execute("PF('EditDialog').hide();");
 		}
 	}
 	

@@ -32,7 +32,7 @@
 	  <div class="tableButtonPanel" >
 	  		<p:panel>
 	  		<ul id="parent">
-		  		<li><p:commandButton value="#{NewButton}" onclick="PF('NewClass').show();" styleClass="buttonSize"/></li>
+		  		<li><p:commandButton value="#{NewButton}" onclick="PF('NewDialog').show();" styleClass="buttonSize"/></li>
 		  		<li><p:commandButton value="#{EditButton}" action="#{ManagedBean.editPressed}" update=":dlgEdit" styleClass="buttonSize"/></li>
 		  		<p:growl id="messages"/>
 			  	<li><p:commandButton update="messages" value="#{DeleteButton}" actionListener="#{ManagedBean.deletePressed}" styleClass="buttonSize">
@@ -54,7 +54,7 @@
 		  </p:panel>
 	  </div>
   </h:form>
-  <p:dialog id="dlgNew" header="#{NewDialogHeader}" widgetVar="NewClass" modal="true" minHeight="40" style="box-shadow: 7px 10px 5px #303030;" showEffect="fade" hideEffect="shake">
+  <p:dialog id="dlgNew" header="#{NewDialogHeader}" widgetVar="NewDialog" modal="true" minHeight="40" style="box-shadow: 7px 10px 5px #303030;" showEffect="fade" hideEffect="shake">
 		<h:outputText value="#{NewDialogOutputText}"/>
 		<p:ajax event="close" update=":dlgNew" resetValues="true" listener="#{ManagedBean.clear}"/>
 		<br/><br/>
@@ -66,7 +66,7 @@
 		</div>
 		<p:commandButton value="Create Class" styleClass="buttonSize" action="#{ManagedBean.createPressed}" update="main:messages"/></h:form>
 	</p:dialog>
-	<p:dialog id="dlgEdit" header="#{EditDialogHeader}" widgetVar="EditClass" modal="true" minHeight="40" style="box-shadow: 7px 10px 5px #303030;" showEffect="fade" hideEffect="shake">
+	<p:dialog id="dlgEdit" header="#{EditDialogHeader}" widgetVar="EditDialog" modal="true" minHeight="40" style="box-shadow: 7px 10px 5px #303030;" showEffect="fade" hideEffect="shake">
 		<h:outputText value="#{EditDialogOutputText}"/>
 		<br/><br/>
 		<h:form><div class="new">

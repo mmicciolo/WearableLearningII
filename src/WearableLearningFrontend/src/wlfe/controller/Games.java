@@ -61,7 +61,7 @@ public class Games extends BaseHeaderMenuTableContentFooter<GameData> {
 	}
 	
 	public void editPressed() {
-		RequestContext.getCurrentInstance().execute("PF('EditClass').show();");
+		RequestContext.getCurrentInstance().execute("PF('EditDialog').show();");
 		//super.editPressed();
 	}
 	
