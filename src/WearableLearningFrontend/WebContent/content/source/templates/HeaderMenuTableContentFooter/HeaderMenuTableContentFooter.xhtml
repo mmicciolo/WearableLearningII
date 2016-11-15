@@ -32,10 +32,10 @@
 	  <div class="tableButtonPanel" >
 	  		<p:panel>
 	  		<ul id="parent">
-		  		<li><p:commandButton value="#{NewButton}" onclick="PF('NewDialog').show();" styleClass="buttonSize"/></li>
-		  		<li><p:commandButton value="#{EditButton}" action="#{ManagedBean.editPressed}" update=":dlgEdit" styleClass="buttonSize"/></li>
+		  		<li><p:commandButton value="#{NewButton}" onclick="PF('NewDialog').show();" styleClass="buttonSize" icon="fa fa-fw fa-plus"/></li>
+		  		<li><p:commandButton value="#{EditButton}" action="#{ManagedBean.editPressed}" update=":dlgEdit" styleClass="buttonSize" icon="fa fa-fw fa-edit"/></li>
 		  		<p:growl id="messages"/>
-			  	<li><p:commandButton update="messages" value="#{DeleteButton}" actionListener="#{ManagedBean.deletePressed}" styleClass="buttonSize">
+			  	<li><p:commandButton update="messages" value="#{DeleteButton}" actionListener="#{ManagedBean.deletePressed}" styleClass="buttonSize" icon="fa fa-fw fa-remove">
 			  			<p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
 				</p:commandButton></li>
 			</ul>
@@ -54,7 +54,7 @@
 		  </p:panel>
 	  </div>
   </h:form>
-  <p:dialog id="dlgNew" header="#{NewDialogHeader}" widgetVar="NewDialog" modal="true" minHeight="40" style="box-shadow: 7px 10px 5px #303030;" showEffect="fade" hideEffect="shake">
+  <p:dialog id="dlgNew" header="#{NewDialogHeader}" widgetVar="NewDialog" modal="true" minHeight="40" style="box-shadow: 7px 10px 5px #303030;" showEffect="slide" hideEffect="puff">
 		<h:outputText value="#{NewDialogOutputText}"/>
 		<p:ajax event="close" update=":dlgNew" resetValues="true" listener="#{ManagedBean.clear}"/>
 		<br/><br/>
@@ -64,9 +64,9 @@
 				<ui:fragment rendered="#{RenderDropDownBox}"><span><p:autoComplete id="dd" dropdown="true" value="#{ManagedBean.fields[key].property}" placeholder="#{ManagedBean.fields[key].header}" completeMethod="#{ManagedBean.fillDropDown(key)}"/></span></ui:fragment>
 			</ui:repeat>
 		</div>
-		<p:commandButton value="Create Class" styleClass="buttonSize" action="#{ManagedBean.createPressed}" update="main:messages"/></h:form>
+		<p:commandButton value="Create Class" styleClass="buttonSize" action="#{ManagedBean.createPressed}" update="main:messages" icon="fa fa-fw fa-check"/></h:form>
 	</p:dialog>
-	<p:dialog id="dlgEdit" header="#{EditDialogHeader}" widgetVar="EditDialog" modal="true" minHeight="40" style="box-shadow: 7px 10px 5px #303030;" showEffect="fade" hideEffect="shake">
+	<p:dialog id="dlgEdit" header="#{EditDialogHeader}" widgetVar="EditDialog" modal="true" minHeight="40" style="box-shadow: 7px 10px 5px #303030;" showEffect="slide" hideEffect="puff">
 		<h:outputText value="#{EditDialogOutputText}"/>
 		<br/><br/>
 		<h:form><div class="new">
@@ -75,9 +75,9 @@
 				<ui:fragment rendered="#{RenderDropDownBox}"><span><p:autoComplete id="dd" dropdown="true" value="#{ManagedBean.fields[key].property}" placeholder="#{ManagedBean.fields[key].header}" completeMethod="#{ManagedBean.fillDropDown(key)}"/></span></ui:fragment>
 		</ui:repeat>
 		</div>
-		<p:commandButton value="Edit Class" styleClass="buttonSize" action="#{ManagedBean.editConfirmPressed}" update="main:messages"/></h:form>
+		<p:commandButton value="Edit Class" styleClass="buttonSize" action="#{ManagedBean.editConfirmPressed}" update="main:messages" icon="fa fa-fw fa-check" /></h:form>
 	</p:dialog>
-	<p:confirmDialog global="true" showEffect="fade" hideEffect="shake" style="box-shadow: 7px 10px 5px #303030;">
+	<p:confirmDialog global="true" showEffect="slide" hideEffect="puff" style="box-shadow: 7px 10px 5px #303030;">
     	<p:commandButton value="Yes" type="submit" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
         <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 	</p:confirmDialog>
