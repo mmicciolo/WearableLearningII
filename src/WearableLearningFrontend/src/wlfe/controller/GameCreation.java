@@ -121,9 +121,10 @@ public class GameCreation {
 							}
 						}
 					}
-				}	
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
+				accessor.Disconnect();
 				return;
 			}
 			ELContext elContext = FacesContext.getCurrentInstance().getELContext();

@@ -3,6 +3,8 @@ package wlfe.controller;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.primefaces.context.RequestContext;
 
@@ -55,30 +57,12 @@ public class Games extends BaseHeaderMenuTableContentFooter<GameData> {
 	}
 	
 	public void createPressed() {
-//		MySQLAccessor accessor = MySQLAccessor.getInstance();
-//		if(accessor.Connect()) {
-//			String className = "";
-//			try {
-//				String returnId[] = {"gameId"};
-//				PreparedStatement preparedStatement = accessor.GetConnection().prepareStatement("INSERT INTO games (title, teamCount, playersPerTeam) VALUES (?, ?, ?)", returnId);
-//				StudentData classData = new StudentData();
-//				createMySQLEntry(preparedStatement, fields, classData, returnId, 1);
-//				preparedStatement.close();
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//				Common.ErrorMessage();
-//			}
-//			tableObjects.add(new GameData(Integer.parseInt(fields.get("gameId").getProperty()), fields.get("title").getProperty(), Integer.parseInt(fields.get("teamCount").getProperty()), Integer.parseInt(fields.get("playersPerTeam").getProperty())));
-//			RequestContext.getCurrentInstance().update("main:mainTable");
-//			RequestContext.getCurrentInstance().execute("PF('NewClass').hide();");
-//			Common.SuccessMessage();
-//			accessor.Disconnect();
-//		}
+		super.createPressed();
 	}
 	
 	public void editPressed() {
-//		super.editPressed();
-//		fields.get("classId").setProperty(getClassNameFromClassId(Integer.parseInt(fields.get("classId").getProperty())));
+		RequestContext.getCurrentInstance().execute("PF('EditClass').show();");
+		//super.editPressed();
 	}
 	
 	public void editConfirmPressed() {
@@ -110,6 +94,40 @@ public class Games extends BaseHeaderMenuTableContentFooter<GameData> {
 	}
 	
 	public void deletePressed(String query) {
-//		super.deletePressed("DELETE FROM student WHERE studentId=" + selectedObject.getStudentId());
+		//super.deletePressed("DELETE FROM games WHERE gameId=" + selectedObject.getGameId());
+		MySQLAccessor accessor = MySQLAccessor.getInstance();
+		if(accessor.Connect()) {
+			try {
+				//Get all of the gameStateIds that coordinate with gameId
+				//Delete all of the above from gameStateTransition
+				//Delete all gameIds from gameState
+				//Delete game from games
+				Statement statement = accessor.GetConnection().createStatement();
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM gameState WHERE gameId=" + selectedObject.getGameId());
+				List<Integer> gameStateIds = new ArrayList<Integer>();
+				while(resultSet.next()) {
+					gameStateIds.add(resultSet.getInt("gameStateId"));
+				}
+				resultSet.close();
+				statement.close();
+				
+				PreparedStatement preparedStatement;
+				for(Integer i : gameStateIds) {
+					preparedStatement = accessor.GetConnection().prepareStatement("DELETE FROM gameStateTransitions WHERE gameStateId=" + i);
+					preparedStatement.executeUpdate();
+					preparedStatement.close();
+				}
+				
+				preparedStatement = accessor.GetConnection().prepareStatement("DELETE FROM gameState WHERE gameId=" + selectedObject.getGameId());
+				preparedStatement.executeUpdate();
+				preparedStatement.close();
+				accessor.Disconnect();
+				super.deletePressed("DELETE FROM games WHERE gameId=" + selectedObject.getGameId());
+			} catch(Exception e) {
+				e.printStackTrace();
+				accessor.Disconnect();
+				return;
+			}
+		}
 	}
 }

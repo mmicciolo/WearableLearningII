@@ -150,15 +150,7 @@
   		</h:form>
 	</p:dialog>
 	<p:dialog id="dlgEdit" header="#{EditDialogHeader}" widgetVar="EditClass" modal="true" minHeight="40" style="box-shadow: 7px 10px 5px #303030;" showEffect="fade" hideEffect="shake">
-		<h:outputText value="#{EditDialogOutputText}"/>
-		<br/><br/>
-		<h:form><div class="new">
-		<ui:repeat var="key" value="#{ManagedBean.fields.keySet().toArray()}">
-				<ui:fragment rendered="#{RenderInputBox}"><span><p:inputText value="#{ManagedBean.fields[key].property}" placeholder="#{ManagedBean.fields[key].header}"/></span></ui:fragment>
-				<ui:fragment rendered="#{RenderDropDownBox}"><span><p:autoComplete id="dd" dropdown="true" value="#{ManagedBean.fields[key].property}" placeholder="#{ManagedBean.fields[key].header}" completeMethod="#{ManagedBean.fillDropDown(key)}"/></span></ui:fragment>
-		</ui:repeat>
-		</div>
-		<p:commandButton value="Edit Class" styleClass="buttonSize" action="#{ManagedBean.editConfirmPressed}" update="main:messages"/></h:form>
+		<img src="http://www.sharonkgilbert.com/wp-content/uploads/2015/12/Under-construction-1.png" width="800" height="600"></img>
 	</p:dialog>
 	<p:confirmDialog global="true" showEffect="fade" hideEffect="shake" style="box-shadow: 7px 10px 5px #303030;">
     	<p:commandButton value="Yes" type="submit" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>

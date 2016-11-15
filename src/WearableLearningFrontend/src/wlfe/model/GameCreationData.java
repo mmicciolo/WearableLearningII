@@ -77,9 +77,18 @@ public class GameCreationData {
 					}
 				}
 			} else if(!responseTo.equals("")) {
-				columnCount = 1;
+				columnCount = 5;
+				dataTable.add(new DataTableColumn("Text", ""));
+				String columnOut = responseTo.replace("-", "");
 				for(int i = 0; i < 4; i++) {
-					//dataTable.add("Hi");
+					dataTable.add(new DataTableColumn("Color", buttonColors[i]));
+				}
+				for(int i = 0; i < columnCount; i++) {
+					if(i == 0) {
+						dataTable.add(new DataTableColumn("Text", columnOut));
+					} else {
+						dataTable.add(new DataTableColumn("SelectOne", ""));
+					}
 				}
 			}
 		} else if(responseType.equals("Sequence")) {
