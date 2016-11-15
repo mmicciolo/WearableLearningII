@@ -66,7 +66,7 @@ public class Students extends BaseHeaderMenuTableContentFooter<StudentData> {
 		if(accessor.Connect()) {
 			try {
 				Statement classIdStatement = accessor.GetConnection().createStatement();
-				ResultSet classIdResults = classIdStatement.executeQuery("SELECT className FROM class WHERE classId=" + classId + " AND teacherId=" + "1");
+				ResultSet classIdResults = classIdStatement.executeQuery("SELECT className FROM class WHERE classId=" + classId + " AND teacherId=" + Common.getTeacherForSession().getTeacherId());
 				classIdResults.next();
 				name = classIdResults.getString("className");
 				classIdResults.close();
@@ -86,7 +86,7 @@ public class Students extends BaseHeaderMenuTableContentFooter<StudentData> {
 		if(accessor.Connect()) {
 			try {
 				Statement classIdStatement = accessor.GetConnection().createStatement();
-				ResultSet classIdResults = classIdStatement.executeQuery("SELECT classId FROM class WHERE className=" + "'" + className + "'" + " AND teacherId=" + "1");
+				ResultSet classIdResults = classIdStatement.executeQuery("SELECT classId FROM class WHERE className=" + "'" + className + "'" + " AND teacherId=" + Common.getTeacherForSession().getTeacherId());
 				classIdResults.next();
 				id = classIdResults.getInt("classId");
 				classIdResults.close();
@@ -175,7 +175,7 @@ public class Students extends BaseHeaderMenuTableContentFooter<StudentData> {
 			if(accessor.Connect()) {
 				try {
 					Statement classes = accessor.GetConnection().createStatement();
-					ResultSet set = classes.executeQuery("SELECT * FROM class WHERE teacherId=" + "1");
+					ResultSet set = classes.executeQuery("SELECT * FROM class WHERE teacherId=" + Common.getTeacherForSession().getTeacherId());
 					while(set.next()) {
 						list.add(set.getString("className"));
 					}

@@ -105,7 +105,6 @@ public class GameCreation {
 										Statement stateCount = accessor.GetConnection().createStatement();
 										ResultSet stateCountResult = stateCount.executeQuery("SELECT * FROM gameState WHERE gameId=" + gameId +  " AND gameStateCount=" + gameStateCount);
 										stateCountResult.next();
-										int gameStateId = stateCountResult.getInt("gameStateId");
 										preparedStatement.setInt(1, resultSet.getInt("gameStateId"));
 										preparedStatement.setInt(2, colorCounter);
 										preparedStatement.setString(3, "");

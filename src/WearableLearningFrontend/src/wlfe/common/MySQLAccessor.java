@@ -2,6 +2,12 @@ package wlfe.common;
 
 import java.sql.*;
 
+/**
+ * This class provides functions to interface with mysql databases.
+ * It is a basic singleton wrapper style class.
+ * @author Matthew Micciolo
+ *
+ */
 public class MySQLAccessor {
 	
 	private static MySQLAccessor instance = null;
@@ -14,10 +20,19 @@ public class MySQLAccessor {
 	private Connection connection = null;
 	private Statement statement = null;
 	
+	/**
+	 * Default Constructor
+	 * @author Matthew Micciolo
+	 */
 	protected MySQLAccessor() {
 		
 	}
 	
+	/**
+	 * Check if the instance is null. If it is, create a new one, else
+	 * return the instance.
+	 * @return singleton instance
+	 */
 	public static MySQLAccessor getInstance() {
 		if(instance == null) {
 			instance = new MySQLAccessor();
@@ -25,10 +40,20 @@ public class MySQLAccessor {
 		return instance;
 	}
 	
+	/**
+	 * Get mysql connection
+	 * @author Matthew Micciolo
+	 * @return mysql connection
+	 */
 	public Connection GetConnection() {
 		return connection;
 	}
 	
+	/**
+	 * Attempt to connect to mysql database using the database name, and username and password credentials
+	 * @author Matthew Micciolo
+	 * @return true if successful
+	 */
 	public boolean Connect() {
 		if(connection == null) {
 			try {
@@ -46,6 +71,10 @@ public class MySQLAccessor {
 		}	
 	}
 	
+	/**
+	 * Disconnect from mysql database
+	 * @return true if successful
+	 */
 	public boolean Disconnect() {
 		if(connection != null) {
 			try {
@@ -60,6 +89,11 @@ public class MySQLAccessor {
 		return false;
 	}
 	
+	/**
+	 * Execute a mysql statement
+	 * @param query statement query
+	 * @return true if successful
+	 */
 	public boolean ExecuteStatement(String query) {
 		try {
 			statement = connection.createStatement();

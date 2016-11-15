@@ -12,37 +12,37 @@
 	<managed-bean>
 		<managed-bean-name>controlPanel</managed-bean-name>
 		<managed-bean-class>wlfe.controller.ControlPanel</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
+		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 	<managed-bean>
 		<managed-bean-name>classes</managed-bean-name>
 		<managed-bean-class>wlfe.controller.Classes</managed-bean-class>
-		<managed-bean-scope>view</managed-bean-scope>
+		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 	<managed-bean>
 		<managed-bean-name>students</managed-bean-name>
 		<managed-bean-class>wlfe.controller.Students</managed-bean-class>
-		<managed-bean-scope>view</managed-bean-scope>
+		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 	<managed-bean>
 		<managed-bean-name>games</managed-bean-name>
 		<managed-bean-class>wlfe.controller.Games</managed-bean-class>
-		<managed-bean-scope>view</managed-bean-scope>
+		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 	<managed-bean>
 		<managed-bean-name>devices</managed-bean-name>
 		<managed-bean-class>wlfe.controller.Device</managed-bean-class>
-		<managed-bean-scope>view</managed-bean-scope>
+		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 	<managed-bean>
 		<managed-bean-name>gameCreation</managed-bean-name>
 		<managed-bean-class>wlfe.controller.GameCreation</managed-bean-class>
-		<managed-bean-scope>view</managed-bean-scope>
+		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 	<managed-bean>
 		<managed-bean-name>virtualDevice</managed-bean-name>
 		<managed-bean-class>wlfe.controller.VirtualDevice</managed-bean-class>
-		<managed-bean-scope>view</managed-bean-scope>
+		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 	<navigation-rule>
 		<display-name>content/source/Login.xhtml</display-name>

@@ -4,6 +4,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
+
 import org.primefaces.context.RequestContext;
 
 import wlfe.common.BaseHeaderMenuTableContentFooter;
@@ -11,9 +14,20 @@ import wlfe.common.Common;
 import wlfe.common.DataTableColumn;
 import wlfe.common.MySQLAccessor;
 import wlfe.model.ClassData;
+import wlfe.model.Teacher;
 
+/**
+ * This class extends BaseHeaderMenuTableContentFooter and represents the managed bean for the
+ * classes page. It displays new, edit, delet.
+ * Also the classes table which consists of (classId) name, teacher, school, grade, year
+ * @author Matthew Micciolo
+ *
+ */
 public class Classes extends BaseHeaderMenuTableContentFooter<ClassData> {
 	
+	/**
+	 * Init datatable columns and mysql fields
+	 */
 	protected boolean initColumns() {
 		if(columns.add(new DataTableColumn("Name", "className")) &&
 		   columns.add(new DataTableColumn("Teacher", "teacher")) &&
@@ -30,13 +44,17 @@ public class Classes extends BaseHeaderMenuTableContentFooter<ClassData> {
 		}
 		return false;
 	}
-			
+		
+	/**
+	 * Get all entries from class where the teacherId is equal to the teacherId of the current
+	 * html session.
+	 */
 	public boolean initData() {
 		MySQLAccessor accessor = MySQLAccessor.getInstance();
 		if(accessor.Connect()) {
 			try {
 				Statement statement = accessor.GetConnection().createStatement();
-				ResultSet results = statement.executeQuery("SELECT * from class where teacherId=1");
+				ResultSet results = statement.executeQuery("SELECT * from class where teacherId=" + Common.getTeacherForSession().getTeacherId());
 				while(results.next()) {
 					ClassData classData = new ClassData();
 					String returnId[] = {""};
@@ -57,6 +75,9 @@ public class Classes extends BaseHeaderMenuTableContentFooter<ClassData> {
 		return false;
 	}
 	
+	/**
+	 * 
+	 */
 	public void createPressed() {
 		MySQLAccessor accessor = MySQLAccessor.getInstance();
 		if(accessor.Connect()) {

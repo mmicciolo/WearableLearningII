@@ -13,7 +13,6 @@ import wlfe.common.Common;
 import wlfe.common.DataTableColumn;
 import wlfe.common.MySQLAccessor;
 import wlfe.model.GameData;
-import wlfe.model.StudentData;
 
 public class Games extends BaseHeaderMenuTableContentFooter<GameData> {
 	
