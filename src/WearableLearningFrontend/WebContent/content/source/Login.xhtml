@@ -26,13 +26,26 @@
             	</p:password>
             
             	<br/>
-            	<p:link style="position:absolute; left:10%;" value="Sign Up" onclick="PF('dlg1').show(); return false;"/>
+            	<p:link style="position:absolute; left:10%;" value="Sign Up" onclick="PF('SignUpDialog').show(); return false;"/>
 				<p:link style="position:absolute; right:10%;" value="Forgot Password?"/>
 				
 				<br/>
 				
 				<p:commandButton id="loginButton" value="Login" icon="ui-icon-check" style="margin:0" action="#{login.validateUsernamePassword}"/>
 	    	</p:panel>
+	    </h:form>
+	    <h:form id="signupMain">
+	    <p:growl id="messages"/>
+	    <p:dialog id="dlgSignUp" header="Sign Up" widgetVar="SignUpDialog" modal="true" minHeight="40" style="box-shadow: 7px 10px 5px #303030;" showEffect="slide" hideEffect="puff">
+	    	<p:ajax event="close" update="dlgSignUp" resetValues="true" listener="#{login.clear}"/>
+	    	<p:inputText value="#{login.email}" placeholder="Email" style="margin-bottom:20px;"/><br/>
+	    	<p:password value="#{login.password}" placeholder="Password" style="margin-bottom:20px;"/><br/>
+	    	<p:password value="#{login.password}" placeholder="Password again" style="margin-bottom:20px;"/><br/>
+	    	<p:inputText value="#{login.firstName}" placeholder="First Name" style="margin-bottom:20px;"/><br/>
+	    	<p:inputText value="#{login.lastName}" placeholder="Last Name" style="margin-bottom:20px;"/><br/>
+	    	<p:inputText value="#{login.school}" placeholder="School" style="margin-bottom:20px;"/><br/>
+	    	<p:commandButton value="Sign up!" action="#{login.signUp}" icon="fa fa-fw fa-check" update="signupMain:messages"></p:commandButton>
+	    </p:dialog>
 	    </h:form>
 	</ui:define>
 </ui:composition>
