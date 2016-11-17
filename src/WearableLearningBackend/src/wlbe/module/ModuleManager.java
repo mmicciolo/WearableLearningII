@@ -13,7 +13,8 @@ public class ModuleManager {
 		LOGGER,
 		SERVER,
 		SETTINGS,
-		TASK_MANAGER
+		TASK_MANAGER,
+		EVENT_MANAGER
 	};
 	
 	protected ModuleManager() {
@@ -64,5 +65,9 @@ public class ModuleManager {
 		for(Module m : modules) {
 			m.cleanup();
 		}
+	}
+	
+	public ArrayList<Module> getModules() {
+		return this.modules;
 	}
 }

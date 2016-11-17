@@ -1,5 +1,6 @@
 package wlbe.module;
 
+import wlbe.event.Event;
 import wlbe.module.ModuleManager.Modules;
 
 public abstract class Module implements IModule {
@@ -24,6 +25,10 @@ public abstract class Module implements IModule {
 	}
 	
 	public void update() {
+		
+	}
+	
+	public void eventHandler(Event e) {
 		
 	}
 	

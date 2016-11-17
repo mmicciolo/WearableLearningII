@@ -1,6 +1,7 @@
 package wlbe;
 
 import wlbe.module.ModuleManager;
+import wlbe.modules.EventManager;
 import wlbe.modules.Logger;
 import wlbe.modules.Server;
 import wlbe.modules.Settings;
@@ -17,6 +18,7 @@ public class WLBE {
 		createLogger(moduleManager);
 		createServer(moduleManager, args);
 		createTaskManager(moduleManager);
+		createEventManager(moduleManager);
 		
 		while(running) {
 			moduleManager.update();
@@ -42,5 +44,10 @@ public class WLBE {
 	public static void createTaskManager(ModuleManager moduleManager) {
 		TaskManager taskManager = new TaskManager(ModuleManager.Modules.TASK_MANAGER);
 		moduleManager.addModule(taskManager);
+	}
+	
+	public static void createEventManager(ModuleManager moduleManager) {
+		EventManager eventManager = new EventManager(ModuleManager.Modules.EVENT_MANAGER);
+		moduleManager.addModule(eventManager);
 	}
 }

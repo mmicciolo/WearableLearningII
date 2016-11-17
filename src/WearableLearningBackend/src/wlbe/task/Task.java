@@ -1,5 +1,7 @@
 package wlbe.task;
 
+import wlbe.event.Event;
+
 public abstract class Task extends Thread implements ITask {
 	
 	private boolean running = true;
@@ -21,6 +23,10 @@ public abstract class Task extends Thread implements ITask {
 	}
 	
 	public void cleanup() {
+		
+	}
+	
+	public void eventHandler(Event e) {
 		
 	}
 }
