@@ -11,6 +11,7 @@ public abstract class Packet implements IPacket {
 
 	public Packet(ByteBuffer buffer) {
 		this.byteBuffer = buffer;
+		this.byteBuffer.flip();
 		packetType = PacketType.values()[buffer.getInt()];
 		PopulateData();
 	}

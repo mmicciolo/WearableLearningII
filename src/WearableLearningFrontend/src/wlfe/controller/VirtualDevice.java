@@ -10,25 +10,21 @@ import javax.annotation.PostConstruct;
 
 import org.primefaces.context.RequestContext;
 
+import wlfe.common.BackendServer;
+
 public class VirtualDevice {
 	
 	private String onOff;
 	private String id;
 	private String displayText;
 	
-	AsynchronousSocketChannel server;
+	private BackendServer backendServer;
 	
 	private boolean on = false;
 	
 	@PostConstruct
 	public void init() {
-		try {
-			server = AsynchronousSocketChannel.open();
-			SocketAddress serverAddr = new InetSocketAddress("localhost", 3333);
-			server.connect(serverAddr);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		backendServer = new BackendServer();
 	}
 	
 	public void button1() {
@@ -56,13 +52,12 @@ public class VirtualDevice {
 			on = true;
 			ByteBuffer byteBuffer = ByteBuffer.allocate(2048);
 			byteBuffer.putInt(0);
-			byteBuffer.putInt(123456789);
-			server.write(byteBuffer);
-			try {
-				server.close();
-			} catch (IOException e) {
-				e.printStackTrace();
+			String send = "Hello World!";
+			byteBuffer.putInt(send.length());
+			for(char c : send.toCharArray()) {
+				byteBuffer.putChar(c);
 			}
+			backendServer.write(byteBuffer);
 		} else {
 			on = false;
 		}

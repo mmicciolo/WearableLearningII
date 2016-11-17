@@ -17,7 +17,6 @@ public class WLBE {
 		createLogger(moduleManager);
 		createServer(moduleManager, args);
 		createTaskManager(moduleManager);
-	
 		
 		while(running) {
 			moduleManager.update();

@@ -14,9 +14,12 @@ public class EchoPacket extends Packet {
 	}
 	
 	public void PopulatePacket() {
-		while(byteBuffer.remaining() > 0) {
-			echo += String.valueOf(byteBuffer.get());
+		int echoLength = byteBuffer.getInt();
+		char echoc[] = new char[echoLength];
+		for(int i = 0; i < echoLength; i++) {
+			echoc[i] = byteBuffer.getChar();
 		}
+		echo = String.valueOf(echoc);
 	}
 	
 	public String getEcho() {
