@@ -10,10 +10,10 @@ public class EchoPacket extends Packet {
 	
 	public EchoPacket(ByteBuffer buffer) {
 		super(buffer);
-		PopulatePacket();
+		populatePacket();
 	}
 	
-	public void PopulatePacket() {
+	public void populatePacket() {
 		int echoLength = byteBuffer.getInt();
 		char echoc[] = new char[echoLength];
 		for(int i = 0; i < echoLength; i++) {

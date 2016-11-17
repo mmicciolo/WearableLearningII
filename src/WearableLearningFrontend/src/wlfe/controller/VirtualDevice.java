@@ -58,6 +58,8 @@ public class VirtualDevice {
 				byteBuffer.putChar(c);
 			}
 			backendServer.write(byteBuffer);
+			backendServer.disconnect();
+			backendServer = null;
 		} else {
 			on = false;
 		}

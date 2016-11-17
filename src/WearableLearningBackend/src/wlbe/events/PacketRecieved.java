@@ -1,17 +1,17 @@
 package wlbe.events;
 
 import wlbe.event.Event;
-import wlbe.packet.Packet;
+import wlbe.packet.IPacket;
 
 public class PacketRecieved extends Event {
 	
-	private Packet packet;
+	private IPacket packet;
 	
-	public PacketRecieved(Packet packet) {
+	public PacketRecieved(IPacket packet) {
 		this.packet = packet;
 	}
 	
-	public Packet getPacket() {
+	public IPacket getPacket() {
 		return this.packet;
 	}
 }

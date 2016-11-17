@@ -33,6 +33,14 @@ public class BackendServer {
 		}
 	}
 	
+	public void disconnect() {
+		try {
+			server.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void write(ByteBuffer byteBuffer) {
 		Client client = new Client();
 		client.client = this.server;

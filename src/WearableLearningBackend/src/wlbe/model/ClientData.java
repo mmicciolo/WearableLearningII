@@ -8,10 +8,61 @@ import wlbe.modules.Server;
 
 public class ClientData {
 	
-	public Server server;
-	public AsynchronousServerSocketChannel serverSocket;
-    public AsynchronousSocketChannel clientSocket;
-    public ByteBuffer buffer;
-    public boolean isRead;
+	private Server serverModule;
+	private AsynchronousServerSocketChannel serverSocket;
+	private AsynchronousSocketChannel clientSocket;
+	private ByteBuffer buffer;
+	private boolean isRead;
     
+    public ClientData() {
+    	
+    }
+    
+    public ClientData(Server serverModule, AsynchronousServerSocketChannel serverSocket, AsynchronousSocketChannel clientSocket, boolean isRead) {
+    	this.serverModule = serverModule;
+    	this.serverSocket = serverSocket;
+    	this.clientSocket = clientSocket;
+    	this.buffer = ByteBuffer.allocate(2048);
+    	this.isRead = isRead;
+    }
+    
+    public void setServerModule(Server serverModule) {
+    	this.serverModule = serverModule;
+    }
+    
+    public void setServerSocket(AsynchronousServerSocketChannel serverSocket) {
+    	this.serverSocket = serverSocket;
+    }
+    
+    public void setClientSocket(AsynchronousSocketChannel clientSocket) {
+    	this.clientSocket = clientSocket;
+    }
+    
+    public void setBuffer(ByteBuffer buffer) {
+    	this.buffer = buffer;
+    }
+    
+    public void setIsRead(boolean isRead) {
+    	this.isRead = isRead;
+    }
+    
+    public Server getServerModule() {
+    	return this.serverModule;
+    }
+    
+    public AsynchronousServerSocketChannel getServerSocket() {
+    	return this.serverSocket;
+    }
+    
+    public AsynchronousSocketChannel getClientSocket() {
+    	return this.clientSocket;
+    }
+    
+    public ByteBuffer getBuffer() {
+    	return this.buffer;
+    }
+    
+    public boolean getIsRead() {
+    	return this.isRead;
+    }
 }

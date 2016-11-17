@@ -3,6 +3,7 @@ package wlbe.modules;
 import java.util.ArrayList;
 
 import wlbe.event.Event;
+import wlbe.event.IEvent;
 import wlbe.module.Module;
 import wlbe.module.ModuleManager;
 import wlbe.module.ModuleManager.Modules;
@@ -16,7 +17,7 @@ public class EventManager extends Module {
 		super(moduleId);
 	}
 	
-	public void BroadcastEvent(Event e) {
+	public void BroadcastEvent(IEvent e) {
 		TaskManager taskManager = (TaskManager) ModuleManager.getModule(ModuleManager.Modules.TASK_MANAGER);
 		for(Task task : taskManager.tasks) {
 			task.eventHandler(e);

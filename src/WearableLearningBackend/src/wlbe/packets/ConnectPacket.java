@@ -10,10 +10,10 @@ public class ConnectPacket extends Packet {
 	
 	public ConnectPacket(ByteBuffer buffer) {
 		super(buffer);
-		PopulatePacket();
+		populatePacket();
 	}
 	
-	public void PopulatePacket() {
+	public void populatePacket() {
 		int usernameLength = byteBuffer.getInt();
 		for(int i = 0; i < usernameLength; i++) {
 			username += byteBuffer.get();

@@ -2,29 +2,28 @@ package wlbe.modules;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousServerSocketChannel;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;
 import java.util.ArrayList;
 
 import wlbe.ServerTime;
+import wlbe.event.IEvent;
 import wlbe.events.PacketRecieved;
 import wlbe.model.ClientData;
 import wlbe.module.Module;
 import wlbe.module.ModuleManager;
 import wlbe.module.ModuleManager.Modules;
-import wlbe.packet.Packet;
+import wlbe.packet.IPacket;
 import wlbe.packet.PacketTypes;
 import wlbe.packets.EchoPacket;
-import wlbe.tasks.GameInstance;
 
 public class Server extends Module {
 	
 	protected ServerTime serverTime;
 	private Logger logger;
 	private String[] args;
-	private AsynchronousServerSocketChannel server;
+	private AsynchronousServerSocketChannel serverSocket;
 	private ArrayList<ClientData> clients = new ArrayList<ClientData>();
 	
 	public Server(Modules moduleId, String[] args) {
@@ -41,24 +40,18 @@ public class Server extends Module {
 		logger.write("Server Started...");
 	}
 	
-	
 	public void update() {
 		
 	}
 	
-	public void handlePacket(Packet packet) {
+	public void handlePacket(IPacket packet) {
 		EventManager eventManager = (EventManager) ModuleManager.getModule(ModuleManager.Modules.EVENT_MANAGER);
-		eventManager.BroadcastEvent(new PacketRecieved(packet));
+		eventManager.BroadcastEvent((IEvent)new PacketRecieved(packet));
 		switch(packet.getType()) {
 			case ECHO:
 				EchoPacket echoPacket = (EchoPacket) packet;
 				String echo = echoPacket.getEcho();
 				logger.write(echo);
-				break;
-			case NEW_GAME_INSTANCE:
-				GameInstance gameInstance = new GameInstance();
-				TaskManager taskManager = (TaskManager) ModuleManager.getModule(ModuleManager.Modules.TASK_MANAGER);
-				taskManager.addTask(gameInstance);
 				break;
 			default:
 				break;
@@ -67,7 +60,7 @@ public class Server extends Module {
 	
 	public void cleanup() {
 		try {
-			server.close();
+			serverSocket.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -95,9 +88,9 @@ public class Server extends Module {
 	
 	private void setupServerSocket() {
 		try {
-			server = AsynchronousServerSocketChannel.open();
+			serverSocket = AsynchronousServerSocketChannel.open();
 			InetSocketAddress sAddr = new InetSocketAddress("localhost", 3333);
-			server.bind(sAddr);
+			serverSocket.bind(sAddr);
 			logger.write("Binded...");
 			AcceptIncomingConnections();
 			logger.write("Waiting for incoming connections...");
@@ -111,12 +104,9 @@ public class Server extends Module {
 	}
 	
 	private void AcceptIncomingConnections() {
-		ClientData clientData = new ClientData();
-		clientData.server = this;
-		clientData.serverSocket = server;
-		clientData.buffer = ByteBuffer.allocate(2048);
+		ClientData clientData = new ClientData(this, serverSocket, null, true);
 		try {
-			server.accept(clientData, new ServerConnectionHandler());
+			serverSocket.accept(clientData, new ServerConnectionHandler());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -135,11 +125,10 @@ class ServerConnectionHandler implements CompletionHandler<AsynchronousSocketCha
 	public void completed(AsynchronousSocketChannel client, ClientData clientData) {
 		logger.write("Connection Accepted...");
 		ServerRequestReadWriteHandler rwHandler = new ServerRequestReadWriteHandler();
-		clientData.serverSocket.accept(clientData, this);
-		clientData.server.addClient(clientData);
-		clientData.clientSocket = client;
-		clientData.isRead = true;
-		client.read(clientData.buffer, clientData, rwHandler);
+		clientData.getServerSocket().accept(clientData, this);
+		clientData.getServerModule().addClient(clientData);
+		clientData.setClientSocket(client);
+		client.read(clientData.getBuffer(), clientData, rwHandler);
 	}
 	
 	@Override
@@ -152,9 +141,8 @@ class ServerRequestReadWriteHandler implements CompletionHandler<Integer, Client
 
 	@Override
 	public void completed(Integer result, ClientData clientData) {
-		// TODO Auto-generated method stub
-		if(clientData.isRead) {
-			clientData.server.handlePacket(PacketTypes.getPacketFromBuffer(clientData.buffer));
+		if(clientData.getIsRead()) {
+			clientData.getServerModule().handlePacket(PacketTypes.getPacketFromBuffer(clientData.getBuffer()));
 		} else {
 			
 		}
@@ -162,7 +150,6 @@ class ServerRequestReadWriteHandler implements CompletionHandler<Integer, Client
 
 	@Override
 	public void failed(Throwable exc, ClientData clientData) {
-		// TODO Auto-generated method stub
-		
+		exc.printStackTrace();
 	}
 }
