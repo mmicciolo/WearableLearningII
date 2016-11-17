@@ -2,6 +2,8 @@ package wlbe.module;
 
 import java.util.ArrayList;
 
+import wlbe.modules.Logger;
+
 public class ModuleManager {
 	
 	private static ModuleManager instance = null;
@@ -9,7 +11,9 @@ public class ModuleManager {
 	
 	public static enum Modules {
 		LOGGER,
-		SERVER
+		SERVER,
+		SETTINGS,
+		TASK_MANAGER
 	};
 	
 	protected ModuleManager() {
@@ -48,6 +52,8 @@ public class ModuleManager {
 	
 	public void addModule(Module m) {
 		modules.add(m);
+		Logger logger = (Logger) ModuleManager.getModule(ModuleManager.Modules.LOGGER);
+		logger.write("Module " + ModuleManager.Modules.values()[m.getModuleId().ordinal()] + " Added...");
 	}
 	
 	public void removeModule(Module m) {

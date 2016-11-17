@@ -17,6 +17,7 @@ public class Logger extends Module {
 	public void write(String output) {
 		writer.println(output);
 		writer.flush();
+		System.out.println(output);
 	}
 	
 	public void setup() {

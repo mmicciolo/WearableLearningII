@@ -1,5 +1,13 @@
 package wlfe.controller;
 
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.SocketAddress;
+import java.nio.ByteBuffer;
+import java.nio.channels.AsynchronousSocketChannel;
+
+import javax.annotation.PostConstruct;
+
 import org.primefaces.context.RequestContext;
 
 public class VirtualDevice {
@@ -8,7 +16,20 @@ public class VirtualDevice {
 	private String id;
 	private String displayText;
 	
+	AsynchronousSocketChannel server;
+	
 	private boolean on = false;
+	
+	@PostConstruct
+	public void init() {
+		try {
+			server = AsynchronousSocketChannel.open();
+			SocketAddress serverAddr = new InetSocketAddress("localhost", 3333);
+			server.connect(serverAddr);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public void button1() {
 		displayText = "Button 1 Pushed!\nColor: Red";
@@ -33,6 +54,15 @@ public class VirtualDevice {
 	public void onOffChange() {
 		if(Boolean.valueOf(onOff) == true) {
 			on = true;
+			ByteBuffer byteBuffer = ByteBuffer.allocate(2048);
+			byteBuffer.putInt(0);
+			byteBuffer.putInt(123456789);
+			server.write(byteBuffer);
+			try {
+				server.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		} else {
 			on = false;
 		}
