@@ -42,10 +42,6 @@ public class MySQLDaemon extends Task {
 		}	
 	}
 	
-	/**
-	 * Disconnect from mysql database
-	 * @return true if successful
-	 */
 	private boolean Disconnect() {
 		if(connection != null) {
 			try {

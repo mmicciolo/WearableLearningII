@@ -1,5 +1,8 @@
 package wlbe.tasks;
 
+import java.util.ArrayList;
+
+import wlbe.model.Player;
 import wlbe.module.ModuleManager;
 import wlbe.modules.TaskManager;
 import wlbe.task.Task;
@@ -8,6 +11,7 @@ public class GameInstance extends Task {
 	
 	private TaskManager taskManager;
 	private MySQLDaemon mySQLDaemon;
+	private ArrayList<Player> players = new ArrayList<Player>();
 	
 	public GameInstance() {
 		mySQLDaemon = new MySQLDaemon();
@@ -16,7 +20,9 @@ public class GameInstance extends Task {
 	}
 	
 	public void update() {
-		
+		for(Player player : players) {
+			
+		}
 	}
 	
 	public void cleanup() {
