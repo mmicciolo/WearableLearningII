@@ -2,7 +2,7 @@ package wlbe.event;
 
 public abstract class Event {
 	
-	protected EventTypes eventTypes;
+	protected EventTypes eventType;
 	
 	public Event() {
 		

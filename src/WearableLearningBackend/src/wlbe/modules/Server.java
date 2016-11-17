@@ -9,6 +9,7 @@ import java.nio.channels.CompletionHandler;
 import java.util.ArrayList;
 
 import wlbe.ServerTime;
+import wlbe.events.PacketRecieved;
 import wlbe.model.ClientData;
 import wlbe.module.Module;
 import wlbe.module.ModuleManager;
@@ -46,15 +47,13 @@ public class Server extends Module {
 	}
 	
 	public void handlePacket(Packet packet) {
+		EventManager eventManager = (EventManager) ModuleManager.getModule(ModuleManager.Modules.EVENT_MANAGER);
+		eventManager.BroadcastEvent(new PacketRecieved(packet));
 		switch(packet.getType()) {
 			case ECHO:
 				EchoPacket echoPacket = (EchoPacket) packet;
 				String echo = echoPacket.getEcho();
 				logger.write(echo);
-				break;
-			case PLAYER_CONNECT:
-				break;
-			case PLAYER_DISCONNECT:
 				break;
 			case NEW_GAME_INSTANCE:
 				GameInstance gameInstance = new GameInstance();

@@ -1,5 +1,5 @@
 package wlbe.model;
 
-public class Player {
+public class PlayerData {
 
 }
