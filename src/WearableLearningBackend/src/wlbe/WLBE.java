@@ -6,6 +6,7 @@ import wlbe.modules.Logger;
 import wlbe.modules.Server;
 import wlbe.modules.Settings;
 import wlbe.modules.TaskManager;
+import wlbe.tasks.GameInstanceDaemon;
 
 /**
  * Wearable Learning Back End Server
@@ -38,6 +39,8 @@ public class WLBE {
 		createServer(moduleManager, args);
 		createTaskManager(moduleManager);
 		createEventManager(moduleManager);
+		createGameInstanceDaemon();
+		
 		
 		while(running) {
 			moduleManager.update();
@@ -89,5 +92,12 @@ public class WLBE {
 	public static void createEventManager(ModuleManager moduleManager) {
 		EventManager eventManager = new EventManager(ModuleManager.Modules.EVENT_MANAGER);
 		moduleManager.addModule(eventManager);
+	}
+	
+	public static void createGameInstanceDaemon() {
+		TaskManager taskManager = (TaskManager) ModuleManager.getModule(ModuleManager.Modules.TASK_MANAGER);
+		GameInstanceDaemon gameInstanceDaemon = new GameInstanceDaemon();
+		taskManager.addTask(gameInstanceDaemon);
+		
 	}
 }

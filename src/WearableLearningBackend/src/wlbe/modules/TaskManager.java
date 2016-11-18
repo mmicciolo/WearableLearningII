@@ -3,8 +3,10 @@ package wlbe.modules;
 import java.util.ArrayList;
 
 import wlbe.module.Module;
+import wlbe.module.ModuleManager;
 import wlbe.module.ModuleManager.Modules;
 import wlbe.task.Task;
+import wlbe.tasks.GameInstanceDaemon;
 
 public class TaskManager extends Module {
 	
@@ -38,5 +40,9 @@ public class TaskManager extends Module {
 	
 	public void cleanup() {
 		
+	}
+	
+	public ArrayList<Task> getTasks() {
+		return this.tasks;
 	}
 }

@@ -13,7 +13,6 @@ public class MySQLDaemon extends Task {
 	private Connection connection = null;
 	
 	public MySQLDaemon() {
-		settings = (Settings) ModuleManager.getModule(ModuleManager.Modules.SETTINGS);
 		Connect();
 	}
 	
@@ -28,6 +27,7 @@ public class MySQLDaemon extends Task {
 	private boolean Connect() {
 		if(connection == null) {
 			try {
+				settings = (Settings) ModuleManager.getModule(ModuleManager.Modules.SETTINGS);
 				Class.forName(settings.JDBC_DRIVER);
 				connection = DriverManager.getConnection(settings.DATABASE_URL, settings.USERNAME, settings.PASSWORD);
 				if(connection != null) {
@@ -54,5 +54,9 @@ public class MySQLDaemon extends Task {
 			}
 		}
 		return false;
+	}
+	
+	public Connection getConnection() {
+		return this.connection;
 	}
 }
