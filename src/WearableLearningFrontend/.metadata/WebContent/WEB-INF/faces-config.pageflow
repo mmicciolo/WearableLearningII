@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14764849433030" configfile="/WearableLearningFrontend/WebContent/WEB-INF/faces-config.xml">
-  <nodes xsi:type="pageflow:PFPage" name="content/source/Login.xhtml" x="219" y="274" id="pf14764849929621" referenceLink="//@navigationRule.1/@navigationCase.0/@toViewId|" outlinks="pf14764862551388" path="/content/source/Login.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="content/source/Login.xhtml" x="219" y="274" id="pf14764849929621" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf14764862551388" path="/content/source/Login.xhtml"/>
   <nodes xsi:type="pageflow:PFPage" name="content/source/ControlPanel.xhtml" x="468" y="274" id="pf14764862551389" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf14764862551388" path="/content/source/ControlPanel.xhtml"/>
   <links id="pf14764862551388" target="pf14764862551389" source="pf14764849929621" outcome="success"/>
 </pageflow:Pageflow>
