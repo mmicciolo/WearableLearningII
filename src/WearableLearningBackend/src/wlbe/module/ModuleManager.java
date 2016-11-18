@@ -117,6 +117,6 @@ public class ModuleManager {
 	 * @return Arraylist of all of the modules
 	 */
 	public ArrayList<Module> getModules() {
-		return instance.getModules();
+		return this.modules;
 	}
 }

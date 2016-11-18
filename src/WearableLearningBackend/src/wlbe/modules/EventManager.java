@@ -19,7 +19,7 @@ public class EventManager extends Module {
 	
 	public void BroadcastEvent(IEvent e) {
 		TaskManager taskManager = (TaskManager) ModuleManager.getModule(ModuleManager.Modules.TASK_MANAGER);
-		for(Task task : taskManager.tasks) {
+		for(Task task : taskManager.getTasks()) {
 			task.eventHandler(e);
 		}
 		for(Module module : ModuleManager.getInstance().getModules()) {

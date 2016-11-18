@@ -3,13 +3,14 @@ package wlbe.packets;
 import java.nio.ByteBuffer;
 
 import wlbe.packet.Packet;
+import wlbe.packet.PacketTypes;
 
 public class EchoPacket extends Packet {
 	
 	private String echo;
 	
 	public EchoPacket(ByteBuffer buffer) {
-		super(buffer);
+		super(buffer, PacketTypes.PacketType.ECHO);
 		populatePacket();
 	}
 	

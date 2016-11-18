@@ -15,25 +15,65 @@
 
 <ui:composition template="templates/HeaderMenuContentFooter/HeaderMenuContentFooter.xhtml">
 	<ui:define name="content">
-		<div class="headerText">Virtual Device</div>
-		<table width="200" style="margin-left:auto;margin-right:auto;">
-			<tr>
-				<th><p:commandButton value="Button 1" action="#{virtualDevice.button1}" styleClass="buttonRed"></p:commandButton></th>
-				<th rowspan="2"><p:inputTextarea id="display" rows="5" cols="50" value="#{virtualDevice.displayText}" readonly="true" style="margin-left:20px;margin-right:20px;"/></th>
-				<th><p:commandButton value="Button 2" action="#{virtualDevice.button2}" styleClass="buttonGreen"></p:commandButton></th>
-			</tr>
-			<tr>
-				<td><p:commandButton value="Button 3" action="#{virtualDevice.button3}" styleClass="buttonBlue"></p:commandButton></td>
-				<td><p:commandButton value="Button 4" action="#{virtualDevice.button4}" styleClass="buttonBlack"></p:commandButton></td>
-			</tr>
-			<tr style="text-align:center;">
-				<h:form id="onOff">
-					<td><p:inputSwitch value="#{virtualDevice.onOff}" valueChangeListener="#{virtualDevice.onOffChange}" update="@this" onchange="submit()" style="margin-top:20px;"><p:ajax></p:ajax></p:inputSwitch></td>
-					<td></td>
-					<td><p:inputText placeholder="id" value="#{virtualDevice.id}" size="5" style="margin-top:20px;"/></td>
-				</h:form>
-			</tr>
-		</table>
+		<h:form id="main" style="margin-top:50px;">
+		<p:wizard flowListener="#{virtualDevice.onFlowProcess}" style="width:50%;display:block; margin:auto;">
+			<p:tab id="studentLogin" title="Student Login">
+				<p:panel header="Student Login">
+					<div style="text-align:center;font-size:25px;"><h:outputText value="Select Your Name"></h:outputText></div>
+					<div style="text-align:center;margin-top:50px;margin-bottom:50px;"><p:autoComplete dropdown="true" placeholder="Lastname, Firstname" value="#{virtualDevice.studentName}" completeMethod="#{virtualDevice.getStudentNames}"></p:autoComplete></div>
+				</p:panel>
+			</p:tab>
+			<p:tab id="activeGames" title="Active Games">
+				<p:panel id="gameInstanceTable" header="Active Games">
+					<p:dataTable value="#{virtualDevice.gameInstances}" var="gameInstance" selectionMode="single" selection="#{virtualDevice.selectedGame}" rowKey="#{gameInstance.gameId}" style="text-align:center;">
+						<p:column headerText="Game Instance">
+							<h:outputText value="#{gameInstance.gameId}" ></h:outputText>
+						</p:column>
+						<p:column headerText="Game Title">
+							<h:outputText value="#{gameInstance.title}"></h:outputText>
+						</p:column>
+						<p:column headerText="Team Count">
+							<h:outputText value="#{gameInstance.teamCount}"></h:outputText>
+						</p:column>
+						<p:column headerText="Players Per Team">
+							<h:outputText value="#{gameInstance.playersPerTeam}"></h:outputText>
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+			</p:tab>
+			<p:tab title="Team Selection">
+				<p:panel header="Team Selection">
+					<div style="text-align:center;font-size:25px;"><h:outputText value="Select Your Team"></h:outputText></div>
+					<div style="text-align:center;margin-top:50px;margin-bottom:50px;"><p:autoComplete dropdown="true" placeholder="Team" value="#{virtualDevice.selectedTeam}" completeMethod="#{virtualDevice.getTeams}"></p:autoComplete></div>
+				</p:panel>
+			</p:tab>
+			<p:tab title="Lobby">
+				<p:panel header="Lobby">
+				</p:panel>
+			</p:tab>
+			<p:tab id="virtualDevice" title="Virtual Device">
+				<div class="headerText">Virtual Device</div>
+				<table width="200" style="margin-left:auto;margin-right:auto;">
+					<tr>
+						<th><p:commandButton value="Button 1" action="#{virtualDevice.button1}" styleClass="buttonRed"></p:commandButton></th>
+						<th rowspan="2"><p:inputTextarea id="display" rows="5" cols="50" value="#{virtualDevice.displayText}" readonly="true" style="margin-left:20px;margin-right:20px;"/></th>
+						<th><p:commandButton value="Button 2" action="#{virtualDevice.button2}" styleClass="buttonGreen"></p:commandButton></th>
+					</tr>
+					<tr>
+						<td><p:commandButton value="Button 3" action="#{virtualDevice.button3}" styleClass="buttonBlue"></p:commandButton></td>
+						<td><p:commandButton value="Button 4" action="#{virtualDevice.button4}" styleClass="buttonBlack"></p:commandButton></td>
+					</tr>
+					<tr style="text-align:center;">
+						<h:form id="onOff">
+							<td><p:inputSwitch value="#{virtualDevice.onOff}" valueChangeListener="#{virtualDevice.onOffChange}" update="@this" onchange="submit()" style="margin-top:20px;"><p:ajax></p:ajax></p:inputSwitch></td>
+							<td></td>
+							<td><p:inputText placeholder="id" value="#{virtualDevice.id}" size="5" style="margin-top:20px;"/></td>
+						</h:form>
+					</tr>
+				</table>
+			</p:tab>
+		</p:wizard>
+		</h:form>
 	</ui:define>
 </ui:composition>
 </html>

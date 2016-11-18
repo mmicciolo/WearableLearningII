@@ -23,6 +23,12 @@ public abstract class Task extends Thread implements ITask {
 	public void run() {
 		while(running) {
 			update();
+			try {
+				Thread.sleep(17);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		cleanup();
 	}

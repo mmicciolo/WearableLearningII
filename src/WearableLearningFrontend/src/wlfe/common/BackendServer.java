@@ -6,6 +6,8 @@ import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 class Client {
 	AsynchronousSocketChannel client;
@@ -20,14 +22,21 @@ public class BackendServer {
 	AsynchronousSocketChannel server;
 	
 	public BackendServer() {
-		connect();
+		try {
+			connect();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	private void connect() {
+	private void connect() throws InterruptedException, ExecutionException {
 		try {
 			server = AsynchronousSocketChannel.open();
 			SocketAddress serverAddr = new InetSocketAddress("localhost", 3333);
-			server.connect(serverAddr);
+			Future<Void> result = server.connect(serverAddr);
+			result.get();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
