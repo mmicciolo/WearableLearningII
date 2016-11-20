@@ -143,7 +143,10 @@ class ServerRequestReadWriteHandler implements CompletionHandler<Integer, Client
 	@Override
 	public void completed(Integer result, ClientData clientData) {
 		if(clientData.getIsRead()) {
+			clientData.getBuffer().flip();
 			clientData.getServerModule().handlePacket(PacketTypes.getPacketFromBuffer(clientData.getBuffer()));
+			clientData.getBuffer().clear();
+			clientData.getClientSocket().read(clientData.getBuffer(), clientData, this);
 		} else {
 			
 		}

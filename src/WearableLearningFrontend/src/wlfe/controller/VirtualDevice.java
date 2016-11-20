@@ -56,25 +56,12 @@ public class VirtualDevice {
 	}
 	
 	public void onOffChange() {
-		if(Boolean.valueOf(onOff) == true) {
+		if(on) {
+			on = false;
+			disconnectFromBackend();
+		} else {
 			connectToBackend();
 			on = true;
-//			backendServer = new BackendServer();
-//			on = true;
-//			ByteBuffer byteBuffer = ByteBuffer.allocate(2048);
-//			byteBuffer.putInt(0);
-//			String send = "Hello World!";
-//			byteBuffer.putInt(send.length());
-//			for(char c : send.toCharArray()) {
-//				byteBuffer.putChar(c);
-//			}
-//			backendServer.write(byteBuffer);
-//			backendServer.disconnect();
-//			backendServer = null;
-		} else {
-			//on = false;
-			//backendServer.disconnect();
-			//backendServer = null;
 		}
 	}
 	
@@ -92,6 +79,13 @@ public class VirtualDevice {
 			buffer.put(b);
 		}
 		backendServer.write(buffer);
+	}
+	
+	private void disconnectFromBackend() {
+		ByteBuffer buffer = ByteBuffer.allocate(2048);
+		buffer.putInt(2);
+		backendServer.write(buffer);
+		backendServer.disconnect();
 	}
 	
 	public String onFlowProcess(FlowEvent event) {

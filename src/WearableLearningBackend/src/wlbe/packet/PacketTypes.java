@@ -34,7 +34,6 @@ public class PacketTypes {
 	 * @return Packet class
 	 */
 	public static IPacket getPacketFromBuffer(ByteBuffer buffer) {
-		buffer.flip();
 		Packet packet = null;
 		PacketType packetType = PacketType.values()[buffer.getInt()];
 		switch(packetType) {

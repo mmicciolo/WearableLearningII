@@ -20,6 +20,7 @@ class Client {
 public class BackendServer {
 	
 	AsynchronousSocketChannel server;
+	boolean disconnect = false;
 	
 	public BackendServer() {
 		try {
@@ -43,10 +44,16 @@ public class BackendServer {
 	}
 	
 	public void disconnect() {
-		try {
-			server.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+		disconnect = true;
+	}
+	
+	public void checkDisconnected() {
+		if(disconnect) {
+			try {
+				server.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -56,6 +63,7 @@ public class BackendServer {
 		client.buffer = byteBuffer;
 		client.buffer.flip();
 		client.isRead = false;
+		client.backendServer = this;
 		ReadWriteHandler readWriteHandler = new ReadWriteHandler();
 		server.write(client.buffer, client, readWriteHandler);
 		while(!client.readDone) {
@@ -89,6 +97,7 @@ class ReadWriteHandler implements CompletionHandler<Integer, Client> {
 		} else {
 			client.readDone = true;
 		}
+		client.backendServer.checkDisconnected();
 	}
 
 	@Override
