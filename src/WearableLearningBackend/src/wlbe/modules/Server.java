@@ -16,10 +16,7 @@ import wlbe.module.ModuleManager;
 import wlbe.module.ModuleManager.Modules;
 import wlbe.packet.IPacket;
 import wlbe.packet.PacketTypes;
-import wlbe.packets.ConnectPacket;
-import wlbe.packets.DisconnectPacket;
 import wlbe.packets.EchoPacket;
-import wlbe.tasks.GameInstanceDaemon;
 
 public class Server extends Module {
 	

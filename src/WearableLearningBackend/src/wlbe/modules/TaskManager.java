@@ -6,7 +6,6 @@ import wlbe.module.Module;
 import wlbe.module.ModuleManager;
 import wlbe.module.ModuleManager.Modules;
 import wlbe.task.Task;
-import wlbe.tasks.GameInstanceDaemon;
 
 public class TaskManager extends Module {
 	
@@ -19,6 +18,8 @@ public class TaskManager extends Module {
 	public void addTask(Task task) {
 		new Thread(task).start();
 		tasks.add(task);
+		Logger logger = (Logger) ModuleManager.getModule(ModuleManager.Modules.LOGGER);
+		logger.write("Task " + task.getName() + " Added...");
 	}
 	
 	public void removeTask(Task task) {

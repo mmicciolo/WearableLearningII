@@ -6,6 +6,7 @@ import wlbe.model.ClientData;
 import wlbe.packets.ConnectPacket;
 import wlbe.packets.DisconnectPacket;
 import wlbe.packets.EchoPacket;
+import wlbe.packets.JSONPacket;
 
 /**
  * Contains an enumeration of the different types of packets
@@ -26,6 +27,7 @@ public class PacketTypes {
 		ECHO,
 		PLAYER_CONNECT,
 		PLAYER_DISCONNECT,
+		JSON_PACKET
 	};
 	
 	/**
@@ -47,6 +49,9 @@ public class PacketTypes {
 				break;
 			case PLAYER_DISCONNECT:
 				packet = new DisconnectPacket(buffer, clientData);
+				break;
+			case JSON_PACKET:
+				packet = new JSONPacket(buffer, clientData);
 				break;
 			default:
 				break;

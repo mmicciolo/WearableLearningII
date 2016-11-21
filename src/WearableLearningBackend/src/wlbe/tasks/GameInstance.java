@@ -1,18 +1,17 @@
 package wlbe.tasks;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
-import wlbe.event.Event;
+import wl.shared.Button;
 import wlbe.event.IEvent;
 import wlbe.events.PacketRecieved;
-import wlbe.model.ClientData;
 import wlbe.model.PlayerData;
 import wlbe.module.ModuleManager;
-import wlbe.modules.Server;
+import wlbe.modules.Logger;
 import wlbe.modules.TaskManager;
 import wlbe.packets.ConnectPacket;
 import wlbe.packets.DisconnectPacket;
+import wlbe.packets.JSONPacket;
 import wlbe.task.Task;
 
 public class GameInstance extends Task {
@@ -22,6 +21,7 @@ public class GameInstance extends Task {
 	private TaskManager taskManager;
 	private MySQLDaemon mySQLDaemon;
 	private ArrayList<PlayerData> players = new ArrayList<PlayerData>();
+	Logger logger;
 	
 	public GameInstance(int gameInstanceId, int gameId) {
 		this.gameInstanceId = gameInstanceId;
@@ -29,12 +29,11 @@ public class GameInstance extends Task {
 		mySQLDaemon = new MySQLDaemon();
 		taskManager = (TaskManager) ModuleManager.getModule(ModuleManager.Modules.TASK_MANAGER);
 		taskManager.addTask(mySQLDaemon);
+		logger = (Logger) ModuleManager.getModule(ModuleManager.Modules.LOGGER);
 	}
 	
 	public void update() {
-		for(PlayerData player : players) {
-			
-		}
+
 	}
 	
 	public void cleanup() {
@@ -51,6 +50,9 @@ public class GameInstance extends Task {
 				case PLAYER_DISCONNECT:
 					playerDisconnect((DisconnectPacket)packetRecieved.getPacket());
 					break;
+				case JSON_PACKET:
+					handleJSONPacket((JSONPacket)packetRecieved.getPacket());
+					break;
 				default:
 					break;
 			}
@@ -59,24 +61,32 @@ public class GameInstance extends Task {
 	
 	public void playerConnect(ConnectPacket packet) {
 		if(packet.getGameInstanceId() == gameInstanceId) {
+			for(PlayerData player : players) {
+				if(player.getPlayerName().equals(packet.getStudentName())) {
+					logger.write("Client Reconnected...");
+					return;
+				}
+			}
 			players.add(new PlayerData(packet.getStudentName(), packet.getClientData()));
 		}
 	}
 	
 	public void playerDisconnect(DisconnectPacket packet) {
-		if(packet.getGameInstanceId() == gameId) {
-			for(PlayerData player : players) {
+		if(packet.getGameInstanceId() == gameInstanceId) {
+			for(int i = 0; i < players.size(); i++) {
+				PlayerData player = (PlayerData) players.toArray()[i];
 				if(player.getPlayerName().equals(packet.getStudentName())) {
-					try {
-						player.getClientData().getClientSocket().close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
 					players.remove(player);
-					break;
+					Logger logger = (Logger) ModuleManager.getModule(ModuleManager.Modules.LOGGER);
+					logger.write("Client Disconnected...");
 				}
 			}
 		}
+	}
+	
+	public void handleJSONPacket(JSONPacket packet) {
+		Button button = packet.getGson().fromJson(packet.getGsonString(), Button.class);
+		button.toString();
 	}
 	
 	public int getGameId() {

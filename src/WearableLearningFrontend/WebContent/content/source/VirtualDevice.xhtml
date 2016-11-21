@@ -55,20 +55,18 @@
 				<div class="headerText">Virtual Device</div>
 				<table width="200" style="margin-left:auto;margin-right:auto;">
 					<tr>
-						<th><p:commandButton value="Button 1" action="#{virtualDevice.button1}" styleClass="buttonRed"></p:commandButton></th>
+						<th><p:commandButton value="Button 1" action="#{virtualDevice.button1}" styleClass="buttonRed" update="display"></p:commandButton></th>
 						<th rowspan="2"><p:inputTextarea id="display" rows="5" cols="50" value="#{virtualDevice.displayText}" readonly="true" style="margin-left:20px;margin-right:20px;"/></th>
-						<th><p:commandButton value="Button 2" action="#{virtualDevice.button2}" styleClass="buttonGreen"></p:commandButton></th>
+						<th><p:commandButton value="Button 2" action="#{virtualDevice.button2}" styleClass="buttonGreen" update="display"></p:commandButton></th>
 					</tr>
 					<tr>
-						<td><p:commandButton value="Button 3" action="#{virtualDevice.button3}" styleClass="buttonBlue"></p:commandButton></td>
-						<td><p:commandButton value="Button 4" action="#{virtualDevice.button4}" styleClass="buttonBlack"></p:commandButton></td>
+						<td><p:commandButton value="Button 3" action="#{virtualDevice.button3}" styleClass="buttonBlue" update="display"></p:commandButton></td>
+						<td><p:commandButton value="Button 4" action="#{virtualDevice.button4}" styleClass="buttonBlack" update="display"></p:commandButton></td>
 					</tr>
 					<tr style="text-align:center;">
-						<h:form id="onOff">
-							<td><p:inputSwitch value="#{virtualDevice.onOff}" valueChangeListener="#{virtualDevice.onOffChange}" update="@this" click="submit()" style="margin-top:20px;"><p:ajax></p:ajax></p:inputSwitch></td>
-							<td></td>
-							<td><p:inputText placeholder="id" value="#{virtualDevice.id}" size="5" style="margin-top:20px;"/></td>
-						</h:form>
+						<td><p:inputSwitch value="#{virtualDevice.onOff}" style="margin-top:20px;"><p:ajax listener="#{virtualDevice.onOffChange}"></p:ajax></p:inputSwitch></td>
+						<td></td>
+						<td><p:inputText placeholder="id" value="#{virtualDevice.id}" size="5" style="margin-top:20px;"/></td>
 					</tr>
 				</table>
 			</p:tab>

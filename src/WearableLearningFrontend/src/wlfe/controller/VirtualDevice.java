@@ -8,17 +8,21 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FlowEvent;
 
+import com.google.gson.Gson;
+
+import wl.shared.Button;
 import wlfe.common.BackendServer;
 import wlfe.common.MySQLAccessor;
 import wlfe.model.GameData;
 
 public class VirtualDevice {
 	
-	private String onOff;
+	private boolean onOff;
 	private String id;
 	private String displayText;
 	private String studentName;
@@ -28,40 +32,52 @@ public class VirtualDevice {
 	
 	private BackendServer backendServer;
 	
-	private boolean on = false;
-	
 	@PostConstruct
 	public void init() {
 		
 	}
 	
 	public void button1() {
-		displayText = "Button 1 Pushed!\nColor: Red";
-		RequestContext.getCurrentInstance().update("display");
+		if(onOff) {
+			displayText = "Button 1 Pushed!\nColor: Red";
+			Gson gson = new Gson();
+			Button button = new Button("Button 1");
+			String out = gson.toJson(button);
+			ByteBuffer buffer = ByteBuffer.allocate(2048);
+			buffer.putInt(3);
+			backendServer.putString(out, buffer);
+			backendServer.write(buffer);
+		}
 	}
 	
 	public void button2() {
-		displayText = "Button 2 Pushed!\nColor: Green";
-		RequestContext.getCurrentInstance().update("display");
+		if(onOff) {
+			displayText = "Button 2 Pushed!\nColor: Green";
+		}
 	}
 	
 	public void button3() {
-		displayText = "Button 3 Pushed!\nColor: Blue";
-		RequestContext.getCurrentInstance().update("display");
+		if(onOff) {
+			displayText = "Button 3 Pushed!\nColor: Blue";
+		}
 	}
 	
 	public void button4() {
-		displayText = "Button 4 Pushed!\nColor: Black";
-		RequestContext.getCurrentInstance().update("display");
+		if(onOff) {
+			displayText = "Button 4 Pushed!\nColor: Black";
+		}
 	}
 	
 	public void onOffChange() {
-		if(on) {
-			on = false;
-			disconnectFromBackend();
-		} else {
-			connectToBackend();
-			on = true;
+		try {
+			if(onOff) {
+				connectToBackend();
+			} else {
+				disconnectFromBackend();
+			}
+		} catch (Exception e) {
+			backendServer.disconnect();
+			backendServer.checkDisconnected();
 		}
 	}
 	
@@ -149,7 +165,7 @@ public class VirtualDevice {
 		}
 	}
 	
-	public void setOnOff(String onOff) {
+	public void setOnOff(boolean onOff) {
 		this.onOff = onOff;
 	}
 	
@@ -177,7 +193,7 @@ public class VirtualDevice {
 		this.selectedTeam = selectedTeam;
 	}
 	
-	public String getOnOff() {
+	public boolean getOnOff() {
 		return this.onOff;
 	}
 	
