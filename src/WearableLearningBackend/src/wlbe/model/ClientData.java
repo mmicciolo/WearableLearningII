@@ -13,6 +13,7 @@ public class ClientData {
 	private AsynchronousSocketChannel clientSocket;
 	private ByteBuffer buffer;
 	private boolean isRead;
+	private String studentName;
     
     public ClientData() {
     	

@@ -16,6 +16,8 @@ import wlbe.module.ModuleManager;
 import wlbe.module.ModuleManager.Modules;
 import wlbe.packet.IPacket;
 import wlbe.packet.PacketTypes;
+import wlbe.packets.ConnectPacket;
+import wlbe.packets.DisconnectPacket;
 import wlbe.packets.EchoPacket;
 import wlbe.tasks.GameInstanceDaemon;
 
@@ -53,7 +55,6 @@ public class Server extends Module {
 				EchoPacket echoPacket = (EchoPacket) packet;
 				String echo = echoPacket.getEcho();
 				logger.write(echo);
-				break;
 			default:
 				break;
 		}
@@ -104,6 +105,10 @@ public class Server extends Module {
 		this.clients.add(clientData);
 	}
 	
+	public void removeClient(ClientData clientData) {
+		this.clients.remove(clientData);
+	}
+	
 	private void AcceptIncomingConnections() {
 		ClientData clientData = new ClientData(this, serverSocket, null, true);
 		try {
@@ -144,7 +149,7 @@ class ServerRequestReadWriteHandler implements CompletionHandler<Integer, Client
 	public void completed(Integer result, ClientData clientData) {
 		if(clientData.getIsRead()) {
 			clientData.getBuffer().flip();
-			clientData.getServerModule().handlePacket(PacketTypes.getPacketFromBuffer(clientData.getBuffer()));
+			clientData.getServerModule().handlePacket(PacketTypes.getPacketFromBuffer(clientData.getBuffer(), clientData));
 			clientData.getBuffer().clear();
 			clientData.getClientSocket().read(clientData.getBuffer(), clientData, this);
 		} else {

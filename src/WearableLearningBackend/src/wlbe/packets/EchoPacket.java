@@ -10,7 +10,7 @@ public class EchoPacket extends Packet {
 	private String echo;
 	
 	public EchoPacket(ByteBuffer buffer) {
-		super(buffer, PacketTypes.PacketType.ECHO);
+		super(buffer, PacketTypes.PacketType.ECHO, null);
 		populatePacket();
 	}
 	

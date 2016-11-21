@@ -46,13 +46,13 @@ public class GameInstanceDaemon extends Task {
 					if(taskManager.getTasks().toArray()[i] instanceof GameInstance) {
 						GameInstance gameInstance = (GameInstance) taskManager.getTasks().toArray()[i];
 						if(resultSet.getInt("gameId") != gameInstance.getGameId()) {
-							GameInstance newGameInstance = new GameInstance(resultSet.getInt("gameId") );
+							GameInstance newGameInstance = new GameInstance(resultSet.getInt("gameInstanceId"), resultSet.getInt("gameId") );
 							taskManager.addTask(newGameInstance);
 						}
 					}
 				}
 				if(!gameInstanceFound) {
-					GameInstance newGameInstance = new GameInstance(resultSet.getInt("gameId") );
+					GameInstance newGameInstance = new GameInstance(resultSet.getInt("gameInstanceId"), resultSet.getInt("gameId"));
 					taskManager.addTask(newGameInstance);
 				}
 			}

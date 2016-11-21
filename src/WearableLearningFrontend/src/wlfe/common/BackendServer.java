@@ -57,6 +57,13 @@ public class BackendServer {
 		}
 	}
 	
+	public void putString(String s, ByteBuffer buffer) {
+		buffer.putInt(s.length());
+		for(byte b : s.getBytes()) {
+			buffer.put(b);
+		}
+	}
+	
 	public void write(ByteBuffer byteBuffer) {
 		Client client = new Client();
 		client.client = this.server;

@@ -69,21 +69,17 @@ public class VirtualDevice {
 		backendServer = new BackendServer();
 		ByteBuffer buffer = ByteBuffer.allocate(2048);
 		buffer.putInt(1);
-		buffer.putInt(selectedGame.getTitle().length());
-		for(Byte b : selectedGame.getTitle().getBytes()) {
-			buffer.put(b);
-		}
+		backendServer.putString(studentName, buffer);
+		backendServer.putString(selectedTeam, buffer);
 		buffer.putInt(selectedGame.getGameId());
-		buffer.putInt(selectedTeam.length());
-		for(Byte b : selectedTeam.getBytes()) {
-			buffer.put(b);
-		}
 		backendServer.write(buffer);
 	}
 	
 	private void disconnectFromBackend() {
 		ByteBuffer buffer = ByteBuffer.allocate(2048);
 		buffer.putInt(2);
+		buffer.putInt(selectedGame.getGameId());
+		backendServer.putString(studentName, buffer);
 		backendServer.write(buffer);
 		backendServer.disconnect();
 	}

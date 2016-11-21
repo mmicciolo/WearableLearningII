@@ -2,7 +2,9 @@ package wlbe.packet;
 
 import java.nio.ByteBuffer;
 
+import wlbe.model.ClientData;
 import wlbe.packets.ConnectPacket;
+import wlbe.packets.DisconnectPacket;
 import wlbe.packets.EchoPacket;
 
 /**
@@ -33,7 +35,7 @@ public class PacketTypes {
 	 * @param buffer ByteBuffer input from socket
 	 * @return Packet class
 	 */
-	public static IPacket getPacketFromBuffer(ByteBuffer buffer) {
+	public static IPacket getPacketFromBuffer(ByteBuffer buffer, ClientData clientData) {
 		Packet packet = null;
 		PacketType packetType = PacketType.values()[buffer.getInt()];
 		switch(packetType) {
@@ -41,9 +43,10 @@ public class PacketTypes {
 				packet = new EchoPacket(buffer);
 				break;
 			case PLAYER_CONNECT:
-				packet = new ConnectPacket(buffer);
+				packet = new ConnectPacket(buffer, clientData);
 				break;
 			case PLAYER_DISCONNECT:
+				packet = new DisconnectPacket(buffer, clientData);
 				break;
 			default:
 				break;
