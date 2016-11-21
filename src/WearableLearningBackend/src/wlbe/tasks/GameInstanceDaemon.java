@@ -48,6 +48,8 @@ public class GameInstanceDaemon extends Task {
 						if(resultSet.getInt("gameId") != gameInstance.getGameId()) {
 							GameInstance newGameInstance = new GameInstance(resultSet.getInt("gameInstanceId"), resultSet.getInt("gameId") );
 							taskManager.addTask(newGameInstance);
+						} else {
+							gameInstanceFound = true;
 						}
 					}
 				}

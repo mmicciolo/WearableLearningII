@@ -65,7 +65,7 @@
 					</tr>
 					<tr style="text-align:center;">
 						<h:form id="onOff">
-							<td><p:inputSwitch value="#{virtualDevice.onOff}" valueChangeListener="#{virtualDevice.onOffChange}" update="@this" style="margin-top:20px;"><p:ajax></p:ajax></p:inputSwitch></td>
+							<td><p:inputSwitch value="#{virtualDevice.onOff}" valueChangeListener="#{virtualDevice.onOffChange}" update="@this" click="submit()" style="margin-top:20px;"><p:ajax></p:ajax></p:inputSwitch></td>
 							<td></td>
 							<td><p:inputText placeholder="id" value="#{virtualDevice.id}" size="5" style="margin-top:20px;"/></td>
 						</h:form>

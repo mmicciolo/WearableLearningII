@@ -97,7 +97,6 @@ public class WLBE {
 	public static void createGameInstanceDaemon() {
 		TaskManager taskManager = (TaskManager) ModuleManager.getModule(ModuleManager.Modules.TASK_MANAGER);
 		GameInstanceDaemon gameInstanceDaemon = new GameInstanceDaemon();
-		taskManager.addTask(gameInstanceDaemon);
-		
+		taskManager.addTask(gameInstanceDaemon);	
 	}
 }
