@@ -15,7 +15,7 @@ import org.primefaces.event.FlowEvent;
 
 import com.google.gson.Gson;
 
-import wl.shared.Button;
+import wl.shared.model.Button;
 import wlfe.common.BackendServer;
 import wlfe.common.MySQLAccessor;
 import wlfe.model.GameData;

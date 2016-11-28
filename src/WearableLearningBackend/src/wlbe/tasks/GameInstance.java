@@ -2,7 +2,7 @@ package wlbe.tasks;
 
 import java.util.ArrayList;
 
-import wl.shared.Button;
+import wl.shared.model.Button;
 import wlbe.event.IEvent;
 import wlbe.events.PacketRecieved;
 import wlbe.model.PlayerData;

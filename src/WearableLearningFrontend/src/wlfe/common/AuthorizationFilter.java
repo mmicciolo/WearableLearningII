@@ -27,22 +27,22 @@ public class AuthorizationFilter implements Filter {
 	
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,FilterChain chain) throws IOException, ServletException {
-		try {
-			HttpServletRequest reqt = (HttpServletRequest) request;
-			HttpServletResponse resp = (HttpServletResponse) response;
-			HttpSession ses = reqt.getSession(false);
-
-			String reqURI = reqt.getRequestURI();
-			if (reqURI.indexOf("/faces/content/source/Login.xhtml") >= 0
-					|| (ses != null && ses.getAttribute("teacher") != null)
-					|| reqURI.indexOf("/public/") >= 0
-					|| reqURI.contains("javax.faces.resource"))
-				chain.doFilter(request, response);
-			else
-				resp.sendRedirect(reqt.getContextPath() + "/faces/content/source/Login.xhtml");
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
+//		try {
+//			HttpServletRequest reqt = (HttpServletRequest) request;
+//			HttpServletResponse resp = (HttpServletResponse) response;
+//			HttpSession ses = reqt.getSession(false);
+//
+//			String reqURI = reqt.getRequestURI();
+//			if (reqURI.indexOf("/faces/content/source/Login.xhtml") >= 0
+//					|| (ses != null && ses.getAttribute("teacher") != null)
+//					|| reqURI.indexOf("/public/") >= 0
+//					|| reqURI.contains("javax.faces.resource"))
+//				chain.doFilter(request, response);
+//			else
+//				resp.sendRedirect(reqt.getContextPath() + "/faces/content/source/Login.xhtml");
+//		} catch (Exception e) {
+//			System.out.println(e.getMessage());
+//		}
 	}
 
 	@Override
