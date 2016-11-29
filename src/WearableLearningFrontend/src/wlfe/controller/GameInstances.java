@@ -10,6 +10,7 @@ import javax.annotation.PostConstruct;
 
 import org.primefaces.context.RequestContext;
 
+import wlfe.common.Common;
 import wlfe.common.MySQLAccessor;
 import wlfe.model.GameData;
 import wlfe.model.GameInstanceData;
@@ -60,17 +61,29 @@ public class GameInstances {
 				MySQLAccessor accessor = MySQLAccessor.getInstance();
 				if(accessor.Connect()) {
 					try {
-						PreparedStatement preparedStatement = accessor.GetConnection().prepareStatement("INSERT INTO gameInstance (gameId, currentGameStateId) VALUES (?, ?)");
+						String[] key = {"gameInstanceId"};
+						int returnId = 0;
+						PreparedStatement preparedStatement = accessor.GetConnection().prepareStatement("INSERT INTO gameInstance (gameId, currentGameStateId) VALUES (?, ?)", key);
 						preparedStatement.setInt(1, gameData.getGameId());
 						preparedStatement.setInt(2, 1);
 						preparedStatement.execute();
+						ResultSet rs = preparedStatement.getGeneratedKeys();
+						if(rs.next()) {
+							returnId = (int)rs.getLong(1);
+						}
 						preparedStatement.close();
+						Statement statement = accessor.GetConnection().createStatement();
+						ResultSet resultSet = statement.executeQuery("SELECT * FROM games WHERE gameId=" + gameData.getGameId());
+						if(resultSet.next()) {
+							accordionData.add(new GameInstanceData(returnId, gameData.getGameId(), 1, new GameData(0, gameData.getTitle(), 0, 0)));
+						}
+						resultSet.close();
+						statement.close();
 						accessor.Disconnect();
 					} catch (Exception e) {
 						e.printStackTrace();
 						accessor.Disconnect();
 					}
-					//accordionData.add("Game Instance " + gameInstanceCount++);
 					RequestContext.getCurrentInstance().update("main:accordion");
 					RequestContext.getCurrentInstance().execute("PF('NewDialog').hide();");
 					break;
@@ -80,7 +93,23 @@ public class GameInstances {
 	}
 	
 	public void deleteInstance(GameInstanceData data) {
-		
+		MySQLAccessor accessor = MySQLAccessor.getInstance();
+		if(accessor.Connect()) {
+			try {
+				PreparedStatement statement = accessor.GetConnection().prepareStatement("DELETE FROM gameInstance WHERE gameInstanceId=" + data.getGameInstanceId());
+				statement.executeUpdate();
+				statement.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+				Common.ErrorMessage();
+				accessor.Disconnect();
+				return;
+			}
+			accordionData.remove(data);
+			RequestContext.getCurrentInstance().update("main:accordion");
+			//Common.SuccessMessage();
+			accessor.Disconnect();
+		}
 	}
 	
 	private void getCurrentGameInstances() {
@@ -95,6 +124,8 @@ public class GameInstances {
 					if(resultSet2.next()) {
 						accordionData.add(new GameInstanceData(resultSet.getInt("gameInstanceId"), resultSet.getInt("gameId"), resultSet.getInt("currentGameStateId"), new GameData(0, resultSet2.getString("title"), 0, 0)));
 					}
+					resultSet2.close();
+					statement2.close();
 				}
 				resultSet.close();
 				statement.close();
