@@ -21,8 +21,6 @@ public class GameInstances {
 	private ArrayList<GameData> games = new ArrayList<GameData>();
 	private String selectGameToStart;
 	
-	private int gameInstanceCount = 1;
-	
 	public GameInstances() {
 		
 	}
