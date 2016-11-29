@@ -22,7 +22,6 @@ public class GameInstanceDaemon extends Task {
 		try {
 			Thread.sleep(10000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -34,7 +33,7 @@ public class GameInstanceDaemon extends Task {
 	public void eventHandler(Event e) {
 		
 	}
-	
+		
 	private void mysqlPoll() {
 		try {
 			Statement statement = mysqlDaemon.getConnection().createStatement();
@@ -56,6 +55,17 @@ public class GameInstanceDaemon extends Task {
 				if(!gameInstanceFound) {
 					GameInstance newGameInstance = new GameInstance(resultSet.getInt("gameInstanceId"), resultSet.getInt("gameId"));
 					taskManager.addTask(newGameInstance);
+				}
+			}
+			TaskManager taskManager = (TaskManager) ModuleManager.getModule(ModuleManager.Modules.TASK_MANAGER);
+			for(int i = 0; i < taskManager.getTasks().size(); i++) {
+				if(taskManager.getTasks().toArray()[i] instanceof GameInstance) {
+					GameInstance gameInstance = (GameInstance) taskManager.getTasks().toArray()[i];
+					statement = mysqlDaemon.getConnection().createStatement();
+					resultSet = statement.executeQuery("SELECT * FROM gameInstance WHERE gameInstanceId=" + "'" + gameInstance.getGameInstanceId() + "'" + "AND gameId=" + "'" + gameInstance.getGameId() +"'");
+					if(!resultSet.next()) {
+						gameInstance.endInstance();
+					}
 				}
 			}
 			resultSet.close();

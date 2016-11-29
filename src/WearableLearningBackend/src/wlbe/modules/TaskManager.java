@@ -26,9 +26,12 @@ public class TaskManager extends Module {
 		for(Task t : tasks) {
 			if(t.equals(task)) {
 				t.shutdown();
+				break;
 			}
 		}
 		tasks.remove(task);
+		Logger logger = (Logger) ModuleManager.getModule(ModuleManager.Modules.LOGGER);
+		logger.write("Task " + task.getName() + " Removed...");
 	}
 	
 	public void setup() {

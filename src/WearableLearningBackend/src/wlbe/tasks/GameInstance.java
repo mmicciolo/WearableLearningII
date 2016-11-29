@@ -40,6 +40,10 @@ public class GameInstance extends Task {
 		taskManager.removeTask(mySQLDaemon);
 	}
 	
+	public void endInstance() {
+		taskManager.removeTask(this);
+	}
+	
 	public void eventHandler(IEvent e) {
 		if(e instanceof PacketRecieved) {
 			PacketRecieved packetRecieved = (PacketRecieved) e;
@@ -91,5 +95,9 @@ public class GameInstance extends Task {
 	
 	public int getGameId() {
 		return this.gameId;
+	}
+	
+	public int getGameInstanceId() {
+		return this.gameInstanceId;
 	}
 }
