@@ -16,8 +16,7 @@ import wlfe.model.GameInstanceData;
 
 public class GameInstances {
 	
-	private ArrayList<String> accordionData = new ArrayList<String>();
-	private ArrayList<GameInstanceData> gameInstanceData = new ArrayList<GameInstanceData>();
+	private ArrayList<GameInstanceData> accordionData = new ArrayList<GameInstanceData>();
 	private ArrayList<GameData> games = new ArrayList<GameData>();
 	private String selectGameToStart;
 	
@@ -29,7 +28,7 @@ public class GameInstances {
 	
 	@PostConstruct
 	public void init() {
-		gameInstanceData.add(new GameInstanceData());
+		getCurrentGameInstances();
 	}
 	
 	public List<String> listOfGames(String query) {
@@ -71,7 +70,7 @@ public class GameInstances {
 						e.printStackTrace();
 						accessor.Disconnect();
 					}
-					accordionData.add("Game Instance " + gameInstanceCount++);
+					//accordionData.add("Game Instance " + gameInstanceCount++);
 					RequestContext.getCurrentInstance().update("main:accordion");
 					RequestContext.getCurrentInstance().execute("PF('NewDialog').hide();");
 					break;
@@ -80,24 +79,42 @@ public class GameInstances {
 		}
 	}
 	
-	public void setAccordionData(ArrayList<String> accordionData) {
-		this.accordionData = accordionData;
+	public void deleteInstance(GameInstanceData data) {
+		
 	}
 	
-	public void setGameInstanceData(ArrayList<GameInstanceData> gameInstanceData) {
-		this.gameInstanceData = gameInstanceData;
+	private void getCurrentGameInstances() {
+		MySQLAccessor accessor = MySQLAccessor.getInstance();
+		if(accessor.Connect()) {
+			try {
+				Statement statement = accessor.GetConnection().createStatement();
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM gameInstance");
+				while(resultSet.next()) {
+					Statement statement2 = accessor.GetConnection().createStatement();
+					ResultSet resultSet2 = statement2.executeQuery("SELECT * FROM games WHERE gameId=" + resultSet.getInt("gameId"));
+					if(resultSet2.next()) {
+						accordionData.add(new GameInstanceData(resultSet.getInt("gameInstanceId"), resultSet.getInt("gameId"), resultSet.getInt("currentGameStateId"), new GameData(0, resultSet2.getString("title"), 0, 0)));
+					}
+				}
+				resultSet.close();
+				statement.close();
+				accessor.Disconnect();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}	
+	
+	public void setAccordionData(ArrayList<GameInstanceData> accordionData) {
+		this.accordionData = accordionData;
 	}
 	
 	public void setSelectGameToStart(String selectGameToStart) {
 		this.selectGameToStart = selectGameToStart;
 	}
 	
-	public ArrayList<String> getAccordionData() {
+	public ArrayList<GameInstanceData> getAccordionData() {
 		return this.accordionData;
-	}
-	
-	public ArrayList<GameInstanceData> getGameInstanceData() {
-		return this.gameInstanceData;
 	}
 	
 	public String getSelectGameToStart() {

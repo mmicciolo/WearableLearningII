@@ -19,10 +19,11 @@
 			<div class="headerText">Game Instances</div>
 			<div class="tableButtonPanel" >
 			<p:panel>
-				<p:commandButton value="Start New Game" onclick="PF('NewDialog').show();" style="width:200px;" styleClass="buttonSize" icon="fa fa-fw fa-plus"></p:commandButton>
+				<p:commandButton value="Start New Game" onclick="PF('NewDialog').show();" style="width:200px;margin-bottom:20px;" styleClass="buttonSize" icon="fa fa-fw fa-plus"></p:commandButton>
 				<p:accordionPanel id="accordion" value="#{gameInstances.accordionData}" var="gameInstance">
-					<p:tab title="#{gameInstance}">
-						<h:outputText value="Hello"></h:outputText><br/>
+					<p:tab title="#{gameInstance.gameData.title}">
+						<h:outputText value="Game Instance: #{gameInstance.gameInstanceId}"></h:outputText><br/>
+						<p:commandButton value="End Game Instance" action="#{gameInstances.deleteInstance(gameInstance)}" style="width:200px;margin-bottom:20px;margin-top:20px;" styleClass="buttonSize" icon="fa fa-fw fa-remove"></p:commandButton><br/>
 						<p:dataTable>
 							<p:column headerText="Student Name"></p:column>
 							<p:column headerText="Player ID"></p:column>
