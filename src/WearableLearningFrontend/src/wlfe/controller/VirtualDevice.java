@@ -17,6 +17,9 @@ import org.primefaces.event.FlowEvent;
 
 import com.google.gson.Gson;
 
+import wl.shared.json.packet.IJSONPacket;
+import wl.shared.json.packet.JSONPacketTypes;
+import wl.shared.json.packets.DisplayPacket;
 import wl.shared.model.Button;
 import wlfe.common.BackendServer;
 import wlfe.common.MySQLAccessor;
@@ -24,13 +27,12 @@ import wlfe.model.GameData;
 
 public class VirtualDevice {
 	
-	private boolean onOff;
-	private String id;
-	private String displayText;
+	private String displayText = "";
 	private String studentName;
 	private List<GameData> gameInstances = new ArrayList<GameData>();
 	private GameData selectedGame;
 	private String selectedTeam;
+	private boolean on = false;
 	
 	private BackendServer backendServer;
 	
@@ -40,57 +42,73 @@ public class VirtualDevice {
 	}
 	
 	public void button1() {
-		if(onOff) {
+		if(on) {
 			displayText = "Button 1 Pushed!\nColor: Red";
-			Gson gson = new Gson();
-			Button button = new Button("Button 1");
-			String out = gson.toJson(button);
-			ByteBuffer buffer = ByteBuffer.allocate(2048);
-			buffer.putInt(3);
-			backendServer.putString(out, buffer);
-			backendServer.write(buffer);
+//			Gson gson = new Gson();
+//			Button button = new Button("Button 1");
+//			String out = gson.toJson(button);
+//			ByteBuffer buffer = ByteBuffer.allocate(65536);
+//			buffer.putInt(3);
+//			backendServer.putString(out, buffer);
+//			backendServer.write(buffer);
 		}
 	}
 	
 	public void button2() {
-		if(onOff) {
+		if(on) {
 			displayText = "Button 2 Pushed!\nColor: Green";
 		}
 	}
 	
 	public void button3() {
-		if(onOff) {
+		if(on) {
 			displayText = "Button 3 Pushed!\nColor: Blue";
 		}
 	}
 	
 	public void button4() {
-		if(onOff) {
+		if(on) {
 			displayText = "Button 4 Pushed!\nColor: Black";
 		}
 	}
 	
 	private void connectToBackend() {
-		backendServer = new BackendServer();
-		ByteBuffer buffer = ByteBuffer.allocate(2048);
+		backendServer = new BackendServer(this);
+		ByteBuffer buffer = ByteBuffer.allocate(65536);
 		buffer.putInt(1);
 		backendServer.putString(studentName, buffer);
 		backendServer.putString(selectedTeam, buffer);
 		buffer.putInt(selectedGame.getGameId());
 		backendServer.write(buffer);
+		if(!on) { backendServer.read(); }
+		on = true;
 	}
 	
 	private void disconnectFromBackend() {
-		ByteBuffer buffer = ByteBuffer.allocate(2048);
+		ByteBuffer buffer = ByteBuffer.allocate(65536);
 		buffer.putInt(2);
 		buffer.putInt(selectedGame.getGameId());
 		backendServer.putString(studentName, buffer);
 		backendServer.write(buffer);
 		backendServer.disconnect();
+		displayText = "Disconnected!";
+		on = false;
 	}
 	
 	public void disconnect() {
 		disconnectFromBackend();
+	}
+	
+	public void packetRecieved(IJSONPacket packet) {
+		switch(packet.getType()) {
+			case BUTTON:
+				break;
+			case DISPLAY:
+				DisplayPacket displayPacket = (DisplayPacket) packet;
+				displayText = displayPacket.getDisplayData().text;
+			default:
+				break;
+		}
 	}
 	
 	public String onFlowProcess(FlowEvent event) {
@@ -98,7 +116,9 @@ public class VirtualDevice {
 			loadActiveGames();
 		}
 		else if(event.getNewStep().equals("virtualDevice")) {
+			if(!on) {displayText = "";}
 			connectToBackend();
+			while(displayText.equals("")) {RequestContext.getCurrentInstance();}
 		}
 		return event.getNewStep();
 	}
@@ -161,14 +181,6 @@ public class VirtualDevice {
 		}
 	}
 	
-	public void setOnOff(boolean onOff) {
-		this.onOff = onOff;
-	}
-	
-	public void setId(String id) {
-		this.id = id;
-	}
-	
 	public void setDisplayText(String displayText) {
 		this.displayText = displayText;
 	}
@@ -187,14 +199,6 @@ public class VirtualDevice {
 	
 	public void setSelectedTeam(String selectedTeam) {
 		this.selectedTeam = selectedTeam;
-	}
-	
-	public boolean getOnOff() {
-		return this.onOff;
-	}
-	
-	public String getId() {
-		return this.id;
 	}
 	
 	public String getDisplayText() {

@@ -2,12 +2,14 @@ package wlbe.tasks;
 
 import java.util.ArrayList;
 
+import wl.shared.json.packets.DisplayPacket;
 import wl.shared.model.Button;
 import wlbe.event.IEvent;
 import wlbe.events.PacketRecieved;
 import wlbe.model.PlayerData;
 import wlbe.module.ModuleManager;
 import wlbe.modules.Logger;
+import wlbe.modules.Server;
 import wlbe.modules.TaskManager;
 import wlbe.packets.ConnectPacket;
 import wlbe.packets.DisconnectPacket;
@@ -24,6 +26,7 @@ public class GameInstance extends Task {
 	Logger logger;
 	
 	public GameInstance(int gameInstanceId, int gameId) {
+		setName("Game Instance " + gameInstanceId);
 		this.gameInstanceId = gameInstanceId;
 		this.gameId = gameId;
 		mySQLDaemon = new MySQLDaemon();
@@ -71,7 +74,9 @@ public class GameInstance extends Task {
 					return;
 				}
 			}
-			players.add(new PlayerData(packet.getStudentName(), packet.getClientData()));
+			PlayerData player = new PlayerData(packet.getStudentName(), packet.getClientData());
+			players.add(player);
+			setupNewPlayer(player);
 		}
 	}
 	
@@ -88,9 +93,17 @@ public class GameInstance extends Task {
 		}
 	}
 	
+	private void setupNewPlayer(PlayerData player) {
+		DisplayPacket displayPacket = new DisplayPacket("Welcome to the game! " + player.getPlayerName());
+		JSONPacket jsonPacket = new JSONPacket();
+		jsonPacket.setJSONPacket(displayPacket);
+		Server server = (Server) ModuleManager.getModule(ModuleManager.Modules.SERVER);
+		server.write(player.getClientData(), jsonPacket);
+	}
+	
 	public void handleJSONPacket(JSONPacket packet) {
-		Button button = packet.getGson().fromJson(packet.getGsonString(), Button.class);
-		button.toString();
+		//Button button = packet.getGson().fromJson(packet.getGsonString(), Button.class);
+		//button.toString();
 	}
 	
 	public int getGameId() {

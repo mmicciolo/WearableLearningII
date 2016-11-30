@@ -2,6 +2,7 @@ package wlbe.modules;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousServerSocketChannel;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;
@@ -18,6 +19,8 @@ import wlbe.packet.IPacket;
 import wlbe.packet.PacketTypes;
 import wlbe.packet.PacketTypes.PacketType;
 import wlbe.packets.EchoPacket;
+import wlbe.task.Task;
+import wlbe.tasks.IODaemon;
 
 public class Server extends Module {
 	
@@ -43,6 +46,20 @@ public class Server extends Module {
 	
 	public void update() {
 		
+	}
+	
+	public void write(ClientData clientData, IPacket packet) {
+		TaskManager taskManager = (TaskManager) ModuleManager.getModule(ModuleManager.Modules.TASK_MANAGER);
+		for(Task t : taskManager.getTasks()) {
+			if(t.getName().equals("IODaemon")) {
+				IODaemon ioDaemon = (IODaemon) t;
+				ioDaemon.sendPacket(packet, clientData);
+				break;
+			}
+		}
+		//buffer.flip();
+		//ServerRequestReadWriteHandler readWriteHandler = new ServerRequestReadWriteHandler();
+		//clientData.write(buffer, clientData, readWriteHandler);
 	}
 	
 	public void handlePacket(IPacket packet) {

@@ -22,7 +22,7 @@ public class ClientData {
     	this.serverModule = serverModule;
     	this.serverSocket = serverSocket;
     	this.clientSocket = clientSocket;
-    	this.buffer = ByteBuffer.allocate(2048);
+    	this.buffer = ByteBuffer.allocate(65536);
     	this.isRead = isRead;
     }
     

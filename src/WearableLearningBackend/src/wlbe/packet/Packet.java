@@ -15,6 +15,13 @@ public abstract class Packet implements IPacket {
 	protected ByteBuffer byteBuffer;
 	protected PacketType packetType;
 	protected ClientData clientData;
+	
+	/**
+	 * Default constuctor
+	 */
+	public Packet() {
+		
+	}
 
 	/**
 	 * Constructor for packet. Every
@@ -35,6 +42,18 @@ public abstract class Packet implements IPacket {
 	 */
 	public void populateData() {
 		
+	}
+	
+	/**
+	 * This method should be called to take all of the data
+	 * in a packet class and turn it into a ByteBuffer for sending
+	 * out into the network
+	 * @return ByteBuffer to send
+	 */
+	public ByteBuffer assemblePacket() {
+		byteBuffer = ByteBuffer.allocate(65536);
+		byteBuffer.putInt(packetType.ordinal());
+		return byteBuffer;
 	}
 	
 	/**
@@ -66,5 +85,17 @@ public abstract class Packet implements IPacket {
 			returnString += (char) byteBuffer.get();
 		}
 		return returnString;
+	}
+	
+	/**
+	 * Sets the count and chars of a string
+	 * @param s string
+	 */
+	public void setString(String s) {
+		int count = s.length();
+		byteBuffer.putInt(count);
+		for(char c : s.toCharArray()) {
+			byteBuffer.putChar(c);
+		}
 	}
 }

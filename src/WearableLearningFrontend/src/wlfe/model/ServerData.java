@@ -19,7 +19,7 @@ public class ServerData {
 	
 	public ServerData(AsynchronousSocketChannel serverSocket, boolean isRead, boolean operationDone, BackendServer backendServer) {
 		this.serverSocket = serverSocket;
-		this.buffer = ByteBuffer.allocate(2048);
+		this.buffer = ByteBuffer.allocate(65536);
 		this.isRead = isRead;
 		this.operationDone = operationDone;
 		this.backendServer = backendServer;

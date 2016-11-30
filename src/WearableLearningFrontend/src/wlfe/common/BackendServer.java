@@ -9,6 +9,9 @@ import java.nio.channels.CompletionHandler;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
+import wl.shared.json.packet.IJSONPacket;
+import wl.shared.json.packet.JSONPacket;
+import wlfe.controller.VirtualDevice;
 import wlfe.model.ServerData;
 
 class Client {
@@ -23,8 +26,10 @@ public class BackendServer {
 	
 	private AsynchronousSocketChannel server;
 	private boolean disconnect = false;
+	private VirtualDevice virtualDevice;
 	
-	public BackendServer() {
+	public BackendServer(VirtualDevice virtualDevice) {
+		this.virtualDevice = virtualDevice;
 		try {
 			connect();
 		} catch (InterruptedException e) {
@@ -54,7 +59,7 @@ public class BackendServer {
 			try {
 				server.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 		}
 	}
@@ -72,64 +77,34 @@ public class BackendServer {
 		serverData.getBuffer().flip();
 		ReadWriteHandler readWriteHandler = new ReadWriteHandler();
 		server.write(serverData.getBuffer(), serverData, readWriteHandler);
-		while(!serverData.getOperationDone()) {
-			
-		}
-//		Client client = new Client();
-//		client.client = this.server;
-//		client.buffer = byteBuffer;
-//		client.buffer.flip();
-//		client.isRead = false;
-//		client.backendServer = this;
-//		ReadWriteHandler readWriteHandler = new ReadWriteHandler();
-//		server.write(client.buffer, client, readWriteHandler);
-//		while(!client.readDone) {
+//		while(!serverData.getOperationDone()) {
 //			
 //		}
+//		serverData.getBuffer().clear();
 	}
 	
 	public ByteBuffer read() {
 		ServerData serverData = new ServerData(this.server, true, false, this);
-		serverData.setBuffer(ByteBuffer.allocate(2048));
+		serverData.setBuffer(ByteBuffer.allocate(65536));
 		ReadWriteHandler readWriteHandler = new ReadWriteHandler();
 		server.read(serverData.getBuffer(), serverData, readWriteHandler);
-		while(!serverData.getOperationDone()) {
-			
-		}
-		return serverData.getBuffer();
-//		Client client = new Client();
-//		client.client = this.server;
-//		client.buffer = ByteBuffer.allocate(2048);
-//		client.isRead = true;
-//		client.readDone = false;
-//		client.backendServer = this;
-//		ReadWriteHandler readWriteHandler = new ReadWriteHandler();
-//		server.read(client.buffer, client, readWriteHandler);
-//		while(!client.readDone) {
+//		while(!serverData.getOperationDone()) {
 //			
 //		}
-//		return client.buffer;
+		//serverData.getBuffer().clear();
+		return serverData.getBuffer();
+	}
+	
+	public void readComplete(ByteBuffer buffer) {
+		buffer.flip();
+		int type = buffer.getInt();
+		if(type == 3) {
+			IJSONPacket packet = new JSONPacket();
+			IJSONPacket p = packet.disassemblePacket(buffer);
+			virtualDevice.packetRecieved(p);
+		}
 	}
 }
-
-//class ReadWriteHandler implements CompletionHandler<Integer, Client> {
-//	
-//	@Override
-//	public void completed(Integer results, Client client) {
-//		if(client.isRead) {
-//			client.readDone = true;
-//
-//		} else {
-//			client.readDone = true;
-//		}
-//		client.backendServer.checkDisconnected();
-//	}
-//
-//	@Override
-//	public void failed(Throwable exc, Client attachment) {
-//		exc.printStackTrace();
-//	}
-//}
 
 class ReadWriteHandler implements CompletionHandler<Integer, ServerData> {
 	
@@ -137,7 +112,7 @@ class ReadWriteHandler implements CompletionHandler<Integer, ServerData> {
 	public void completed(Integer results, ServerData serverData) {
 		if(serverData.getIsRead()) {
 			serverData.setOperationDone(true);
-
+			serverData.getBackendServer().readComplete(serverData.getBuffer());
 		} else {
 			serverData.setOperationDone(true);
 		}

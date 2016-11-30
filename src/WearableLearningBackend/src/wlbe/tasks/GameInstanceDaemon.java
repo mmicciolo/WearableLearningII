@@ -14,6 +14,7 @@ public class GameInstanceDaemon extends Task {
 	MySQLDaemon mysqlDaemon;
 	
 	public GameInstanceDaemon() {
+		setName("Game Instance Daemon");
 		mysqlDaemon = new MySQLDaemon();
 	}
 	

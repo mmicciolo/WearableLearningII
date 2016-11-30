@@ -4,14 +4,21 @@ import java.nio.ByteBuffer;
 
 import com.google.gson.Gson;
 
+import wl.shared.json.packet.IJSONPacket;
+import wl.shared.json.packet.JSONPacketTypes;
+import wl.shared.json.packets.DisplayPacket;
 import wlbe.model.ClientData;
 import wlbe.packet.Packet;
 import wlbe.packet.PacketTypes;
 
 public class JSONPacket extends Packet {
 	
-	private Gson gson;
-	private String gsonString = "";
+	private Gson gson = new Gson();
+	private IJSONPacket packet;
+	
+	public JSONPacket() {
+		this.packetType = PacketTypes.PacketType.JSON_PACKET;
+	}
 	
 	public JSONPacket(ByteBuffer buffer, ClientData clientData) {
 		super(buffer, PacketTypes.PacketType.JSON_PACKET, clientData);
@@ -19,19 +26,32 @@ public class JSONPacket extends Packet {
 	}
 	
 	public void populatePacket() {
-		int byteCount = byteBuffer.getInt();
-		gson = new Gson();
-		gsonString = "";
-		for(int i = 0; i < byteCount; i++) {
-			gsonString += (char)byteBuffer.get();
+		switch(JSONPacketTypes.values()[byteBuffer.getInt()]) {
+			case DISPLAY:
+				String gsonString = getString();
+				packet = (DisplayPacket) gson.fromJson(gsonString, DisplayPacket.class);
+				break;
+			default:
+				break;
 		}
+	}
+	
+	public ByteBuffer assemblePacket() {
+		super.assemblePacket();
+		byteBuffer.putInt(packet.getType().ordinal());
+		setString(packet.getGson());
+		return byteBuffer;
+	}
+	
+	public void setJSONPacket(IJSONPacket packet) {
+		this.packet = packet;
+	}
+	
+	public IJSONPacket getJSONPacket() {
+		return this.packet;
 	}
 	
 	public Gson getGson() {
 		return this.gson;
-	}
-	
-	public String getGsonString() {
-		return this.gsonString;
 	}
 }

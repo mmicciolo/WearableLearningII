@@ -13,6 +13,7 @@ public class MySQLDaemon extends Task {
 	private Connection connection = null;
 	
 	public MySQLDaemon() {
+		setName("MySQL Daemon");
 		Connect();
 	}
 	
