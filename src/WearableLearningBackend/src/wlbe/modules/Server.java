@@ -16,6 +16,7 @@ import wlbe.module.ModuleManager;
 import wlbe.module.ModuleManager.Modules;
 import wlbe.packet.IPacket;
 import wlbe.packet.PacketTypes;
+import wlbe.packet.PacketTypes.PacketType;
 import wlbe.packets.EchoPacket;
 
 public class Server extends Module {
@@ -147,8 +148,12 @@ class ServerRequestReadWriteHandler implements CompletionHandler<Integer, Client
 		if(clientData.getIsRead()) {
 			clientData.getBuffer().flip();
 			clientData.getServerModule().handlePacket(PacketTypes.getPacketFromBuffer(clientData.getBuffer(), clientData));
+			clientData.getBuffer().rewind();
+			IPacket packet = PacketTypes.getPacketFromBuffer(clientData.getBuffer(), clientData);
 			clientData.getBuffer().clear();
-			clientData.getClientSocket().read(clientData.getBuffer(), clientData, this);
+			if(!packet.getType().equals(PacketType.PLAYER_DISCONNECT)) {
+				clientData.getClientSocket().read(clientData.getBuffer(), clientData, this);
+			}
 		} else {
 			
 		}
