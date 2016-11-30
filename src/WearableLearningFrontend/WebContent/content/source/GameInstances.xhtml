@@ -16,6 +16,7 @@
 <ui:composition template="templates/HeaderMenuContentFooter/HeaderMenuContentFooter.xhtml">
 	<ui:define name="content">
 		<h:form id="main">
+			<p:poll interval="5" listener="#{gameInstances.poll}" update="accordion" />
 			<div class="headerText">Game Instances</div>
 			<div class="tableButtonPanel" >
 			<p:panel>

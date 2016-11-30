@@ -64,9 +64,9 @@
 						<td><p:commandButton value="Button 4" action="#{virtualDevice.button4}" styleClass="buttonBlack" update="display"></p:commandButton></td>
 					</tr>
 					<tr style="text-align:center;">
-						<td><p:inputSwitch value="#{virtualDevice.onOff}" style="margin-top:20px;"><p:ajax listener="#{virtualDevice.onOffChange}"></p:ajax></p:inputSwitch></td>
 						<td></td>
-						<td><p:inputText placeholder="id" value="#{virtualDevice.id}" size="5" style="margin-top:20px;"/></td>
+						<td><p:commandButton value="Disconnect" action="#{virtualDevice.disconnect}" style="margin-top:20px;" styleClass="buttonSize" icon="fa fa-fw fa-remove"></p:commandButton></td>
+						<td></td>
 					</tr>
 				</table>
 			</p:tab>

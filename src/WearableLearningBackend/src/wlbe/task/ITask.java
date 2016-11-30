@@ -8,8 +8,14 @@ package wlbe.task;
  */
 public interface ITask {
 	
+	/**
+	 * Called in a loop while the thread is
+	 * still running.
+	 */
 	void update();
 	
+	/**
+	 * Called before exiting
+	 */
 	void cleanup();
-
 }

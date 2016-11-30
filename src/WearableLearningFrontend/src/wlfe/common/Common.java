@@ -33,10 +33,18 @@ public class Common {
 		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 	
+	/**
+	 * Gets an HTTP session
+	 * @return HttpSession
+	 */
 	public static HttpSession getSession() {
 		return (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
 	}
 	
+	/**
+	 * Gets the teacher object via attributes from the HTTP session
+	 * @return Teacher
+	 */
 	public static Teacher getTeacherForSession() {
 		return (Teacher) Common.getSession().getAttribute("teacher");
 	}

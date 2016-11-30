@@ -132,7 +132,13 @@ public class GameInstances {
 				e.printStackTrace();
 			}
 		}
-	}	
+	}
+	
+	public void poll() {
+		if(accordionData.size() > 0) {
+			//Update the data
+		}
+	}
 	
 	public void setAccordionData(ArrayList<GameInstanceData> accordionData) {
 		this.accordionData = accordionData;

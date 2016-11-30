@@ -9,6 +9,8 @@ import java.nio.channels.CompletionHandler;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
+import wlfe.model.ServerData;
+
 class Client {
 	AsynchronousSocketChannel client;
 	ByteBuffer buffer;
@@ -19,8 +21,8 @@ class Client {
 
 public class BackendServer {
 	
-	AsynchronousSocketChannel server;
-	boolean disconnect = false;
+	private AsynchronousSocketChannel server;
+	private boolean disconnect = false;
 	
 	public BackendServer() {
 		try {
@@ -65,50 +67,85 @@ public class BackendServer {
 	}
 	
 	public void write(ByteBuffer byteBuffer) {
-		Client client = new Client();
-		client.client = this.server;
-		client.buffer = byteBuffer;
-		client.buffer.flip();
-		client.isRead = false;
-		client.backendServer = this;
+		ServerData serverData = new ServerData(this.server, false, false, this);
+		serverData.setBuffer(byteBuffer);
+		serverData.getBuffer().flip();
 		ReadWriteHandler readWriteHandler = new ReadWriteHandler();
-		server.write(client.buffer, client, readWriteHandler);
-		while(!client.readDone) {
+		server.write(serverData.getBuffer(), serverData, readWriteHandler);
+		while(!serverData.getOperationDone()) {
 			
 		}
+//		Client client = new Client();
+//		client.client = this.server;
+//		client.buffer = byteBuffer;
+//		client.buffer.flip();
+//		client.isRead = false;
+//		client.backendServer = this;
+//		ReadWriteHandler readWriteHandler = new ReadWriteHandler();
+//		server.write(client.buffer, client, readWriteHandler);
+//		while(!client.readDone) {
+//			
+//		}
 	}
 	
 	public ByteBuffer read() {
-		Client client = new Client();
-		client.client = this.server;
-		client.buffer = ByteBuffer.allocate(2048);
-		client.isRead = true;
-		client.readDone = false;
-		client.backendServer = this;
+		ServerData serverData = new ServerData(this.server, true, false, this);
+		serverData.setBuffer(ByteBuffer.allocate(2048));
 		ReadWriteHandler readWriteHandler = new ReadWriteHandler();
-		server.read(client.buffer, client, readWriteHandler);
-		while(!client.readDone) {
+		server.read(serverData.getBuffer(), serverData, readWriteHandler);
+		while(!serverData.getOperationDone()) {
 			
 		}
-		return client.buffer;
+		return serverData.getBuffer();
+//		Client client = new Client();
+//		client.client = this.server;
+//		client.buffer = ByteBuffer.allocate(2048);
+//		client.isRead = true;
+//		client.readDone = false;
+//		client.backendServer = this;
+//		ReadWriteHandler readWriteHandler = new ReadWriteHandler();
+//		server.read(client.buffer, client, readWriteHandler);
+//		while(!client.readDone) {
+//			
+//		}
+//		return client.buffer;
 	}
 }
 
-class ReadWriteHandler implements CompletionHandler<Integer, Client> {
+//class ReadWriteHandler implements CompletionHandler<Integer, Client> {
+//	
+//	@Override
+//	public void completed(Integer results, Client client) {
+//		if(client.isRead) {
+//			client.readDone = true;
+//
+//		} else {
+//			client.readDone = true;
+//		}
+//		client.backendServer.checkDisconnected();
+//	}
+//
+//	@Override
+//	public void failed(Throwable exc, Client attachment) {
+//		exc.printStackTrace();
+//	}
+//}
+
+class ReadWriteHandler implements CompletionHandler<Integer, ServerData> {
 	
 	@Override
-	public void completed(Integer results, Client client) {
-		if(client.isRead) {
-			client.readDone = true;
+	public void completed(Integer results, ServerData serverData) {
+		if(serverData.getIsRead()) {
+			serverData.setOperationDone(true);
 
 		} else {
-			client.readDone = true;
+			serverData.setOperationDone(true);
 		}
-		client.backendServer.checkDisconnected();
+		serverData.getBackendServer().checkDisconnected();
 	}
 
 	@Override
-	public void failed(Throwable exc, Client attachment) {
+	public void failed(Throwable exc, ServerData attachment) {
 		exc.printStackTrace();
 	}
 }

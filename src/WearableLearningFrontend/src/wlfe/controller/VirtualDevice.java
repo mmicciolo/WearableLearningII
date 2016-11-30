@@ -1,5 +1,6 @@
 package wlfe.controller;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -9,6 +10,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FlowEvent;
@@ -68,19 +70,6 @@ public class VirtualDevice {
 		}
 	}
 	
-	public void onOffChange() {
-		try {
-			if(onOff) {
-				connectToBackend();
-			} else {
-				disconnectFromBackend();
-			}
-		} catch (Exception e) {
-			backendServer.disconnect();
-			backendServer.checkDisconnected();
-		}
-	}
-	
 	private void connectToBackend() {
 		backendServer = new BackendServer();
 		ByteBuffer buffer = ByteBuffer.allocate(2048);
@@ -100,9 +89,16 @@ public class VirtualDevice {
 		backendServer.disconnect();
 	}
 	
+	public void disconnect() {
+		disconnectFromBackend();
+	}
+	
 	public String onFlowProcess(FlowEvent event) {
 		if(event.getNewStep().equals("activeGames")) {
 			loadActiveGames();
+		}
+		else if(event.getNewStep().equals("virtualDevice")) {
+			connectToBackend();
 		}
 		return event.getNewStep();
 	}

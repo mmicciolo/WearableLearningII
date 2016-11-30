@@ -36,7 +36,8 @@ public class AuthorizationFilter implements Filter {
 //			if (reqURI.indexOf("/faces/content/source/Login.xhtml") >= 0
 //					|| (ses != null && ses.getAttribute("teacher") != null)
 //					|| reqURI.indexOf("/public/") >= 0
-//					|| reqURI.contains("javax.faces.resource"))
+//					|| reqURI.contains("javax.faces.resource")
+//					|| reqURI.contains("VirtualDevice.xhtml"))
 //				chain.doFilter(request, response);
 //			else
 //				resp.sendRedirect(reqt.getContextPath() + "/faces/content/source/Login.xhtml");

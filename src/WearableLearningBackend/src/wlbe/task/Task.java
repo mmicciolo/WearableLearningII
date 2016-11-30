@@ -26,7 +26,6 @@ public abstract class Task extends Thread implements ITask {
 			try {
 				Thread.sleep(17);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
