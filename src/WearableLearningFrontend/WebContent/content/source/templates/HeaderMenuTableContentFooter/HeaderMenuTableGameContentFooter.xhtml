@@ -33,7 +33,7 @@
 	  		<p:panel>
 	  		<ul id="parent">
 		  		<li><p:commandButton value="#{NewButton}" onclick="PF('NewDialog').show();" styleClass="buttonSize" icon="fa fa-fw fa-plus"/></li>
-		  		<li><p:commandButton value="#{EditButton}" action="#{ManagedBean.editPressed}" update=":dlgEdit" styleClass="buttonSize" icon="fa fa-fw fa-edit"/></li>
+		  		<li><p:commandButton value="#{EditButton}" action="#{gameCreation.editPressed(ManagedBean)}" update=":dlgEdit" styleClass="buttonSize" icon="fa fa-fw fa-edit"/></li>
 		  		<p:growl id="messages"/>
 			  	<li><p:commandButton update="messages" value="#{DeleteButton}" actionListener="#{ManagedBean.deletePressed}" styleClass="buttonSize" icon="fa fa-fw fa-remove">
 			  			<p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
@@ -72,6 +72,102 @@
 		  			</p:tab>
 		  			<p:tab id="tab1" title="Game States">
 			  			<div style="text-align:center; font-size:50px;">Game State Setup</div>
+			  			<p:commandButton value="Add State" actionListener="#{gameCreation.addState}" update="gameState:msgs" styleClass="buttonSize" />
+			  			<p:scrollPanel style="width:98%;height:600px;display:block; margin:auto;">
+		  					<p:accordionPanel id="mainAccordion" multiple="true" value="#{gameCreation.accordionPanels}" var="panel" styleClass="disableAccordionScroll" activeIndex="#{gameCreation.stateCount}">
+        						<p:tab title="State #{panel.id}">
+            						<p:layout style="min-width:450px;min-height:600px;" styleClass="disableLayoutScroll">
+						            	<p:layoutUnit position="west" size="450">
+						            		<div style="text-align:center;">Modify Outputs</div><br/>
+						            		<p:accordionPanel>
+						            			<p:tab title="Text">
+						            				<p:inputTextarea id="textArea" rows="10" cols="20" value="#{panel.text}" style="display:block; margin:auto;"/>
+						            			</p:tab>
+						            			<p:tab title="LED">
+						            				<p:colorPicker value="#{panel.ledColor}" mode="inline" style="display:block; margin:auto;"/>
+						            			</p:tab>
+						            			<p:tab title="Buzzer">
+						            				<p:inputSwitch style="margin-bottom:15px; display:block; margin:auto;" value="#{panel.buzzerOn}" /> <br/>
+						            				<div style="text-align:center;"><p:knob value="#{panel.buzzerDuration}"></p:knob></div>
+						            			</p:tab>
+						            		</p:accordionPanel>
+						            	</p:layoutUnit>
+						            	<p:layoutUnit position="center" >
+						            		<div style="text-align:center;">State Configuration</div><br/>
+       									    <div style="text-align:center;">
+       									    	<p:autoComplete dropdown="true" value="#{panel.responseTo}" placeholder="Respond To" completeMethod="#{panel.fillDropDown}">
+       									    		<p:ajax event="itemSelect" listener="#{panel.responseToChanged}" /> 
+    												<p:ajax event="change" listener="#{panel.responseToChanged}" />
+    												<p:ajax event="itemSelect" update="dataGrid"/>
+       									    	</p:autoComplete>
+       									    </div>
+											<p:selectOneRadio id="customRadio" value="#{panel.responseType}" style="width: 200px;display: block; margin-left: auto;margin-right: auto; margin-top:15px;">
+								            	<p:ajax event="click" listener="#{panel.responseToChanged}" />
+								            	<p:ajax event="click" listener="#{panel.responseToChanged}" update="dataGrid colorGrid" />
+								            	<f:selectItem itemLabel="Single Push" itemValue="Single" />
+								            	<f:selectItem itemLabel="Sequence Push" itemValue="Sequence" />
+								        	</p:selectOneRadio>
+								        	<p:fieldset id="selectedStates" legend="States">
+								        		<p:dataGrid id="dataGrid" value="#{panel.dataTable}" var="data" columns="#{panel.columnCount}" style="float:left; display:inline;" >
+								        			<ui:fragment rendered="#{panel.responseType == 'Single'}">
+								        				<ui:fragment rendered="#{data.header == 'Text'}">
+								        					<div style="text-align:center;"><h:outputText value="#{data.property}"></h:outputText></div>
+								        				</ui:fragment>
+								        				<ui:fragment rendered="#{data.header == 'Color'}">
+								        					<div class="foo #{data.property}"></div>
+								        				</ui:fragment>
+								        				<ui:fragment rendered="#{data.header == 'SelectOne'}">
+								        					<p:autoComplete dropdown="true" placeholder="Select State" value="#{data.property}" completeMethod="#{gameCreation.fillStateDropDowns}"/>
+								        				</ui:fragment>
+								        			</ui:fragment>
+								        			<ui:fragment rendered="#{panel.responseType == 'Sequence'}">
+								        				 <p:fieldset id="selectedCars" legend="Selected Cars" style="margin-top:20px">
+        													<p:outputPanel id="dropArea">
+            													<h:outputText value="!!!Drop here!!!" style="font-size:24px;" />
+            												</p:outputPanel>
+            											</p:fieldset>
+								        			</ui:fragment>
+								        		</p:dataGrid>
+								        		<h:panelGroup id="colorGrid">
+							        			<p:dataGrid value="#{panel.colorValues}" var="color" columns="1" style="float:left; display:inline;" rendered="#{panel.responseType == 'Sequence'}">
+							        				<p:panel id="colorPanel" header="color" style="background-color:green;"></p:panel>
+							        				<p:draggable for="colorPanel" revert="true" handle=".ui-panel-titlebar" stack=".ui-panel" snapMode="inner" snap="true"/>
+							        			</p:dataGrid>
+							        			</h:panelGroup>
+								        	</p:fieldset>
+								        	<p:droppable for="selectedStates" tolerance="touch" datasource="dataGrid" snapMode="inner" snap="true">
+        											<p:ajax listener="#{panel.onDrop}" />
+    										</p:droppable>
+						    			</p:layoutUnit>
+            						</p:layout>
+        						</p:tab>
+        					</p:accordionPanel>
+			  			</p:scrollPanel>
+			  			<p:commandButton value="Create Game" actionListener="#{gameCreation.saveData}" style="width:100px; height:50px;" update="main:messages" styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left ui-wizard-nav-next" icon="fa fa-fw fa-check"/>
+		  			</p:tab>
+		  		</p:wizard>
+	  		</div>
+  		</h:form>
+	</p:dialog>
+	
+	  <p:dialog id="dlgEdit" header="#{EditDialogHeader}" widgetVar="EditDialog" modal="true" width="95%" height="800"  style="box-shadow: 7px 10px 5px #303030;" showEffect="slide" hideEffect="puff">
+  		<p:ajax event="close" update=":dlgEdit" resetValues="true" listener="#{gameCreation.clear}"/>
+  		<h:form id='gameStateEdit'>
+  			<p:growl id="msgs" showDetail="true" />
+	  		<div style="margin-left:auto; margin-right:auto;">
+		  		<p:wizard widgetVar="editGame" flowListener="#{gameCreation.flowControl}">
+		  			<p:tab id="tab0" title="General Setup">
+		  				<p:panel header="General Setup">
+			  				<div style="text-align:center; font-size:50px;">Edit General Setup</div>
+			  				<div class="new" style="margin-left:45%; margin-top:20px;">
+			  				<span><p:inputText placeholder="Game Title" value="#{gameCreation.title}"></p:inputText></span>
+			  				<span><p:inputText placeholder="Team Count" value="#{gameCreation.teamCount}"></p:inputText></span>
+			  				<span><p:inputText placeholder="Players Per Team" value="#{gameCreation.playersPerTeam}"></p:inputText></span>
+			  				</div>
+		  				</p:panel>
+		  			</p:tab>
+		  			<p:tab id="tab1" title="Game States">
+			  			<div style="text-align:center; font-size:50px;">Edit Game States</div>
 			  			<p:commandButton value="Add State" actionListener="#{gameCreation.addState}" update="gameState:msgs" styleClass="buttonSize" />
 			  			<p:scrollPanel style="width:98%;height:600px;display:block; margin:auto;">
 		  					<p:accordionPanel id="mainAccordion" multiple="true" value="#{gameCreation.accordionPanels}" var="panel" styleClass="disableAccordionScroll" activeIndex="#{gameCreation.stateCount}">
@@ -143,15 +239,13 @@
         						</p:tab>
         					</p:accordionPanel>
 			  			</p:scrollPanel>
-			  			<p:commandButton value="Create Game" actionListener="#{gameCreation.saveData}" process="@form" style="width:100px; height:50px;" update="main:messages" styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left ui-wizard-nav-next" icon="fa fa-fw fa-check"/>
+			  			<p:commandButton value="Edit Game" actionListener="#{gameCreation.editData}" process="@form" style="width:100px; height:50px;" update="main:messages" styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left ui-wizard-nav-next" icon="fa fa-fw fa-check"/>
 		  			</p:tab>
 		  		</p:wizard>
 	  		</div>
   		</h:form>
 	</p:dialog>
-	<p:dialog id="dlgEdit" header="#{EditDialogHeader}" widgetVar="EditClass" modal="true" minHeight="40" style="box-shadow: 7px 10px 5px #303030;" showEffect="slide" hideEffect="puff">
-		<img src="http://www.sharonkgilbert.com/wp-content/uploads/2015/12/Under-construction-1.png" width="800" height="600"></img>
-	</p:dialog>
+	
 	<p:confirmDialog global="true" showEffect="slide" hideEffect="puff" style="box-shadow: 7px 10px 5px #303030;">
     	<p:commandButton value="Yes" type="submit" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
         <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />

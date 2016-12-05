@@ -76,16 +76,16 @@ public class GameCreation {
 				preparedStatement = accessor.GetConnection().prepareStatement("INSERT INTO gameState (gameId, teamId, playerId, hintSetId, textContent, ledColor, ledDuration, buzzerState, buzzerDuration, buttonInputType, rfid, gameStateCount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 				for(GameCreationData gameCreationData : accordionPanels) {
 					preparedStatement.setInt(1, gameId);
-					preparedStatement.setInt(2,  0);
-					preparedStatement.setInt(3,  0);
-					preparedStatement.setInt(4,  0);
+					preparedStatement.setInt(2, gameCreationData.responseToTeamId());
+					preparedStatement.setInt(3, gameCreationData.responseToPlayerId());
+					preparedStatement.setInt(4, 0);
 					preparedStatement.setString(5, gameCreationData.getText());
 					preparedStatement.setString(6, gameCreationData.getLedColor());
 					preparedStatement.setInt(7, 0);
 					preparedStatement.setBoolean(8, Boolean.parseBoolean(gameCreationData.getBuzzerOn()));
 					preparedStatement.setInt(9, Integer.parseInt(gameCreationData.getBuzzerDuration()));
 					preparedStatement.setString(10,  gameCreationData.getResponseType());
-					preparedStatement.setString(11, "");
+					preparedStatement.setString(11, "0");
 					preparedStatement.setInt(12, gameCreationData.getId());
 					preparedStatement.executeUpdate();
 				}
@@ -111,7 +111,7 @@ public class GameCreation {
 										preparedStatement.setString(4, "");
 										preparedStatement.setString(5, "");
 										preparedStatement.setString(6, "");
-										preparedStatement.setInt(7, convertStateStringtoInt(c.getProperty(), gameCreationData.getId() + 1));
+										preparedStatement.setInt(7, convertStateStringtoInt(c.getProperty(), gameCreationData.getId()));
 										if(colorCounter == 3) { colorCounter = 0; }
 										else { colorCounter++; }
 										preparedStatement.executeUpdate();
@@ -134,6 +134,27 @@ public class GameCreation {
 			Common.SuccessMessage();
 			accessor.Disconnect();
 		}
+	}
+	
+	public void editPressed(Games games) {
+		accordionPanels.clear();
+		title = games.getSelectedObject().getTitle();
+		teamCount = String.valueOf(games.getSelectedObject().getTeamCount());
+		playersPerTeam = String.valueOf(games.getSelectedObject().getPlayersPerTeam());
+		MySQLAccessor accessor = MySQLAccessor.getInstance();
+		if(accessor.Connect()) {
+			try {
+				Statement statement = accessor.GetConnection().createStatement();
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM gameState WHERE gameId=" + games.getSelectedObject().getGameId() + " ORDER BY gameStateCount ASC");
+				while(resultSet.next()) {
+					GameCreationData gameCreationData = new GameCreationData(resultSet.getInt("gameStateCount"), resultSet.getString("textContent"), resultSet.getString("ledColor"), String.valueOf(resultSet.getInt("ledDuration")), String.valueOf(resultSet.getBoolean("buzzerState")), String.valueOf(resultSet.getInt("buzzerDuration")));
+					accordionPanels.add(gameCreationData);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		RequestContext.getCurrentInstance().execute("PF('EditDialog').show();");
 	}
 	
 	public int convertStateStringtoInt(String s, int id) {

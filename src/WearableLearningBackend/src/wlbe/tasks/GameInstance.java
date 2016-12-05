@@ -3,6 +3,7 @@ package wlbe.tasks;
 import java.util.ArrayList;
 
 import wl.shared.json.packets.DisplayPacket;
+import wl.shared.json.packets.GameStartPacket;
 import wl.shared.model.Button;
 import wlbe.event.IEvent;
 import wlbe.events.PacketRecieved;
@@ -36,7 +37,9 @@ public class GameInstance extends Task {
 	}
 	
 	public void update() {
-
+		for(PlayerData player : players) {
+			
+		}
 	}
 	
 	public void cleanup() {
@@ -99,9 +102,18 @@ public class GameInstance extends Task {
 		jsonPacket.setJSONPacket(displayPacket);
 		Server server = (Server) ModuleManager.getModule(ModuleManager.Modules.SERVER);
 		server.write(player.getClientData(), jsonPacket);
+		
+		GameStartPacket startGamePacket = new GameStartPacket();
+		JSONPacket jsonPacket2 = new JSONPacket();
+		jsonPacket2.setJSONPacket(startGamePacket);
+		server.write(player.getClientData(), jsonPacket2);
 	}
 	
 	public void handleJSONPacket(JSONPacket packet) {
+		switch(packet.getJSONPacket().getType()) {
+			default:
+				break;
+		}
 		//Button button = packet.getGson().fromJson(packet.getGsonString(), Button.class);
 		//button.toString();
 	}

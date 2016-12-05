@@ -2,5 +2,7 @@ package wl.shared.json.packet;
 
 public enum JSONPacketTypes {
 	BUTTON,
-	DISPLAY
+	DISPLAY,
+	GAME_START,
+	GAME_END
 }

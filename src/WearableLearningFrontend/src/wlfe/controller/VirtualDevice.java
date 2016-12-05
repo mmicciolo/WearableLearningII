@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import wl.shared.json.packet.IJSONPacket;
 import wl.shared.json.packet.JSONPacketTypes;
 import wl.shared.json.packets.DisplayPacket;
+import wl.shared.json.packets.GameStartPacket;
 import wl.shared.model.Button;
 import wlfe.common.BackendServer;
 import wlfe.common.MySQLAccessor;
@@ -101,14 +102,19 @@ public class VirtualDevice {
 	
 	public void packetRecieved(IJSONPacket packet) {
 		switch(packet.getType()) {
-			case BUTTON:
+			case GAME_START:
+				displayText += "\nGame Starting...";
+				break;
+			case GAME_END:
 				break;
 			case DISPLAY:
 				DisplayPacket displayPacket = (DisplayPacket) packet;
 				displayText = displayPacket.getDisplayData().text;
+				break;
 			default:
 				break;
 		}
+		backendServer.read();
 	}
 	
 	public String onFlowProcess(FlowEvent event) {

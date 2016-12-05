@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 
 import wl.shared.json.packets.DisplayData;
 import wl.shared.json.packets.DisplayPacket;
+import wl.shared.json.packets.GameStartPacket;
 
 public class JSONPacket implements IJSONPacket {
 	
@@ -27,6 +28,10 @@ public class JSONPacket implements IJSONPacket {
 		JSONPacketTypes packetType = JSONPacketTypes.values()[buffer.getInt()];
 		JSONPacket returnPacket = null;
 		switch(packetType) {
+			case GAME_START:
+				GameStartPacket gameStartPacket = new GameStartPacket();
+				returnPacket = gameStartPacket;
+				break;
 			case DISPLAY:
 				DisplayPacket displayPacket = new DisplayPacket();
 				String s = getString(buffer);

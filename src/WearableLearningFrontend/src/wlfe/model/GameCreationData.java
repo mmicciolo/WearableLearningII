@@ -35,6 +35,15 @@ public class GameCreationData {
 		this.id = id;
 	}
 	
+	public GameCreationData(int id, String text, String ledColor, String ledDuration, String buzzerOn, String buzzerDuration) {
+		this.id = id;
+		this.text = text;
+		this.ledColor = ledColor;
+		this.ledDuration = ledDuration;
+		this.buzzerOn = buzzerOn;
+		this.buzzerDuration = buzzerDuration;
+	}
+	
 	public void updateGeneralSetup(String title, String teamCount, String playersPerTeam) {
 		this.title = title;
 		this.teamCount = teamCount;
@@ -58,49 +67,51 @@ public class GameCreationData {
 	}
 	
 	public void responseToChanged() {
-		dataTable.clear();
-		colorValues.clear();
-		if(responseType.equals("Single")) {
-			if(responseTo.equals("Game Wide")) {
-				columnCount = 5;
-				dataTable.add(new DataTableColumn("Text", ""));
-				for(int i = 0; i < 4; i++) {
-					dataTable.add(new DataTableColumn("Color", buttonColors[i]));
-				}
-				for(int i = 0; i < Integer.parseInt(teamCount); i++) {
-					for(int n = 0; n < columnCount; n++) {
-						if(n == 0) {
-							dataTable.add(new DataTableColumn("Text", "Team " + (i + 1)));
+		if(responseType != null) {
+			dataTable.clear();
+			colorValues.clear();
+			if(responseType.equals("Single")) {
+				if(responseTo.equals("Game Wide")) {
+					columnCount = 5;
+					dataTable.add(new DataTableColumn("Text", ""));
+					for(int i = 0; i < 4; i++) {
+						dataTable.add(new DataTableColumn("Color", buttonColors[i]));
+					}
+					for(int i = 0; i < Integer.parseInt(teamCount); i++) {
+						for(int n = 0; n < columnCount; n++) {
+							if(n == 0) {
+								dataTable.add(new DataTableColumn("Text", "Team " + (i + 1)));
+							} else {
+								dataTable.add(new DataTableColumn("SelectOne", ""));
+							}
+						}
+					}
+				} else if(!responseTo.equals("")) {
+					columnCount = 5;
+					dataTable.add(new DataTableColumn("Text", ""));
+					String columnOut = responseTo.replace("-", "");
+					for(int i = 0; i < 4; i++) {
+						dataTable.add(new DataTableColumn("Color", buttonColors[i]));
+					}
+					for(int i = 0; i < columnCount; i++) {
+						if(i == 0) {
+							dataTable.add(new DataTableColumn("Text", columnOut));
 						} else {
 							dataTable.add(new DataTableColumn("SelectOne", ""));
 						}
 					}
 				}
-			} else if(!responseTo.equals("")) {
-				columnCount = 5;
-				dataTable.add(new DataTableColumn("Text", ""));
-				String columnOut = responseTo.replace("-", "");
-				for(int i = 0; i < 4; i++) {
-					dataTable.add(new DataTableColumn("Color", buttonColors[i]));
-				}
-				for(int i = 0; i < columnCount; i++) {
-					if(i == 0) {
-						dataTable.add(new DataTableColumn("Text", columnOut));
-					} else {
-						dataTable.add(new DataTableColumn("SelectOne", ""));
-					}
-				}
+			} else if(responseType.equals("Sequence")) {
+				columnCount = Integer.parseInt(teamCount);
+//				dataTable.add("Hi");
+//				dataTable.add("Hi");
+//				dataTable.add("Hi");
+//				dataTable.add("Hi");
+//				colorValues.add("Hi");
+//				colorValues.add("Hi");
+//				colorValues.add("Hi");
+//				colorValues.add("Hi");
 			}
-		} else if(responseType.equals("Sequence")) {
-			columnCount = Integer.parseInt(teamCount);
-//			dataTable.add("Hi");
-//			dataTable.add("Hi");
-//			dataTable.add("Hi");
-//			dataTable.add("Hi");
-//			colorValues.add("Hi");
-//			colorValues.add("Hi");
-//			colorValues.add("Hi");
-//			colorValues.add("Hi");
 		}
 	}
 	
@@ -125,6 +136,20 @@ public class GameCreationData {
 	
 	public void onDrop() {
 		
+	}
+	
+	public int responseToTeamId() {
+		if(responseTo.contains("Team")) {
+			return Integer.parseInt(responseTo.replace("Team ", ""));
+		}
+		return 0;
+	}
+	
+	public int responseToPlayerId() {
+		if(responseTo.contains("Player")) {
+			return Integer.parseInt(responseTo.replace("--Player ", ""));
+		}
+		return 0;	
 	}
 
 	public void setId(int id) {
@@ -172,7 +197,7 @@ public class GameCreationData {
 	}
 	
 	public int getId() {
-		return this.id;
+		return this.id + 1;
 	}
 	
 	public String getText() {

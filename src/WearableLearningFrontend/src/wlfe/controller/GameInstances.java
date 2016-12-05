@@ -73,7 +73,7 @@ public class GameInstances {
 						Statement statement = accessor.GetConnection().createStatement();
 						ResultSet resultSet = statement.executeQuery("SELECT * FROM games WHERE gameId=" + gameData.getGameId());
 						if(resultSet.next()) {
-							accordionData.add(new GameInstanceData(returnId, gameData.getGameId(), 1, new GameData(0, gameData.getTitle(), 0, 0)));
+							accordionData.add(new GameInstanceData(returnId, gameData.getGameId(), new GameData(0, gameData.getTitle(), 0, 0)));
 						}
 						resultSet.close();
 						statement.close();
@@ -120,7 +120,7 @@ public class GameInstances {
 					Statement statement2 = accessor.GetConnection().createStatement();
 					ResultSet resultSet2 = statement2.executeQuery("SELECT * FROM games WHERE gameId=" + resultSet.getInt("gameId"));
 					if(resultSet2.next()) {
-						accordionData.add(new GameInstanceData(resultSet.getInt("gameInstanceId"), resultSet.getInt("gameId"), resultSet.getInt("currentGameStateId"), new GameData(0, resultSet2.getString("title"), 0, 0)));
+						accordionData.add(new GameInstanceData(resultSet.getInt("gameInstanceId"), resultSet.getInt("gameId"), new GameData(0, resultSet2.getString("title"), 0, 0)));
 					}
 					resultSet2.close();
 					statement2.close();
