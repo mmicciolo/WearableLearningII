@@ -133,28 +133,42 @@ public class GameCreation {
 			RequestContext.getCurrentInstance().execute("PF('NewDialog').hide();");
 			Common.SuccessMessage();
 			accessor.Disconnect();
+			clear();
+			RequestContext.getCurrentInstance().reset("gameState");
+			RequestContext.getCurrentInstance().execute("PF('newGame').loadStep('tab0', false)");
 		}
 	}
 	
 	public void editPressed(Games games) {
-		accordionPanels.clear();
-		title = games.getSelectedObject().getTitle();
-		teamCount = String.valueOf(games.getSelectedObject().getTeamCount());
-		playersPerTeam = String.valueOf(games.getSelectedObject().getPlayersPerTeam());
-		MySQLAccessor accessor = MySQLAccessor.getInstance();
-		if(accessor.Connect()) {
-			try {
-				Statement statement = accessor.GetConnection().createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT * FROM gameState WHERE gameId=" + games.getSelectedObject().getGameId() + " ORDER BY gameStateCount ASC");
-				while(resultSet.next()) {
-					GameCreationData gameCreationData = new GameCreationData(resultSet.getInt("gameStateCount"), resultSet.getString("textContent"), resultSet.getString("ledColor"), String.valueOf(resultSet.getInt("ledDuration")), String.valueOf(resultSet.getBoolean("buzzerState")), String.valueOf(resultSet.getInt("buzzerDuration")));
-					accordionPanels.add(gameCreationData);
+		if(games.getSelectedObject() != null) {
+			accordionPanels.clear();
+			title = games.getSelectedObject().getTitle();
+			teamCount = String.valueOf(games.getSelectedObject().getTeamCount());
+			playersPerTeam = String.valueOf(games.getSelectedObject().getPlayersPerTeam());
+			MySQLAccessor accessor = MySQLAccessor.getInstance();
+			if(accessor.Connect()) {
+				try {
+					Statement statement = accessor.GetConnection().createStatement();
+					ResultSet resultSet = statement.executeQuery("SELECT * FROM gameState WHERE gameId=" + games.getSelectedObject().getGameId() + " ORDER BY gameStateCount ASC");
+					while(resultSet.next()) {
+						ArrayList<String> stateInputs = new ArrayList<String>();
+						Statement statement2 = accessor.GetConnection().createStatement();
+						ResultSet resultSet2 = statement2.executeQuery("SELECT * FROM gameStateTransitions WHERE gameStateId=" + resultSet.getInt("gameStateId"));
+						while(resultSet2.next()) {
+							stateInputs.add("Go to " + resultSet2.getString("nextGameStateTransition"));
+						}
+						GameCreationData gameCreationData = new GameCreationData(resultSet.getInt("gameStateCount"), resultSet.getInt("teamId"), resultSet.getInt("playerId"), resultSet.getString("textContent"), resultSet.getString("ledColor"), String.valueOf(resultSet.getInt("ledDuration")), String.valueOf(resultSet.getBoolean("buzzerState")), String.valueOf(resultSet.getInt("buzzerDuration")), resultSet.getString("buttonInputType"));
+						gameCreationData.updateGeneralSetup(title, teamCount, playersPerTeam);
+						gameCreationData.responseToChanged();
+						gameCreationData.testLoad(stateInputs);
+						accordionPanels.add(gameCreationData);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
+			RequestContext.getCurrentInstance().execute("PF('EditDialog').show();");
 		}
-		RequestContext.getCurrentInstance().execute("PF('EditDialog').show();");
 	}
 	
 	public int convertStateStringtoInt(String s, int id) {
@@ -174,8 +188,6 @@ public class GameCreation {
 		playersPerTeam = null;
 		accordionPanels = new ArrayList<GameCreationData>();
 		accordionPanels.add(new GameCreationData(1));
-		RequestContext.getCurrentInstance().reset("gameState");
-		RequestContext.getCurrentInstance().execute("PF('newGame').loadStep('tab0', false)");
 	}
 	
 	public void updateGeneralSetup() {

@@ -239,7 +239,7 @@
         						</p:tab>
         					</p:accordionPanel>
 			  			</p:scrollPanel>
-			  			<p:commandButton value="Edit Game" actionListener="#{gameCreation.editData}" process="@form" style="width:100px; height:50px;" update="main:messages" styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left ui-wizard-nav-next" icon="fa fa-fw fa-check"/>
+			  			<p:commandButton value="Edit Game" actionListener="#{games.editConfirmPressed(gameCreation)}" process="@form" style="width:100px; height:50px;" update="main:messages" styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left ui-wizard-nav-next" icon="fa fa-fw fa-check"/>
 		  			</p:tab>
 		  		</p:wizard>
 	  		</div>

@@ -15,6 +15,8 @@ public class GameCreationData {
 	private String teamCount;
 	private String playersPerTeam;
 	private int id;
+	private int teamId;
+	private int playerId;
 	private String text;
 	private String ledColor;
 	private String ledDuration;
@@ -35,13 +37,20 @@ public class GameCreationData {
 		this.id = id;
 	}
 	
-	public GameCreationData(int id, String text, String ledColor, String ledDuration, String buzzerOn, String buzzerDuration) {
-		this.id = id;
+	public GameCreationData(int id, int teamId, int playerId, String text, String ledColor, String ledDuration, String buzzerOn, String buzzerDuration, String responseType) {
+		this.id = id - 1;
+		this.teamId = teamId;
+		this.playerId = playerId;
 		this.text = text;
 		this.ledColor = ledColor;
 		this.ledDuration = ledDuration;
 		this.buzzerOn = buzzerOn;
 		this.buzzerDuration = buzzerDuration;
+		this.responseType = responseType;
+		if(teamId == 0 && playerId == 0) { responseTo = "Game Wide"; }
+		else if(teamId > 0 ) { responseTo = "Team " + teamId; }
+		else if(playerId > 0) { responseTo = "--Player " + playerId; }
+		else {}
 	}
 	
 	public void updateGeneralSetup(String title, String teamCount, String playersPerTeam) {
@@ -64,6 +73,15 @@ public class GameCreationData {
 			}
 		}
 		return tempCollection;
+	}
+	
+	public void testLoad(ArrayList<String> items) {
+		for(DataTableColumn column : dataTable) {
+			if(column.getHeader().equals("SelectOne")) {
+				column.setProperty(items.get(0));
+				items.remove(0);
+			}
+		}
 	}
 	
 	public void responseToChanged() {
@@ -114,7 +132,7 @@ public class GameCreationData {
 			}
 		}
 	}
-	
+
 	public List<String> responseToList() {
 //		List<String> responses = new ArrayList<String>();
 //		List<String> returnValue = new ArrayList<String>();
@@ -154,6 +172,14 @@ public class GameCreationData {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public void setTeamId(int teamId) {
+		this.teamId = teamId;
+	}
+	
+	public void setPlayerId(int playerId) {
+		this.playerId = playerId;
 	}
 	
 	public void setText(String text) {
@@ -198,6 +224,14 @@ public class GameCreationData {
 	
 	public int getId() {
 		return this.id + 1;
+	}
+	
+	public int getTeamId() {
+		return this.teamId;
+	}
+	
+	public int getPlayerId() {
+		return this.playerId;
 	}
 	
 	public String getText() {
