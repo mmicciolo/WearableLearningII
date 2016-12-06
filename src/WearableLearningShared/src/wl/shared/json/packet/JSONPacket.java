@@ -4,9 +4,9 @@ import java.nio.ByteBuffer;
 
 import com.google.gson.Gson;
 
-import wl.shared.json.packets.DisplayData;
 import wl.shared.json.packets.DisplayPacket;
 import wl.shared.json.packets.GameStartPacket;
+import wl.shared.json.packets.data.DisplayData;
 
 public class JSONPacket implements IJSONPacket {
 	

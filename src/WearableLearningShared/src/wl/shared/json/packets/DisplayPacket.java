@@ -5,6 +5,7 @@ import java.nio.ByteBuffer;
 import wl.shared.json.packet.IJSONPacket;
 import wl.shared.json.packet.JSONPacket;
 import wl.shared.json.packet.JSONPacketTypes;
+import wl.shared.json.packets.data.DisplayData;
 
 public class DisplayPacket extends JSONPacket implements IJSONPacket {
 	

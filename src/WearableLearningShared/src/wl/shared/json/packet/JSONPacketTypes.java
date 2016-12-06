@@ -4,5 +4,6 @@ public enum JSONPacketTypes {
 	BUTTON,
 	DISPLAY,
 	GAME_START,
-	GAME_END
+	GAME_END,
+	GAME_STATE
 }
