@@ -6,9 +6,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import wl.shared.json.packets.ButtonPacket;
 import wl.shared.json.packets.DisplayPacket;
 import wl.shared.json.packets.GameStartPacket;
 import wl.shared.json.packets.GameStatePacket;
+import wl.shared.json.packets.data.ButtonColor;
+import wl.shared.json.packets.data.ButtonData;
 import wl.shared.model.Button;
 import wlbe.event.IEvent;
 import wlbe.events.PacketRecieved;
@@ -153,6 +156,7 @@ public class GameInstance extends Task {
 			ResultSet resultSet = statement.executeQuery("SELECT * FROM gameState WHERE gameId=" + gameId + " AND gameStateCount=" + player.getCurrentGameState());
 			if(resultSet.next()) {
 				text = resultSet.getString("textContent");
+				player.setGameStateId(resultSet.getInt("gameStateId"));
 			}
 		} catch (Exception e) {
 			
@@ -180,8 +184,51 @@ public class GameInstance extends Task {
 	
 	public void handleJSONPacket(JSONPacket packet) {
 		switch(packet.getJSONPacket().getType()) {
+			case BUTTON:
+				ButtonPacket buttonPacket = (ButtonPacket) packet.getJSONPacket();
+				handleButtonPress(buttonPacket);
+				break;
 			default:
 				break;
+		}
+	}
+	
+	private void handleButtonPress(ButtonPacket buttonPacket) {
+		ButtonColor buttonColor = ButtonColor.values()[buttonPacket.getButtonData().getButtonNumber()];
+		PlayerData player = null;
+		for(PlayerData playerp : players) {
+			if(playerp.getPlayerId() == buttonPacket.getButtonData().getplayerId()) {
+				player = playerp;
+			}
+		}
+		setNextGameStateForPlayer(buttonColor, player);
+		sendGameState(player);
+//		switch(buttonColor) {
+//			case RED:
+//				break;
+//			case GREEN:
+//				break;
+//			case BLUE:
+//				break;
+//			case BLACK:
+//				break;
+//			default:
+//				break;
+//		}
+	}
+	
+	private void setNextGameStateForPlayer(ButtonColor buttonColor, PlayerData player) {		
+		try {
+			Statement statement = mySQLDaemon.getConnection().createStatement();
+			ResultSet resultSet = statement.executeQuery("SELECT * FROM gameStateTransitions WHERE gameStateId=" + player.getGameStateId() +" AND singlePushButtonColor=" + buttonColor.ordinal());
+			if(resultSet.next()) {
+				int nextGameState = resultSet.getInt("nextGameStateTransition");
+				if(nextGameState != 0) {
+					player.setCurrentGameState(nextGameState);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	

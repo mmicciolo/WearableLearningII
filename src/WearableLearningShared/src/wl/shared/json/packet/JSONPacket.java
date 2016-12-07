@@ -4,9 +4,11 @@ import java.nio.ByteBuffer;
 
 import com.google.gson.Gson;
 
+import wl.shared.json.packets.ButtonPacket;
 import wl.shared.json.packets.DisplayPacket;
 import wl.shared.json.packets.GameStartPacket;
 import wl.shared.json.packets.GameStatePacket;
+import wl.shared.json.packets.data.ButtonData;
 import wl.shared.json.packets.data.DisplayData;
 import wl.shared.json.packets.data.GameStatePacketData;
 
@@ -39,6 +41,12 @@ public class JSONPacket implements IJSONPacket {
 				GameStatePacketData gameStateData = gson.fromJson(getString(buffer), GameStatePacketData.class);
 				gameStatePacket.setData(gameStateData);
 				returnPacket = gameStatePacket;
+				break;
+			case BUTTON:
+				ButtonPacket buttonPacket = new ButtonPacket();
+				ButtonData buttonData = gson.fromJson(getString(buffer), ButtonData.class);
+				buttonPacket.setButtonData(buttonData);
+				returnPacket = buttonPacket;
 				break;
 			case DISPLAY:
 				DisplayPacket displayPacket = new DisplayPacket();
