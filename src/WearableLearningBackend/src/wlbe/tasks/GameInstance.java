@@ -10,8 +10,10 @@ import wl.shared.json.packets.ButtonPacket;
 import wl.shared.json.packets.DisplayPacket;
 import wl.shared.json.packets.GameStartPacket;
 import wl.shared.json.packets.GameStatePacket;
+import wl.shared.json.packets.PlayerPacket;
 import wl.shared.json.packets.data.ButtonColor;
 import wl.shared.json.packets.data.ButtonData;
+import wl.shared.json.packets.data.PlayerPacketData;
 import wl.shared.model.Button;
 import wlbe.event.IEvent;
 import wlbe.events.PacketRecieved;
@@ -133,8 +135,18 @@ public class GameInstance extends Task {
 			e.printStackTrace();
 		}
 		
+		sendPlayerData(player);
 		sendGameStart(player);
 		sendGameState(player);
+	}
+	
+	private void sendPlayerData(PlayerData player) {
+		Server server = (Server) ModuleManager.getModule(ModuleManager.Modules.SERVER);
+		PlayerPacket playerPacket = new PlayerPacket();
+		playerPacket.setPlayerData(new PlayerPacketData(player.getPlayerId(), gameId, gameInstanceId));
+		JSONPacket jsonPacket = new JSONPacket();
+		jsonPacket.setJSONPacket(playerPacket);
+		server.write(player.getClientData(), jsonPacket);
 	}
 	
 	private void sendGameStart(PlayerData player) {

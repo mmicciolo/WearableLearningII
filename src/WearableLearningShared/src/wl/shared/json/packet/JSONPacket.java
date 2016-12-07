@@ -8,9 +8,11 @@ import wl.shared.json.packets.ButtonPacket;
 import wl.shared.json.packets.DisplayPacket;
 import wl.shared.json.packets.GameStartPacket;
 import wl.shared.json.packets.GameStatePacket;
+import wl.shared.json.packets.PlayerPacket;
 import wl.shared.json.packets.data.ButtonData;
 import wl.shared.json.packets.data.DisplayData;
 import wl.shared.json.packets.data.GameStatePacketData;
+import wl.shared.json.packets.data.PlayerPacketData;
 
 public class JSONPacket implements IJSONPacket {
 	
@@ -41,6 +43,12 @@ public class JSONPacket implements IJSONPacket {
 				GameStatePacketData gameStateData = gson.fromJson(getString(buffer), GameStatePacketData.class);
 				gameStatePacket.setData(gameStateData);
 				returnPacket = gameStatePacket;
+				break;
+			case PLAYER_DATA:
+				PlayerPacket playerPacket = new PlayerPacket();
+				PlayerPacketData playerPacketData = gson.fromJson(getString(buffer), PlayerPacketData.class);
+				playerPacket.setPlayerData(playerPacketData);
+				returnPacket = playerPacket;
 				break;
 			case BUTTON:
 				ButtonPacket buttonPacket = new ButtonPacket();

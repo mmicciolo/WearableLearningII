@@ -36,8 +36,6 @@ public class JSONPacket extends Packet {
 				packet = buttonPacket;
 				break;
 			case DISPLAY:
-				String gsonString = getString();
-				packet = (DisplayPacket) gson.fromJson(gsonString, DisplayPacket.class);
 				break;
 			default:
 				break;

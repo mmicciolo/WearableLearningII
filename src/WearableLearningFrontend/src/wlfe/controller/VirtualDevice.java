@@ -1,8 +1,6 @@
 package wlfe.controller;
 
-import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -10,23 +8,17 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
 
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FlowEvent;
 
-import com.google.gson.Gson;
-
 import wl.shared.json.packet.IJSONPacket;
-import wl.shared.json.packet.JSONPacket;
-import wl.shared.json.packet.JSONPacketTypes;
 import wl.shared.json.packets.ButtonPacket;
 import wl.shared.json.packets.DisplayPacket;
-import wl.shared.json.packets.GameStartPacket;
 import wl.shared.json.packets.GameStatePacket;
+import wl.shared.json.packets.PlayerPacket;
 import wl.shared.json.packets.data.ButtonData;
-import wl.shared.model.Button;
+import wl.shared.json.packets.data.PlayerPacketData;
 import wlfe.common.BackendServer;
 import wlfe.common.MySQLAccessor;
 import wlfe.model.GameData;
@@ -35,11 +27,11 @@ public class VirtualDevice {
 	
 	private String displayText = "";
 	private String studentName;
-	private int playerId;
 	private List<GameData> gameInstances = new ArrayList<GameData>();
 	private GameData selectedGame;
 	private String selectedTeam;
 	private boolean on = false;
+	private PlayerPacketData playerData = null;
 	
 	private BackendServer backendServer;
 	
@@ -53,7 +45,7 @@ public class VirtualDevice {
 			ByteBuffer byteBuffer = ByteBuffer.allocate(2048);
 			byteBuffer.putInt(3);
 			ButtonPacket buttonPacket = new ButtonPacket();
-			ButtonData data = new ButtonData(playerId, 0);
+			ButtonData data = new ButtonData(playerData.getPlayerId(), 0);
 			buttonPacket.setButtonData(data);
 			byteBuffer.putInt(0);
 			backendServer.putString(buttonPacket.getGson(), byteBuffer);
@@ -89,7 +81,6 @@ public class VirtualDevice {
 		backendServer.write(buffer);
 		if(!on) { backendServer.read(); }
 		on = true;
-		playerId = getPlayerId();
 	}
 	
 	private void disconnectFromBackend() {
@@ -113,6 +104,10 @@ public class VirtualDevice {
 				displayText += "Game Starting...\n";
 				break;
 			case GAME_END:
+				break;
+			case PLAYER_DATA:
+				PlayerPacket playerPacket = (PlayerPacket) packet;
+				playerData = playerPacket.getPlayerData();
 				break;
 			case GAME_STATE:
 				GameStatePacket gameStatePacket = (GameStatePacket) packet;
@@ -196,32 +191,6 @@ public class VirtualDevice {
 				e.printStackTrace();
 			}
 		}
-	}
-	
-	private int getPlayerId() {
-		MySQLAccessor accessor = MySQLAccessor.getInstance();
-		if(accessor.Connect()) {
-			try {
-				String names[] = studentName.split(",");
-				Statement statement = accessor.GetConnection().createStatement();
-				ResultSet results = statement.executeQuery("SELECT * FROM student WHERE lastName=" + "'" + names[0] + "'" + " AND firstName=" + "'" + names[1].replace(" ", "") + "'");
-				int studentId = 0;
-				if(results.next()) {
-					studentId = results.getInt("studentId");
-				}
-				 
-				statement = accessor.GetConnection().createStatement();
-				results = statement.executeQuery("SELECT * FROM players WHERE studentId=" + studentId);
-				if(results.next()) {
-					return results.getInt("playerId");
-				}
-				
-			} catch (Exception e) {
-				
-			}
-			return 0;
-		}
-		return 0;
 	}
 
 	public void setDisplayText(String displayText) {

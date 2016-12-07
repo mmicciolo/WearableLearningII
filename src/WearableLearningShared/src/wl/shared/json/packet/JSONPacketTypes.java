@@ -5,5 +5,6 @@ public enum JSONPacketTypes {
 	DISPLAY,
 	GAME_START,
 	GAME_END,
-	GAME_STATE
+	GAME_STATE,
+	PLAYER_DATA
 }
