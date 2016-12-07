@@ -1,9 +1,14 @@
 package wlbe.tasks;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import wl.shared.json.packets.DisplayPacket;
 import wl.shared.json.packets.GameStartPacket;
+import wl.shared.json.packets.GameStatePacket;
 import wl.shared.model.Button;
 import wlbe.event.IEvent;
 import wlbe.events.PacketRecieved;
@@ -43,6 +48,9 @@ public class GameInstance extends Task {
 	}
 	
 	public void cleanup() {
+		for(PlayerData player : players) {
+			removePlayer(player);
+		}
 		taskManager.removeTask(mySQLDaemon);
 	}
 	
@@ -88,6 +96,7 @@ public class GameInstance extends Task {
 			for(int i = 0; i < players.size(); i++) {
 				PlayerData player = (PlayerData) players.toArray()[i];
 				if(player.getPlayerName().equals(packet.getStudentName())) {
+					removePlayer(player);
 					players.remove(player);
 					Logger logger = (Logger) ModuleManager.getModule(ModuleManager.Modules.LOGGER);
 					logger.write("Client Disconnected...");
@@ -97,16 +106,76 @@ public class GameInstance extends Task {
 	}
 	
 	private void setupNewPlayer(PlayerData player) {
-		DisplayPacket displayPacket = new DisplayPacket("Welcome to the game! " + player.getPlayerName());
-		JSONPacket jsonPacket = new JSONPacket();
-		jsonPacket.setJSONPacket(displayPacket);
-		Server server = (Server) ModuleManager.getModule(ModuleManager.Modules.SERVER);
-		server.write(player.getClientData(), jsonPacket);
+		//Step 1. Create a new player in the database in the players table
+		//Step 2. Send the start game packet
+		//Step 3. Send the first game state
 		
+		try {
+			String names[] = player.getPlayerName().split(",");
+			Statement statement = mySQLDaemon.getConnection().createStatement();
+			ResultSet results = statement.executeQuery("SELECT * FROM student WHERE lastName=" + "'" + names[0] + "'" + " AND firstName=" + "'" + names[1].replace(" ", "") + "'");
+			if(results.next()) {
+				String returnId[] = {"playerId"};
+				PreparedStatement preparedStatement = mySQLDaemon.getConnection().prepareStatement("INSERT INTO players (gameInstanceId, studentId, currentGameState) VALUES (?, ?, ?)", returnId);
+				preparedStatement.setInt(1, gameInstanceId);
+				preparedStatement.setInt(2, results.getInt("studentId"));
+				preparedStatement.setInt(3, player.getCurrentGameState());
+				preparedStatement.execute();
+				ResultSet rs = preparedStatement.getGeneratedKeys();
+				if(rs.next()) {
+					player.setPlayerId((int)rs.getLong(1));
+				}
+				rs.close();
+				preparedStatement.close();
+				results.close();
+				statement.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		sendGameStart(player);
+		sendGameState(player);
+	}
+	
+	private void sendGameStart(PlayerData player) {
+		Server server = (Server) ModuleManager.getModule(ModuleManager.Modules.SERVER);
 		GameStartPacket startGamePacket = new GameStartPacket();
-		JSONPacket jsonPacket2 = new JSONPacket();
-		jsonPacket2.setJSONPacket(startGamePacket);
-		server.write(player.getClientData(), jsonPacket2);
+		JSONPacket jsonPacket = new JSONPacket();
+		jsonPacket.setJSONPacket(startGamePacket);
+		server.write(player.getClientData(), jsonPacket);
+	}
+	
+	private void sendGameState(PlayerData player) {
+		String text = "";
+		try {
+			Statement statement = mySQLDaemon.getConnection().createStatement();
+			ResultSet resultSet = statement.executeQuery("SELECT * FROM gameState WHERE gameId=" + gameId + " AND gameStateCount=" + player.getCurrentGameState());
+			if(resultSet.next()) {
+				text = resultSet.getString("textContent");
+			}
+		} catch (Exception e) {
+			
+		}
+		
+		Server server = (Server) ModuleManager.getModule(ModuleManager.Modules.SERVER);
+		GameStatePacket gameStatePacket = new GameStatePacket();
+		gameStatePacket.getGameStatePacketData().getDisplayData().text = text;
+		JSONPacket jsonPacket = new JSONPacket();
+		jsonPacket.setJSONPacket(gameStatePacket);
+		server.write(player.getClientData(), jsonPacket);
+	}
+	
+	private boolean removePlayer(PlayerData playerData) {
+		try {
+			PreparedStatement statement = mySQLDaemon.getConnection().prepareStatement("DELETE FROM players WHERE playerId=" + playerData.getPlayerId());
+			statement.execute();
+			statement.close();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
 	public void handleJSONPacket(JSONPacket packet) {
@@ -114,8 +183,6 @@ public class GameInstance extends Task {
 			default:
 				break;
 		}
-		//Button button = packet.getGson().fromJson(packet.getGsonString(), Button.class);
-		//button.toString();
 	}
 	
 	public int getGameId() {

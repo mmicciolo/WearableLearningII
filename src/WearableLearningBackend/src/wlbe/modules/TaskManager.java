@@ -43,7 +43,9 @@ public class TaskManager extends Module {
 	}
 	
 	public void cleanup() {
-		
+		for(Task t : tasks) {
+			t.shutdown();
+		}
 	}
 	
 	public ArrayList<Task> getTasks() {

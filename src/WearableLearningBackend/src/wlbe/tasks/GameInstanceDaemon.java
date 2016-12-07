@@ -1,5 +1,6 @@
 package wlbe.tasks;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -16,6 +17,7 @@ public class GameInstanceDaemon extends Task {
 	public GameInstanceDaemon() {
 		setName("Game Instance Daemon");
 		mysqlDaemon = new MySQLDaemon();
+		clearPlayers();
 	}
 	
 	public void update() {
@@ -33,6 +35,16 @@ public class GameInstanceDaemon extends Task {
 	
 	public void eventHandler(Event e) {
 		
+	}
+	
+	private void clearPlayers() {
+		try {
+			PreparedStatement statement = mysqlDaemon.getConnection().prepareStatement("TRUNCATE players");
+			statement.execute();
+			statement.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 		
 	private void mysqlPoll() {

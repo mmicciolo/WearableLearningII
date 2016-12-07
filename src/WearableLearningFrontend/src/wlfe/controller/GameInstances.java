@@ -61,9 +61,8 @@ public class GameInstances {
 					try {
 						String[] key = {"gameInstanceId"};
 						int returnId = 0;
-						PreparedStatement preparedStatement = accessor.GetConnection().prepareStatement("INSERT INTO gameInstance (gameId, currentGameStateId) VALUES (?, ?)", key);
+						PreparedStatement preparedStatement = accessor.GetConnection().prepareStatement("INSERT INTO gameInstance (gameId) VALUES (?)", key);
 						preparedStatement.setInt(1, gameData.getGameId());
-						preparedStatement.setInt(2, 1);
 						preparedStatement.execute();
 						ResultSet rs = preparedStatement.getGeneratedKeys();
 						if(rs.next()) {

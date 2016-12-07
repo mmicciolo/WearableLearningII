@@ -2,7 +2,6 @@ package wlbe.modules;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousServerSocketChannel;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;
@@ -79,8 +78,8 @@ public class Server extends Module {
 		try {
 			serverSocket.close();
 		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			
+		} 
 	}
 	
 	private void setupServerSettings() {

@@ -21,6 +21,7 @@ import wl.shared.json.packet.IJSONPacket;
 import wl.shared.json.packet.JSONPacketTypes;
 import wl.shared.json.packets.DisplayPacket;
 import wl.shared.json.packets.GameStartPacket;
+import wl.shared.json.packets.GameStatePacket;
 import wl.shared.model.Button;
 import wlfe.common.BackendServer;
 import wlfe.common.MySQLAccessor;
@@ -44,6 +45,7 @@ public class VirtualDevice {
 	
 	public void button1() {
 		if(on) {
+			
 			displayText = "Button 1 Pushed!\nColor: Red";
 //			Gson gson = new Gson();
 //			Button button = new Button("Button 1");
@@ -103,9 +105,13 @@ public class VirtualDevice {
 	public void packetRecieved(IJSONPacket packet) {
 		switch(packet.getType()) {
 			case GAME_START:
-				displayText += "\nGame Starting...";
+				displayText += "Game Starting...\n";
 				break;
 			case GAME_END:
+				break;
+			case GAME_STATE:
+				GameStatePacket gameStatePacket = (GameStatePacket) packet;
+				displayText = gameStatePacket.getGameStatePacketData().getDisplayData().text;
 				break;
 			case DISPLAY:
 				DisplayPacket displayPacket = (DisplayPacket) packet;

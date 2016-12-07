@@ -104,23 +104,31 @@ public class BackendServer {
 			virtualDevice.packetRecieved(p);
 		}
 	}
+	
+	public boolean getDisconnect() {
+		 return this.disconnect;
+	}
 }
 
 class ReadWriteHandler implements CompletionHandler<Integer, ServerData> {
 	
 	@Override
 	public void completed(Integer results, ServerData serverData) {
-		if(serverData.getIsRead()) {
-			serverData.setOperationDone(true);
-			serverData.getBackendServer().readComplete(serverData.getBuffer());
-		} else {
-			serverData.setOperationDone(true);
+		if(serverData.getBackendServer().getDisconnect() == false) {
+			if(serverData.getIsRead()) {
+				serverData.setOperationDone(true);
+				serverData.getBackendServer().readComplete(serverData.getBuffer());
+			} else {
+				serverData.setOperationDone(true);
+			}
+			serverData.getBackendServer().checkDisconnected();
 		}
-		serverData.getBackendServer().checkDisconnected();
 	}
 
 	@Override
 	public void failed(Throwable exc, ServerData attachment) {
-		exc.printStackTrace();
+		if(!exc.getMessage().equals("The specified network name is no longer available.\r\n")) {
+			exc.printStackTrace();
+		}
 	}
 }

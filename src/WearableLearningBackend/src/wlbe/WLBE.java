@@ -43,7 +43,6 @@ public class WLBE {
 		createGameInstanceDaemon();
 		createIODaemon();
 		
-		
 		while(running) {
 			moduleManager.update();
 			try {
@@ -52,7 +51,6 @@ public class WLBE {
 				// TODO Auto-generated catch block
 			}
 		}
-		moduleManager.cleanup();
 	}
 	
 	/**
