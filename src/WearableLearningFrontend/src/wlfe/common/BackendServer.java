@@ -77,10 +77,6 @@ public class BackendServer {
 		serverData.getBuffer().flip();
 		ReadWriteHandler readWriteHandler = new ReadWriteHandler();
 		server.write(serverData.getBuffer(), serverData, readWriteHandler);
-//		while(!serverData.getOperationDone()) {
-//			
-//		}
-//		serverData.getBuffer().clear();
 	}
 	
 	public ByteBuffer read() {
@@ -88,10 +84,6 @@ public class BackendServer {
 		serverData.setBuffer(ByteBuffer.allocate(65536));
 		ReadWriteHandler readWriteHandler = new ReadWriteHandler();
 		server.read(serverData.getBuffer(), serverData, readWriteHandler);
-//		while(!serverData.getOperationDone()) {
-//			
-//		}
-		//serverData.getBuffer().clear();
 		return serverData.getBuffer();
 	}
 	

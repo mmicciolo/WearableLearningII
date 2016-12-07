@@ -22,7 +22,6 @@ public class IODaemon extends Task {
 			ByteBuffer buffer = packet.packet.assemblePacket();
 			buffer.flip();
 			packet.clientData.getClientSocket().write(buffer);
-			//packet.clientData.getServerModule().write(packet.clientData, packet.packet.assemblePacket());
 		}
 	}
 	

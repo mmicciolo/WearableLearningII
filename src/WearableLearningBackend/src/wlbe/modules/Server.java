@@ -56,9 +56,6 @@ public class Server extends Module {
 				break;
 			}
 		}
-		//buffer.flip();
-		//ServerRequestReadWriteHandler readWriteHandler = new ServerRequestReadWriteHandler();
-		//clientData.write(buffer, clientData, readWriteHandler);
 	}
 	
 	public void handlePacket(IPacket packet) {

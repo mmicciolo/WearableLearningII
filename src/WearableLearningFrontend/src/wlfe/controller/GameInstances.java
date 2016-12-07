@@ -104,7 +104,6 @@ public class GameInstances {
 			}
 			accordionData.remove(data);
 			RequestContext.getCurrentInstance().update("main:accordion");
-			//Common.SuccessMessage();
 			accessor.Disconnect();
 		}
 	}

@@ -109,10 +109,6 @@ public class GameInstance extends Task {
 	}
 	
 	private void setupNewPlayer(PlayerData player) {
-		//Step 1. Create a new player in the database in the players table
-		//Step 2. Send the start game packet
-		//Step 3. Send the first game state
-		
 		try {
 			String names[] = player.getPlayerName().split(",");
 			Statement statement = mySQLDaemon.getConnection().createStatement();
@@ -203,18 +199,6 @@ public class GameInstance extends Task {
 		}
 		setNextGameStateForPlayer(buttonColor, player);
 		sendGameState(player);
-//		switch(buttonColor) {
-//			case RED:
-//				break;
-//			case GREEN:
-//				break;
-//			case BLUE:
-//				break;
-//			case BLACK:
-//				break;
-//			default:
-//				break;
-//		}
 	}
 	
 	private void setNextGameStateForPlayer(ButtonColor buttonColor, PlayerData player) {		

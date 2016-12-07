@@ -77,10 +77,6 @@ public class Games extends BaseHeaderMenuTableContentFooter<GameData> {
 			MySQLAccessor accessor = MySQLAccessor.getInstance();
 			if(accessor.Connect()) {
 				try {
-					//Get all of the gameStateIds that coordinate with gameId
-					//Delete all of the above from gameStateTransition
-					//Delete all gameIds from gameState
-					//Delete game from games
 					Statement statement = accessor.GetConnection().createStatement();
 					ResultSet resultSet = statement.executeQuery("SELECT * FROM gameState WHERE gameId=" + selectedObject.getGameId());
 					List<Integer> gameStateIds = new ArrayList<Integer>();
@@ -109,6 +105,5 @@ public class Games extends BaseHeaderMenuTableContentFooter<GameData> {
 				}
 			}
 		}
-		//super.deletePressed("DELETE FROM games WHERE gameId=" + selectedObject.getGameId());
 	}
 }

@@ -94,12 +94,19 @@ public class WLBE {
 		moduleManager.addModule(eventManager);
 	}
 	
+	/**
+	 * Creates a game instance daemon that polls the game instance table in the database
+	 * and creates new game instance tasks as well as deletes if they are removed.
+	 */
 	public static void createGameInstanceDaemon() {
 		TaskManager taskManager = (TaskManager) ModuleManager.getModule(ModuleManager.Modules.TASK_MANAGER);
 		GameInstanceDaemon gameInstanceDaemon = new GameInstanceDaemon();
 		taskManager.addTask(gameInstanceDaemon);	
 	}
 	
+	/**
+	 * Creates an IO daemon which polls a list of packets to send and sends them out
+	 */
 	public static void createIODaemon() {
 		TaskManager taskManager = (TaskManager) ModuleManager.getModule(ModuleManager.Modules.TASK_MANAGER);
 		IODaemon ioDaemon = new IODaemon();

@@ -58,14 +58,6 @@ public class VirtualDevice {
 			byteBuffer.putInt(0);
 			backendServer.putString(buttonPacket.getGson(), byteBuffer);
 			backendServer.write(byteBuffer);
-			//displayText = "Button 1 Pushed!\nColor: Red";
-//			Gson gson = new Gson();
-//			Button button = new Button("Button 1");
-//			String out = gson.toJson(button);
-//			ByteBuffer buffer = ByteBuffer.allocate(65536);
-//			buffer.putInt(3);
-//			backendServer.putString(out, buffer);
-//			backendServer.write(buffer);
 		}
 	}
 	
