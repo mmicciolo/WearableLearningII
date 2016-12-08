@@ -142,10 +142,16 @@ class ServerConnectionHandler implements CompletionHandler<AsynchronousSocketCha
 	public void completed(AsynchronousSocketChannel client, ClientData clientData) {
 		logger.write("Connection Accepted...");
 		ServerRequestReadWriteHandler rwHandler = new ServerRequestReadWriteHandler();
-		clientData.getServerSocket().accept(clientData, this);
-		clientData.getServerModule().addClient(clientData);
-		clientData.setClientSocket(client);
-		client.read(clientData.getBuffer(), clientData, rwHandler);
+		ClientData cd = new ClientData(clientData.getServerModule(), clientData.getServerSocket(), client, true);
+		//cd.setServerSocket(clientData.getServerSocket());
+		//cd.setServerModule(clientData.getServerModule());
+		//cd.setClientSocket(client);
+		//clientData.getServerSocket().accept(clientData, this);
+		//clientData.getServerModule().addClient(clientData);
+		//clientData.setClientSocket(client);
+		//client.read(clientData.getBuffer(), clientData, rwHandler);
+		client.read(cd.getBuffer(), cd, rwHandler);
+		clientData.getServerSocket().accept(clientData, new ServerConnectionHandler());
 	}
 	
 	@Override
@@ -168,7 +174,7 @@ class ServerRequestReadWriteHandler implements CompletionHandler<Integer, Client
 				clientData.getClientSocket().read(clientData.getBuffer(), clientData, this);
 			}
 		} else {
-			
+			clientData.setIsRead(true);
 		}
 	}
 

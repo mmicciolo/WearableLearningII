@@ -130,9 +130,9 @@ public class GameInstance extends Task {
 	
 	private void setupNewPlayer(PlayerData player) {
 		try {
-			String names[] = player.getPlayerName().split(",");
+			String names[] = player.getPlayerName().split(", ");
 			Statement statement = mySQLDaemon.getConnection().createStatement();
-			ResultSet results = statement.executeQuery("SELECT * FROM student WHERE lastName=" + "'" + names[0] + "'" + " AND firstName=" + "'" + names[1].replace(" ", "") + "'");
+			ResultSet results = statement.executeQuery("SELECT * FROM student WHERE lastName=" + "'" + names[0] + "'" + " AND firstName=" + "'" + names[1] + "'");
 			if(results.next()) {
 				String returnId[] = {"playerId"};
 				PreparedStatement preparedStatement = mySQLDaemon.getConnection().prepareStatement("INSERT INTO players (gameInstanceId, studentId, currentGameState) VALUES (?, ?, ?)", returnId);

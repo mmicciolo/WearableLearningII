@@ -6,7 +6,7 @@ import wlbe.module.ModuleManager.Modules;
 public class Settings extends Module {
 	
 	public final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-	public final String DATABASE_URL = "jdbc:mysql://mmicciolo.tk/wearablelearning?useSSL=false";
+	public final String DATABASE_URL = "jdbc:mysql://71.162.250.48/wearablelearning?useSSL=false";
 	public final String USERNAME = "wlfe";
 	public final String PASSWORD = "matthew";
 	
