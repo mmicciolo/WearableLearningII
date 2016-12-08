@@ -17,6 +17,7 @@ import wl.shared.json.packets.data.PlayerPacketData;
 import wl.shared.model.Button;
 import wlbe.event.IEvent;
 import wlbe.events.PacketRecieved;
+import wlbe.model.GameInstanceData;
 import wlbe.model.PlayerData;
 import wlbe.module.ModuleManager;
 import wlbe.modules.Logger;
@@ -29,18 +30,20 @@ import wlbe.task.Task;
 
 public class GameInstance extends Task {
 	
-	private int gameInstanceId;
-	private int gameId;
 	private TaskManager taskManager;
 	private MySQLDaemon mySQLDaemon;
 	private ArrayList<PlayerData> players = new ArrayList<PlayerData>();
 	Logger logger;
+	private GameInstanceData gameInstanceData = new GameInstanceData();
 	
 	public GameInstance(int gameInstanceId, int gameId) {
 		setName("Game Instance " + gameInstanceId);
-		this.gameInstanceId = gameInstanceId;
-		this.gameId = gameId;
+		//this.gameInstanceId = gameInstanceId;
+		//this.gameId = gameId;
+		gameInstanceData.setGameInstanceId(gameInstanceId);
+		gameInstanceData.setGameId(gameId);
 		mySQLDaemon = new MySQLDaemon();
+		getGameData();
 		taskManager = (TaskManager) ModuleManager.getModule(ModuleManager.Modules.TASK_MANAGER);
 		taskManager.addTask(mySQLDaemon);
 		logger = (Logger) ModuleManager.getModule(ModuleManager.Modules.LOGGER);
@@ -82,22 +85,37 @@ public class GameInstance extends Task {
 		}
 	}
 	
+	public void getGameData() {
+		try {
+			Statement statement = mySQLDaemon.getConnection().createStatement();
+			ResultSet resultSet = statement.executeQuery("SELECT * FROM games WHERE gameId=" + gameInstanceData.getGameId());
+			if(resultSet.next()) {
+				gameInstanceData.setTitle(resultSet.getString("title"));
+				gameInstanceData.setTeamCount(resultSet.getInt("teamCount"));
+				gameInstanceData.setPlayersPerTeam(resultSet.getInt("playersPerTeam"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void playerConnect(ConnectPacket packet) {
-		if(packet.getGameInstanceId() == gameInstanceId) {
+		if(packet.getGameInstanceId() == gameInstanceData.getGameInstanceId()) {
 			for(PlayerData player : players) {
 				if(player.getPlayerName().equals(packet.getStudentName())) {
 					logger.write("Client Reconnected...");
 					return;
 				}
 			}
-			PlayerData player = new PlayerData(packet.getStudentName(), packet.getClientData());
+			PlayerData player = new PlayerData(packet.getStudentName(), Integer.parseInt(packet.getSelectedTeam().replace("Team ", "")), packet.getClientData());
 			players.add(player);
+			player.setPlayerNumber(gameInstanceData.addPlayer(Integer.parseInt(packet.getSelectedTeam().replace("Team ", ""))));
 			setupNewPlayer(player);
 		}
 	}
 	
 	public void playerDisconnect(DisconnectPacket packet) {
-		if(packet.getGameInstanceId() == gameInstanceId) {
+		if(packet.getGameInstanceId() == gameInstanceData.getGameInstanceId()) {
 			for(int i = 0; i < players.size(); i++) {
 				PlayerData player = (PlayerData) players.toArray()[i];
 				if(player.getPlayerName().equals(packet.getStudentName())) {
@@ -118,7 +136,7 @@ public class GameInstance extends Task {
 			if(results.next()) {
 				String returnId[] = {"playerId"};
 				PreparedStatement preparedStatement = mySQLDaemon.getConnection().prepareStatement("INSERT INTO players (gameInstanceId, studentId, currentGameState) VALUES (?, ?, ?)", returnId);
-				preparedStatement.setInt(1, gameInstanceId);
+				preparedStatement.setInt(1, gameInstanceData.getGameInstanceId());
 				preparedStatement.setInt(2, results.getInt("studentId"));
 				preparedStatement.setInt(3, player.getCurrentGameState());
 				preparedStatement.execute();
@@ -143,7 +161,7 @@ public class GameInstance extends Task {
 	private void sendPlayerData(PlayerData player) {
 		Server server = (Server) ModuleManager.getModule(ModuleManager.Modules.SERVER);
 		PlayerPacket playerPacket = new PlayerPacket();
-		playerPacket.setPlayerData(new PlayerPacketData(player.getPlayerId(), gameId, gameInstanceId));
+		playerPacket.setPlayerData(new PlayerPacketData(player.getPlayerId(), gameInstanceData.getGameId(), gameInstanceData.getGameInstanceId()));
 		JSONPacket jsonPacket = new JSONPacket();
 		jsonPacket.setJSONPacket(playerPacket);
 		server.write(player.getClientData(), jsonPacket);
@@ -161,10 +179,10 @@ public class GameInstance extends Task {
 		String text = "";
 		try {
 			Statement statement = mySQLDaemon.getConnection().createStatement();
-			ResultSet resultSet = statement.executeQuery("SELECT * FROM gameState WHERE gameId=" + gameId + " AND gameStateCount=" + player.getCurrentGameState());
+			ResultSet resultSet = statement.executeQuery("SELECT * FROM gameState WHERE gameId=" + gameInstanceData.getGameId() + " AND gameStateCount=" + player.getCurrentGameState());
 			if(resultSet.next()) {
 				text = resultSet.getString("textContent");
-				player.setGameStateId(resultSet.getInt("gameStateId"));
+				player.setCurrentGameStateId(resultSet.getInt("gameStateId"));
 			}
 		} catch (Exception e) {
 			
@@ -212,15 +230,35 @@ public class GameInstance extends Task {
 		setNextGameStateForPlayer(buttonColor, player);
 		sendGameState(player);
 	}
-	
+
 	private void setNextGameStateForPlayer(ButtonColor buttonColor, PlayerData player) {		
 		try {
-			Statement statement = mySQLDaemon.getConnection().createStatement();
-			ResultSet resultSet = statement.executeQuery("SELECT * FROM gameStateTransitions WHERE gameStateId=" + player.getGameStateId() +" AND singlePushButtonColor=" + buttonColor.ordinal());
-			if(resultSet.next()) {
-				int nextGameState = resultSet.getInt("nextGameStateTransition");
-				if(nextGameState != 0) {
-					player.setCurrentGameState(nextGameState);
+			Statement statementt = mySQLDaemon.getConnection().createStatement();
+			ResultSet rs = statementt.executeQuery("SELECT * FROM gameState WHERE gameStateId=" + player.getCurrentGameStateId());
+			if(rs.next()) {
+				int teamId = rs.getInt("teamId");
+				int playerId = rs.getInt("playerId");
+				Statement statement = mySQLDaemon.getConnection().createStatement();
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM gameStateTransitions WHERE gameStateId=" + player.getCurrentGameStateId() +" AND singlePushButtonColor=" + buttonColor.ordinal());
+				if(teamId == 0 && playerId == 0 || teamId == 0 && playerId > 0) {
+					if(resultSet.next()) {
+						int nextGameState = resultSet.getInt("nextGameStateTransition");
+						if(nextGameState != 0) {
+							player.setCurrentGameState(nextGameState);
+							player.setCurrentGameStateId(resultSet.getInt("gameStateId"));
+						}
+					}
+				} else if(teamId > 0 & playerId == 0) {
+					for(int n = 0; n < player.getPlayerNumber(); n++) {
+						resultSet.next();
+					}
+					int nextGameState = resultSet.getInt("nextGameStateTransition");
+					if(nextGameState != 0) {
+						player.setCurrentGameState(nextGameState);
+						player.setCurrentGameStateId(resultSet.getInt("gameStateId"));
+					}
+				} else {
+					
 				}
 			}
 		} catch (Exception e) {
@@ -229,10 +267,10 @@ public class GameInstance extends Task {
 	}
 	
 	public int getGameId() {
-		return this.gameId;
+		return this.gameInstanceData.getGameId();
 	}
 	
 	public int getGameInstanceId() {
-		return this.gameInstanceId;
+		return this.gameInstanceData.getGameInstanceId();
 	}
 }

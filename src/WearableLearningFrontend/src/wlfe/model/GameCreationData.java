@@ -91,7 +91,7 @@ public class GameCreationData {
 			if(responseType.equals("Single")) {
 				if(responseTo.equals("Game Wide")) {
 					columnCount = 5;
-					dataTable.add(new DataTableColumn("Text", ""));
+					dataTable.add(new DataTableColumn("Text", "Button Color"));
 					for(int i = 0; i < 4; i++) {
 						dataTable.add(new DataTableColumn("Color", buttonColors[i]));
 					}
@@ -104,9 +104,24 @@ public class GameCreationData {
 							}
 						}
 					}
+				} else if(responseTo.contains("Team")) { 
+					columnCount = 5;
+					dataTable.add(new DataTableColumn("Text", "Button Color"));
+					for(int i = 0; i < 4; i++) {
+						dataTable.add(new DataTableColumn("Color", buttonColors[i]));
+					}
+					for(int i = 0; i < Integer.parseInt(playersPerTeam); i++) {
+						for(int n = 0; n < columnCount; n++) {
+							if(n == 0) {
+								dataTable.add(new DataTableColumn("Text", "Player " + (i + 1)));
+							} else {
+								dataTable.add(new DataTableColumn("SelectOne", ""));
+							}
+						}
+					}
 				} else if(!responseTo.equals("")) {
 					columnCount = 5;
-					dataTable.add(new DataTableColumn("Text", ""));
+					dataTable.add(new DataTableColumn("Text", "Button Color"));
 					String columnOut = responseTo.replace("-", "");
 					for(int i = 0; i < 4; i++) {
 						dataTable.add(new DataTableColumn("Color", buttonColors[i]));
