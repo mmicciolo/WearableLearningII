@@ -59,6 +59,7 @@ public class Classes extends BaseHeaderMenuTableContentFooter<ClassData> {
 					ClassData classData = new ClassData();
 					String returnId[] = {""};
 					MySQLSetGet(false, null, returnId, results, fields, classData, 1);
+					classData.setTeacher(Common.getTeacherForSession().getFirstName() + " " + Common.getTeacherForSession().getLastName());
 					tableObjects.add(classData);
 				}
 				results.close();
@@ -85,14 +86,14 @@ public class Classes extends BaseHeaderMenuTableContentFooter<ClassData> {
 				String returnId[] = {"classId"};
 				PreparedStatement preparedStatement = accessor.GetConnection().prepareStatement("INSERT INTO class (teacherId, className, school, grade, year) VALUES (?, ?, ?, ?, ?)", returnId);
 				ClassData classData = new ClassData();
-				preparedStatement.setInt(1, 1);
+				preparedStatement.setInt(1, Common.getTeacherForSession().getTeacherId());
 				createMySQLEntry(preparedStatement, fields, classData, returnId, 2);
 				preparedStatement.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 				Common.ErrorMessage();
 			}
-			tableObjects.add(new ClassData(Integer.parseInt(fields.get("classId").getProperty()), fields.get("className").getProperty(), "teacher", fields.get("school").getProperty(), Integer.parseInt(fields.get("grade").getProperty()), Integer.parseInt(fields.get("year").getProperty())));
+			tableObjects.add(new ClassData(Integer.parseInt(fields.get("classId").getProperty()), fields.get("className").getProperty(), Common.getTeacherForSession().getFirstName() + " " + Common.getTeacherForSession().getLastName(), fields.get("school").getProperty(), Integer.parseInt(fields.get("grade").getProperty()), Integer.parseInt(fields.get("year").getProperty())));
 			RequestContext.getCurrentInstance().update("main:mainTable");
 			RequestContext.getCurrentInstance().execute("PF('NewDialog').hide();");
 			Common.SuccessMessage();
