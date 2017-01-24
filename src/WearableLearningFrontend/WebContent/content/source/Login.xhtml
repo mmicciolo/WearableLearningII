@@ -10,6 +10,7 @@
 <ui:composition template="templates/HeaderContentFooter/HeaderContentFooter.xhtml">
 	<ui:define name="content">
 	    <h:form>
+	    	<p:growl id="growl" showDetail="true" stick="true"></p:growl>
 	    	<p:panel id="basic" header="Login" style="margin-top:5%; width:40%; text-align:center; position:relative; margin-left: auto; margin-right: auto; left: 0; right: 0;">
 	    		<h:outputLabel value="Welcome To The Teacher Control Panel Login!"/>
 	    		
@@ -31,7 +32,7 @@
 				
 				<br/>
 				
-				<p:commandButton id="loginButton" value="Login" icon="ui-icon-check" style="margin:0" action="#{login.validateUsernamePassword}"/>
+				<p:commandButton id="loginButton" value="Login" icon="ui-icon-check" style="margin:0" action="#{login.validateUsernamePassword}" update="growl"/>
 	    	</p:panel>
 	    </h:form>
 	    <h:form id="signupMain">
