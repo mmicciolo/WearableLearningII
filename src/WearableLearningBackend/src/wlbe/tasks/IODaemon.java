@@ -17,11 +17,17 @@ public class IODaemon extends Task {
 	}
 	
 	public void update() {
-		if(packets.size() > 0) {
-			IOPacket packet = packets.remove();
-			ByteBuffer buffer = packet.packet.assemblePacket();
-			buffer.flip();
-			packet.clientData.getClientSocket().write(buffer);
+		try {
+			accquire();
+			if(packets.size() > 0) {
+				IOPacket packet = packets.remove();
+				ByteBuffer buffer = packet.packet.assemblePacket();
+				buffer.flip();
+				packet.clientData.getClientSocket().write(buffer);
+			}
+			release();
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -30,7 +36,13 @@ public class IODaemon extends Task {
 	}
 	
 	public void sendPacket(IPacket packet, ClientData clientData) {
-		packets.add(new IOPacket(packet, clientData));
+		try {
+			accquire();
+			packets.add(new IOPacket(packet, clientData));
+			release();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
 

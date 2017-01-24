@@ -1,5 +1,7 @@
 package wlbe.task;
 
+import java.util.concurrent.Semaphore;
+
 import wlbe.event.IEvent;
 
 /**
@@ -15,6 +17,7 @@ public abstract class Task extends Thread implements ITask {
 	
 	private boolean running = true;
 	private String name;
+	private final Semaphore available = new Semaphore(10, true);
 	
 	/**
 	 * This is where the thread first enters when it is first
@@ -60,5 +63,20 @@ public abstract class Task extends Thread implements ITask {
 	 */
 	public void eventHandler(IEvent e) {
 		
+	}
+	
+	/**
+	 * Called to accquire a resource
+	 * @throws InterruptedException 
+	 */
+	public void accquire() throws InterruptedException {
+		available.acquire();
+	}
+	
+	/** 
+	 * Called to release a resource
+	 */
+	public void release() {
+		available.release();
 	}
 }

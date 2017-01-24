@@ -38,7 +38,7 @@ public class PacketTypes {
 	 * @return Packet class
 	 */
 	public static IPacket getPacketFromBuffer(ByteBuffer buffer, ClientData clientData) {
-		Packet packet = null;
+		IPacket packet = null;
 		PacketType packetType = PacketType.values()[buffer.getInt()];
 		switch(packetType) {
 			case ECHO:

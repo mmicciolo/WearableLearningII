@@ -18,4 +18,15 @@ public interface ITask {
 	 * Called before exiting
 	 */
 	void cleanup();
+	
+	/**
+	 * Called to take control of a data item in a running task.
+	 * This is used when two threads try accessing data at the same time.
+	 */
+	void accquire() throws InterruptedException;
+	
+	/**
+	 * Called to release control of a data item in a running task.
+	 */
+	void release();
 }

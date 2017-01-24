@@ -1,8 +1,6 @@
 package wlbe.modules;
 
-import java.util.ArrayList;
 
-import wlbe.event.Event;
 import wlbe.event.IEvent;
 import wlbe.module.Module;
 import wlbe.module.ModuleManager;
@@ -10,8 +8,6 @@ import wlbe.module.ModuleManager.Modules;
 import wlbe.task.Task;
 
 public class EventManager extends Module {
-	
-	ArrayList<Event> events = new ArrayList<Event>();
 	
 	public EventManager(Modules moduleId) {
 		super(moduleId);

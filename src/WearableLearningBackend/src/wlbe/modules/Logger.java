@@ -15,9 +15,15 @@ public class Logger extends Module {
 	}
 	
 	public void write(String output) {
-		writer.println(output);
-		writer.flush();
-		System.out.println(output);
+		try {
+			accquire();
+			writer.println(output);
+			writer.flush();
+			System.out.println(output);
+			release();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void setup() {

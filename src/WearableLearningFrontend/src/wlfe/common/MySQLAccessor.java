@@ -14,6 +14,7 @@ public class MySQLAccessor {
 	
 	private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 	private static final String DATABASE_URL = "jdbc:mysql://mmicciolo.tk/wearablelearning?useSSL=false";
+//	private static final String DATABASE_URL = "jdbc:mysql://localhost/wearablelearning?useSSL=false";
 	private static final String USERNAME = "wlfe";
 	private static final String PASSWORD = "matthew";
 	

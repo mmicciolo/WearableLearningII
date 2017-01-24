@@ -16,10 +16,16 @@ public class TaskManager extends Module {
 	}
 	
 	public void addTask(Task task) {
-		new Thread(task).start();
-		tasks.add(task);
-		Logger logger = (Logger) ModuleManager.getModule(ModuleManager.Modules.LOGGER);
-		logger.write("Task " + task.getName() + " Added...");
+		try {
+			new Thread(task).start();
+			release();
+			tasks.add(task);
+			release();
+			Logger logger = (Logger) ModuleManager.getModule(ModuleManager.Modules.LOGGER);
+			logger.write("Task " + task.getName() + " Added...");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void removeTask(Task task) {
@@ -29,7 +35,13 @@ public class TaskManager extends Module {
 				break;
 			}
 		}
-		tasks.remove(task);
+		try {
+			accquire();
+			tasks.remove(task);
+			release();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		Logger logger = (Logger) ModuleManager.getModule(ModuleManager.Modules.LOGGER);
 		logger.write("Task " + task.getName() + " Removed...");
 	}

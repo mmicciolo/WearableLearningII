@@ -13,17 +13,19 @@ public class ClientData {
 	private AsynchronousSocketChannel clientSocket;
 	private ByteBuffer buffer;
 	private boolean isRead;
+	private int gameInstanceId;
     
     public ClientData() {
     	
     }
     
-    public ClientData(Server serverModule, AsynchronousServerSocketChannel serverSocket, AsynchronousSocketChannel clientSocket, boolean isRead) {
+    public ClientData(Server serverModule, AsynchronousServerSocketChannel serverSocket, AsynchronousSocketChannel clientSocket, boolean isRead, int gameInstanceId) {
     	this.serverModule = serverModule;
     	this.serverSocket = serverSocket;
     	this.clientSocket = clientSocket;
     	this.buffer = ByteBuffer.allocate(65536);
     	this.isRead = isRead;
+    	this.gameInstanceId = gameInstanceId;
     }
     
     public void setServerModule(Server serverModule) {
@@ -64,5 +66,9 @@ public class ClientData {
     
     public boolean getIsRead() {
     	return this.isRead;
+    }
+    
+    public int getGameInstanceId() {
+    	return this.gameInstanceId;
     }
 }

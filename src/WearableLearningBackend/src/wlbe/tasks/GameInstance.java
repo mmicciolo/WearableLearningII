@@ -23,6 +23,7 @@ import wlbe.module.ModuleManager;
 import wlbe.modules.Logger;
 import wlbe.modules.Server;
 import wlbe.modules.TaskManager;
+import wlbe.packet.Packet;
 import wlbe.packets.ConnectPacket;
 import wlbe.packets.DisconnectPacket;
 import wlbe.packets.JSONPacket;
@@ -33,13 +34,11 @@ public class GameInstance extends Task {
 	private TaskManager taskManager;
 	private MySQLDaemon mySQLDaemon;
 	private ArrayList<PlayerData> players = new ArrayList<PlayerData>();
-	Logger logger;
+	private Logger logger;
 	private GameInstanceData gameInstanceData = new GameInstanceData();
 	
 	public GameInstance(int gameInstanceId, int gameId) {
 		setName("Game Instance " + gameInstanceId);
-		//this.gameInstanceId = gameInstanceId;
-		//this.gameId = gameId;
 		gameInstanceData.setGameInstanceId(gameInstanceId);
 		gameInstanceData.setGameId(gameId);
 		mySQLDaemon = new MySQLDaemon();
@@ -69,7 +68,9 @@ public class GameInstance extends Task {
 	public void eventHandler(IEvent e) {
 		if(e instanceof PacketRecieved) {
 			PacketRecieved packetRecieved = (PacketRecieved) e;
-			switch(packetRecieved.getPacket().getType()) {
+			Packet packet = (Packet)packetRecieved.getPacket();
+			if(packet.getClientData().getGameInstanceId() == gameInstanceData.getGameInstanceId() || packet.getClientData().getGameInstanceId() == -1) {
+				switch(packetRecieved.getPacket().getType()) {
 				case PLAYER_CONNECT:
 					playerConnect((ConnectPacket)packetRecieved.getPacket());
 					break;
@@ -81,6 +82,7 @@ public class GameInstance extends Task {
 					break;
 				default:
 					break;
+				}
 			}
 		}
 	}

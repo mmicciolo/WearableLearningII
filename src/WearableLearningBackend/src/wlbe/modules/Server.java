@@ -121,7 +121,7 @@ public class Server extends Module {
 	}
 	
 	private void AcceptIncomingConnections() {
-		ClientData clientData = new ClientData(this, serverSocket, null, true);
+		ClientData clientData = new ClientData(this, serverSocket, null, true, -1);
 		try {
 			serverSocket.accept(clientData, new ServerConnectionHandler());
 		} catch (Exception e) {
@@ -142,7 +142,7 @@ class ServerConnectionHandler implements CompletionHandler<AsynchronousSocketCha
 	public void completed(AsynchronousSocketChannel client, ClientData clientData) {
 		logger.write("Connection Accepted...");
 		ServerRequestReadWriteHandler rwHandler = new ServerRequestReadWriteHandler();
-		ClientData cd = new ClientData(clientData.getServerModule(), clientData.getServerSocket(), client, true);
+		ClientData cd = new ClientData(clientData.getServerModule(), clientData.getServerSocket(), client, true, -1);
 		//cd.setServerSocket(clientData.getServerSocket());
 		//cd.setServerModule(clientData.getServerModule());
 		//cd.setClientSocket(client);

@@ -1,5 +1,7 @@
 package wlbe.module;
 
+import java.util.concurrent.Semaphore;
+
 import wlbe.event.IEvent;
 import wlbe.module.ModuleManager.Modules;
 
@@ -16,6 +18,7 @@ import wlbe.module.ModuleManager.Modules;
 public abstract class Module implements IModule {
 	
 	protected Modules moduleId;
+	private final Semaphore available = new Semaphore(10, true);
 	
 	/**
 	 * Default constructor
@@ -77,5 +80,20 @@ public abstract class Module implements IModule {
 	 */
 	public Modules getModuleId() {
 		return this.moduleId;
+	}
+	
+	/**
+	 * Called to accquire a resource
+	 * @throws InterruptedException 
+	 */
+	public void accquire() throws InterruptedException {
+		available.acquire();
+	}
+	
+	/** 
+	 * Called to release a resource
+	 */
+	public void release() {
+		available.release();
 	}
 }
