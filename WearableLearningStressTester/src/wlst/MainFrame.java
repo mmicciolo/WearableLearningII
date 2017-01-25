@@ -16,14 +16,19 @@ import javax.swing.JRadioButtonMenuItem;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import javax.swing.JTextField;
+import javax.swing.SwingWorker;
+
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JLabel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.awt.event.ActionListener;
@@ -54,6 +59,10 @@ public class MainFrame extends JFrame {
 	private JTable table;
 	private int backendCount = 0;
 	private GameTester tester;
+	private JTextField txtCounter;
+	private LocalDateTime old = null;
+	private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss.SSS");
+	private FileWriter writer;
 
 	/**
 	 * Launch the application.
@@ -76,6 +85,13 @@ public class MainFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public MainFrame() {
+		try {
+			writer = new FileWriter("Data.csv");
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		
@@ -103,6 +119,12 @@ public class MainFrame extends JFrame {
 		    			
 		    		}
 		        }
+		        try {
+					writer.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 		    }
 		});
 		
@@ -146,6 +168,8 @@ public class MainFrame extends JFrame {
 		JMenuItem mntmConnectTest = new JMenuItem("Connect Test");
 		mntmConnectTest.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				old = LocalDateTime.now();
+				worker.execute();
 				for(PlayerInfo info : playerInfo) {
 					BackendServer backend  = new BackendServer(serverInfo.getServerIp(), serverInfo.getPortNumber(), MainFrame.this, backendCount++);
 					ByteBuffer buffer = ByteBuffer.allocate(2048);
@@ -257,6 +281,25 @@ public class MainFrame extends JFrame {
 		contentPane.add(txtPortnumber, gbc_txtPortnumber);
 		txtPortnumber.setColumns(10);
 		
+		JLabel lblElapsedTime = new JLabel("elapsed time");
+		GridBagConstraints gbc_lblElapsedTime = new GridBagConstraints();
+		gbc_lblElapsedTime.anchor = GridBagConstraints.EAST;
+		gbc_lblElapsedTime.insets = new Insets(0, 0, 5, 5);
+		gbc_lblElapsedTime.gridx = 4;
+		gbc_lblElapsedTime.gridy = 0;
+		contentPane.add(lblElapsedTime, gbc_lblElapsedTime);
+		
+		txtCounter = new JTextField();
+		txtCounter.setText("0");
+		txtCounter.setEditable(false);
+		GridBagConstraints gbc_txtCounter = new GridBagConstraints();
+		gbc_txtCounter.insets = new Insets(0, 0, 5, 5);
+		gbc_txtCounter.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtCounter.gridx = 5;
+		gbc_txtCounter.gridy = 0;
+		contentPane.add(txtCounter, gbc_txtCounter);
+		txtCounter.setColumns(10);
+		
 		JLabel lblLabel = new JLabel("gameInstanceId");
 		GridBagConstraints gbc_lblLabel = new GridBagConstraints();
 		gbc_lblLabel.insets = new Insets(0, 0, 5, 5);
@@ -328,7 +371,6 @@ public class MainFrame extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.gridwidth = 8;
-		gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 2;
@@ -345,6 +387,37 @@ public class MainFrame extends JFrame {
 		));
 		scrollPane.setViewportView(table);
 	}
+	
+	//Background task for loading images.
+    SwingWorker worker = new SwingWorker<Void, Void>() {
+        @Override
+        public Void doInBackground() {
+        	int counter = 0;
+        	while(true) {
+        		counter++;
+        		txtCounter.setText(String.valueOf(counter / 10));
+        		try {
+					Thread.sleep(60);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+        	}
+        }
+    };
+    
+    public void Log() {
+		LocalDateTime now = LocalDateTime.now();
+		long diff = Math.abs(now.getNano() - old.getNano());
+		old = now;
+		try {
+			writer.write(dtf.format(now) + "," + String.valueOf(diff / 1000000) +"\n");
+			writer.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
 	
 	public JTable getTable() {
 		return this.table;

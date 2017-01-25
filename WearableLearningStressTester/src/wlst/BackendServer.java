@@ -6,6 +6,8 @@ import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -119,6 +121,7 @@ public class BackendServer {
 			playerData = playerPacket.getPlayerData();
 			break;
 		case GAME_STATE:
+			mainFrame.Log();
 			GameStatePacket gameStatePacket = (GameStatePacket) packet;
 			model.setValueAt(gameStatePacket.getGameStatePacketData().getDisplayData().text, id, 5);
 			break;
