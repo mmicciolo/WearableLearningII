@@ -17,7 +17,7 @@ public abstract class Task extends Thread implements ITask {
 	
 	private boolean running = true;
 	private String name;
-	private final Semaphore available = new Semaphore(10, true);
+	private final Semaphore available = new Semaphore(1, true);
 	
 	/**
 	 * This is where the thread first enters when it is first

@@ -18,11 +18,17 @@ public class GameInstanceData {
 		if(playerArray == null) {
 			playerArray = new boolean[teamCount][playersPerTeam];
 			playerCount = new int[teamCount];
-			for(int i = 0; i < teamCount; i++) { playerCount[i] = 1; }
+			for(int i = 0; i < teamCount; i++) { playerCount[i] = 0; }
+			for(int i = 0; i < teamCount; i++) {
+				for(int n = 0; n < playersPerTeam; n++) {
+					playerArray[i][n] = false;
+				}
+			}
 		} 
 		for(int i = 0; i < playersPerTeam; i++) {
 			if(playerArray[team - 1][i] == false) {
 				playerArray[team - 1][i] = true;
+				playerCount[team - 1] += 1;
 				return i + 1;
 			}
 		}
@@ -46,7 +52,8 @@ public class GameInstanceData {
 //	}
 	
 	public void removePlayer(int team, int player) {
-		playerArray[team - 1][player - 1] = true;
+		playerArray[team - 1][player - 1] = false;
+		playerCount[team - 1] -= 1;
 	}
 	
 	public boolean getPlayer(int team, int player) {

@@ -120,11 +120,13 @@ public class GameInstance extends Task {
 		if(packet.getGameInstanceId() == gameInstanceData.getGameInstanceId()) {
 			for(int i = 0; i < players.size(); i++) {
 				PlayerData player = (PlayerData) players.toArray()[i];
-				if(player.getPlayerName().equals(packet.getStudentName())) {
+				if(player != null && player.getPlayerName().equals(packet.getStudentName())) {
 					removePlayer(player);
 					players.remove(player);
+					gameInstanceData.removePlayer(player.getTeamNumber(), player.getPlayerNumber());
 					Logger logger = (Logger) ModuleManager.getModule(ModuleManager.Modules.LOGGER);
 					logger.write("Client Disconnected...");
+					break;
 				}
 			}
 		}
