@@ -244,14 +244,27 @@ public class GameInstance extends Task {
 				int playerId = rs.getInt("playerId");
 				Statement statement = mySQLDaemon.getConnection().createStatement();
 				ResultSet resultSet = statement.executeQuery("SELECT * FROM gameStateTransitions WHERE gameStateId=" + player.getCurrentGameStateId() +" AND singlePushButtonColor=" + buttonColor.ordinal());
-				if(teamId == 0 && playerId == 0 || teamId == 0 && playerId > 0) {
+				if(teamId == 0 && playerId == 0) {
 					if(resultSet.next()) {
-						int nextGameState = resultSet.getInt("nextGameStateTransition");
-						if(nextGameState != 0) {
-							player.setCurrentGameState(nextGameState);
-							player.setCurrentGameStateId(resultSet.getInt("gameStateId"));
+						for(int i = 1; i <= gameInstanceData.getTeamCount(); i++) {
+							if(i == player.getTeamNumber()) {
+								int nextGameState = resultSet.getInt("nextGameStateTransition");
+								if(nextGameState != 0) {
+									player.setCurrentGameState(nextGameState);
+									player.setCurrentGameStateId(resultSet.getInt("gameStateId"));
+								}
+								break;
+							}
+							resultSet.next();
 						}
 					}
+//					if(resultSet.next()) {
+//						int nextGameState = resultSet.getInt("nextGameStateTransition");
+//						if(nextGameState != 0) {
+//							player.setCurrentGameState(nextGameState);
+//							player.setCurrentGameStateId(resultSet.getInt("gameStateId"));
+//						}
+//					}
 				} else if(teamId > 0 & playerId == 0) {
 					for(int n = 0; n < player.getPlayerNumber(); n++) {
 						resultSet.next();
@@ -260,6 +273,14 @@ public class GameInstance extends Task {
 					if(nextGameState != 0) {
 						player.setCurrentGameState(nextGameState);
 						player.setCurrentGameStateId(resultSet.getInt("gameStateId"));
+					}
+				} else if (teamId == 0 && playerId > 0) {
+					if(resultSet.next()) {
+						int nextGameState = resultSet.getInt("nextGameStateTransition");
+						if(nextGameState != 0) {
+							player.setCurrentGameState(nextGameState);
+							player.setCurrentGameStateId(resultSet.getInt("gameStateId"));
+						}
 					}
 				} else {
 					
