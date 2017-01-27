@@ -30,7 +30,7 @@ public class GameTester extends Thread {
 			}
 			try {
 				//Thread.sleep(200);
-				Thread.sleep(ThreadLocalRandom.current().nextInt(50, 101));
+				Thread.sleep(ThreadLocalRandom.current().nextInt(180, 201));
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
