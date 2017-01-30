@@ -121,7 +121,7 @@ public class BackendServer {
 			playerData = playerPacket.getPlayerData();
 			break;
 		case GAME_STATE:
-			mainFrame.Log();
+			//mainFrame.Log();
 			GameStatePacket gameStatePacket = (GameStatePacket) packet;
 			model.setValueAt(gameStatePacket.getGameStatePacketData().getDisplayData().text, id, 5);
 			break;
