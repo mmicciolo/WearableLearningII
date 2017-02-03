@@ -49,6 +49,16 @@
 		<managed-bean-class>wlfe.controller.GameInstances</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>games2</managed-bean-name>
+		<managed-bean-class>wlfe.controller.Games2</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>gameCreation2</managed-bean-name>
+		<managed-bean-class>wlfe.controller.GameCreation2</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
 	<navigation-rule>
 		<display-name>content/source/Login.xhtml</display-name>
 		<from-view-id>/content/source/Login.xhtml</from-view-id>

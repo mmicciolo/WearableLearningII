@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+      
+<h:head>
+  <title><ui:insert name="title">Physical Game For Learning Control Panel</ui:insert></title>
+  <h:outputStylesheet name="css/CommonTemplate.css"></h:outputStylesheet>
+  <h:outputStylesheet name="css/TableTemplate.css"/>
+</h:head>
+
+<body>
+
+<div id="header">
+    <ui:insert name="header">
+    	<ui:include src ="../HeaderContentFooter/Header.xhtml"/>
+    </ui:insert>
+</div>
+
+<div id="menu">
+	<ui:insert name="menu">
+		<ui:include src="../HeaderMenuContentFooter/Menu.xhtml"/>
+	</ui:insert>
+</div>
+
+<div id="content">
+  <h:form id="main">
+	  <div class="headerText">#{HeaderText}</div>
+	  <div class="tableButtonPanel" >
+	  		<p:panel>
+	  		<ul id="parent">
+		  		<li><p:commandButton value="#{NewButton}" onclick="PF('NewDialog').show();" styleClass="buttonSize" icon="fa fa-fw fa-plus"/></li>
+		  		<li><p:commandButton value="#{EditButton}" action="#{gameCreation.editPressed(ManagedBean)}" update=":dlgEdit" styleClass="buttonSize" icon="fa fa-fw fa-edit"/></li>
+		  		<p:growl id="messages"/>
+			  	<li><p:commandButton update="messages" value="#{DeleteButton}" actionListener="#{ManagedBean.deletePressed}" styleClass="buttonSize" icon="fa fa-fw fa-remove">
+			  			<p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+				</p:commandButton></li>
+			</ul>
+	  		</p:panel>
+	  </div>
+	  <div class="tablePanel">
+		  <p:panel header="#{TablePanelName}">
+		  		<p:dataTable id="mainTable" var="tabledata" value="#{ManagedBean.tableObjects}" selectionMode="single" selection="#{ManagedBean.selectedObject}" rowKey="#{tabledata[TableRowKey]}">
+					<p:columns value="#{ManagedBean.columns}" var="columns">
+						<f:facet name="header">
+		                	<h:outputText value="#{columns.header}"/>
+		                </f:facet>
+		                <h:outputText value="#{tabledata[columns.property]}"/>
+					</p:columns>
+				</p:dataTable>	
+		  </p:panel>
+	  </div>
+  </h:form>
+  <script type="text/javascript">
+  function onMouseOut(nodeElement) {
+	   var parent = nodeElement.parentElement;
+	   diagram_onNodeMove([
+	{name : 'node_id', value : parent.id},
+	{name : 'node_x', value : parent.style['left']},
+	{name : 'node_y',value : parent.style['top']}
+	       ]);
+	}
+  function onMouse(nodeElement) {
+	   var parent = nodeElement.parentElement;
+	   diagram_onNodeMove2([
+	{name : 'node_id', value : parent.id},
+	{name : 'node_x', value : parent.style['left']},
+	{name : 'node_y',value : parent.style['top']}
+	       ]);
+	}
+  </script>
+
+  <p:dialog id="dlgNew" header="#{NewDialogHeader}" widgetVar="NewDialog" modal="true" width="95%" height="800"  style="box-shadow: 7px 10px 5px #303030;" showEffect="slide" hideEffect="puff">
+  		<p:ajax event="close" update=":dlgNew" resetValues="true" listener="#{gameCreation2.clear}"/>
+  		<h:form id="gameState">
+  			<p:growl id="msgs" showDetail="true" />
+	  		<div style="margin-left:auto; margin-right:auto;">
+	  		<p:remoteCommand name="diagram_onNodeMove" actionListener="#{gameCreation2.onNodeMove}" />
+	  		<p:toolbar>
+	  			<f:facet name="left">
+	  				<p:autoComplete dropdown="true"></p:autoComplete>
+	  			</f:facet>
+	  		</p:toolbar>
+	  		<p:toolbar id="mainOptions" rendered="#{gameCreation2.renderOptions}">
+	  			<f:facet name="left">
+	  				<h:outputText value="Buzzer" ></h:outputText>
+	  				<!-- <p:inputSwitch style="margin-top:10px;"></p:inputSwitch> -->
+ 	  				<p:selectOneButton >
+	  					<f:selectItem itemLabel="On" itemValue="On"></f:selectItem>
+	  					<f:selectItem itemLabel="Off" itemValue="Off"></f:selectItem>
+	  				</p:selectOneButton> 
+		            <span class="ui-separator">
+		                <span class="ui-icon ui-icon-grip-dotted-vertical" />
+		            </span>
+		            <h:outputText value="Color" style="margin-right:10px;"></h:outputText>
+	            	<p:colorPicker style="margin-right:10px;"  icon="ui-icon-disk"></p:colorPicker>
+	            	<span class="ui-separator">
+		                <span class="ui-icon ui-icon-grip-dotted-vertical" />
+		            </span>
+		            <p:commandButton value="Add State" action="#{gameCreation2.addState}" update="diagram"></p:commandButton>
+        		</f:facet>
+       			<f:facet name="right">
+           			<p:menuButton value="Options">
+            		</p:menuButton>
+        		</f:facet>
+	  		</p:toolbar>
+	  		<div onclick="onMouseOut(this)">
+	  		<p:diagram id="diagram" value="#{gameCreation2.model}" style="height:700px" styleClass="ui-widget-content" var="el">
+	  			<f:facet name="element">
+	  				<div onclick="onMouseOut(this)">
+	  					<h:outputText value="#{el.stateName}"></h:outputText> <br/>
+	  					<p:inputTextarea rows="2" cols="25" autoResize="false"></p:inputTextarea>
+	  				</div>
+	  			</f:facet>
+	  			<p:ajax event="connect" listener="#{gameCreation2.onConnect}" />
+	  		</p:diagram></div>
+	  		</div>
+	  	</h:form>
+	</p:dialog>
+	
+	  <p:dialog id="dlgEdit" header="#{EditDialogHeader}" widgetVar="EditDialog" modal="true" width="95%" height="800"  style="box-shadow: 7px 10px 5px #303030;" showEffect="slide" hideEffect="puff">
+  		<p:ajax event="close" update=":dlgEdit" resetValues="true" listener="#{gameCreation.clear}"/>
+  		<h:form id='gameStateEdit'>
+  			<p:growl id="msgs" showDetail="true" />
+	  		<div style="margin-left:auto; margin-right:auto;">
+	  		</div>
+  		</h:form>
+	</p:dialog>
+	
+	<p:confirmDialog global="true" showEffect="slide" hideEffect="puff" style="box-shadow: 7px 10px 5px #303030;">
+    	<p:commandButton value="Yes" type="submit" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+	</p:confirmDialog>
+  <ui:insert name="content"/>
+</div>
+
+<div id="footer">
+  <ui:insert name="footer">
+		<ui:include src="../HeaderContentFooter/Footer.xhtml"/>
+  </ui:insert>
+</div>
+
+</body>
+
+</html>
