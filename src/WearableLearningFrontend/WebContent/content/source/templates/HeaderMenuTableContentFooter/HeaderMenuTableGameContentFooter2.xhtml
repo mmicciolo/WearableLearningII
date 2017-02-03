@@ -60,15 +60,8 @@
 	   diagram_onNodeMove([
 	{name : 'node_id', value : parent.id},
 	{name : 'node_x', value : parent.style['left']},
-	{name : 'node_y',value : parent.style['top']}
-	       ]);
-	}
-  function onMouse(nodeElement) {
-	   var parent = nodeElement.parentElement;
-	   diagram_onNodeMove2([
-	{name : 'node_id', value : parent.id},
-	{name : 'node_x', value : parent.style['left']},
-	{name : 'node_y',value : parent.style['top']}
+	{name : 'node_y',value : parent.style['top']},
+	{name : 'text',value : nodeElement.textContent}
 	       ]);
 	}
   </script>
@@ -81,42 +74,61 @@
 	  		<p:remoteCommand name="diagram_onNodeMove" actionListener="#{gameCreation2.onNodeMove}" />
 	  		<p:toolbar>
 	  			<f:facet name="left">
-	  				<p:autoComplete dropdown="true"></p:autoComplete>
+	  				<h:outputText value="Title" style="margin-right:10px;"></h:outputText>
+	  				<p:inputText value="#{gameCreation2.title}"></p:inputText>
+	  				<h:outputText value="Team Count" style="margin-left:10px;margin-right:10px;"></h:outputText>
+	  				<p:inputText value="#{gameCreation2.teamCount}"></p:inputText>
+	  				<h:outputText value="Players Per Team" style="margin-left:10px;margin-right:10px;"></h:outputText>
+	  				<p:inputText value="#{gameCreation2.playersPerTeam}"></p:inputText>
+	  				<p:commandButton value="Create" style="margin-left:10px;" action="#{gameCreation2.createGame}"></p:commandButton>
 	  			</f:facet>
 	  		</p:toolbar>
-	  		<p:toolbar id="mainOptions" rendered="#{gameCreation2.renderOptions}">
+	  		<h:panelGroup id="filter">
+		  		<p:toolbar rendered="#{gameCreation2.renderFilter}">
+		  			<f:facet name="left">
+		  				<h:outputText value="Filter" style="margin-right:10px;"></h:outputText>
+		  				<p:autoComplete dropdown="true" completeMethod="#{gameCreation2.fillDropDown}"></p:autoComplete>
+		  			</f:facet>
+		  		</p:toolbar>
+	  		</h:panelGroup>
+	  		<h:panelGroup id="mainOptions">
+	  		<p:toolbar rendered="#{gameCreation2.renderOptions}">
 	  			<f:facet name="left">
 	  				<h:outputText value="Buzzer" ></h:outputText>
 	  				<!-- <p:inputSwitch style="margin-top:10px;"></p:inputSwitch> -->
- 	  				<p:selectOneButton >
-	  					<f:selectItem itemLabel="On" itemValue="On"></f:selectItem>
-	  					<f:selectItem itemLabel="Off" itemValue="Off"></f:selectItem>
-	  				</p:selectOneButton> 
+ 	  				<p:selectOneButton value="#{gameCreation2.buzzerState}">
+	  					<f:selectItem itemLabel="On" itemValue="true"></f:selectItem>
+	  					<f:selectItem itemLabel="Off" itemValue="false"></f:selectItem>
+	  				</p:selectOneButton>
+	  				<h:outputText value="Duration" style="margin-left:10px;"></h:outputText>
+	  				<p:inputText placeholder="Seconds" value="#{gameCreation2.buzzerDuration}" style="margin-left:10px;"></p:inputText>
 		            <span class="ui-separator">
 		                <span class="ui-icon ui-icon-grip-dotted-vertical" />
 		            </span>
 		            <h:outputText value="Color" style="margin-right:10px;"></h:outputText>
-	            	<p:colorPicker style="margin-right:10px;"  icon="ui-icon-disk"></p:colorPicker>
+	            	<p:colorPicker value ="#{gameCreation2.ledColor}" style="margin-right:10px;"  icon="ui-icon-disk"></p:colorPicker>
+	            	<h:outputText value="Duration" style="margin-left:10px;"></h:outputText>
+	  				<p:inputText value = "#{gameCreation2.ledDuration}" placeholder="Seconds" style="margin-left:10px;"></p:inputText>
 	            	<span class="ui-separator">
 		                <span class="ui-icon ui-icon-grip-dotted-vertical" />
 		            </span>
 		            <p:commandButton value="Add State" action="#{gameCreation2.addState}" update="diagram"></p:commandButton>
+		            <p:inputText placeholder="Text" value="#{gameCreation2.text}"></p:inputText>
         		</f:facet>
-       			<f:facet name="right">
-           			<p:menuButton value="Options">
-            		</p:menuButton>
-        		</f:facet>
-	  		</p:toolbar>
+	  		</p:toolbar></h:panelGroup>
 	  		<div onclick="onMouseOut(this)">
-	  		<p:diagram id="diagram" value="#{gameCreation2.model}" style="height:700px" styleClass="ui-widget-content" var="el">
-	  			<f:facet name="element">
-	  				<div onclick="onMouseOut(this)">
-	  					<h:outputText value="#{el.stateName}"></h:outputText> <br/>
-	  					<p:inputTextarea rows="2" cols="25" autoResize="false"></p:inputTextarea>
-	  				</div>
-	  			</f:facet>
-	  			<p:ajax event="connect" listener="#{gameCreation2.onConnect}" />
-	  		</p:diagram></div>
+		  		<p:diagram id="diagram" value="#{gameCreation2.model}" style="height:700px" styleClass="ui-widget-content" var="el">
+		  			<f:facet name="element">
+		  				<div onclick="onMouseOut(this)">
+		  					<h:outputText value="#{el.stateName}"></h:outputText> <br/>
+		  					<div style="width:15em;height:4em;">
+		  					<h:outputText value="#{el.text}" ></h:outputText></div>
+		  					<!-- <p:inputTextarea value="#{el.text}" rows="2" cols="25" autoResize="false" disabled="true"></p:inputTextarea> -->
+		  				</div>
+		  			</f:facet>
+		  			<p:ajax event="connect" listener="#{gameCreation2.onConnect}" />
+		  		</p:diagram>
+	  		</div>
 	  		</div>
 	  	</h:form>
 	</p:dialog>

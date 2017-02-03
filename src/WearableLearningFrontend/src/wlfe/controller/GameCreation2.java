@@ -34,10 +34,13 @@ import wlfe.common.Common;
 import wlfe.common.DataTableColumn;
 import wlfe.common.MySQLAccessor;
 import wlfe.model.GameCreationData;
+import wlfe.model.GameCreationData2;
 import wlfe.model.GameData;
 import wlfe.model.StateElement;
 
 public class GameCreation2 {
+	
+	private ArrayList<GameCreationData2> gameStates = new ArrayList<GameCreationData2>();
 	
 	private DefaultDiagramModel model;
 	
@@ -49,15 +52,25 @@ public class GameCreation2 {
 	private String teamCount;
 	private String playersPerTeam;
 	private int stateCount = 0;
+	private int stateCountU = 0;
 	private ArrayList<Element> states;
 	private Element selectedState;
+	private boolean renderFilter = false;
 	private boolean renderOptions = false;
 	private boolean ignoreClick = false;
+	
+	private String buzzerState;
+	private String buzzerDuration;
+	private String ledColor;
+	private String ledDuration;
+	private String text = "";
+	
+	private Element oldElement;
 	
 	@PostConstruct
 	public void init() {
 		initDiagram();
-        initStartState();
+        //initStartState();
 	}
 	
 	private void initDiagram() {
@@ -86,6 +99,17 @@ public class GameCreation2 {
         start.addEndPoint(endPointCA);
         start.setStyleClass(STATE_STYLE);
         model.addElement(start);
+        states.add(start);
+        gameStates.add(new GameCreationData2((stateCount + 1), 0, 0, "", "", "", "", "", "", start));
+	}
+	
+	public void createGame() {
+		if((!title.equals("") && (!teamCount.equals("") && (!playersPerTeam.equals(""))))) {
+			initStartState();
+			RequestContext.getCurrentInstance().update("gameState:diagram");
+			renderFilter = true;
+			RequestContext.getCurrentInstance().update("gameState:filter");
+		}
 	}
 	
     public void addState() {
@@ -100,33 +124,36 @@ public class GameCreation2 {
         state.addEndPoint(bottom);
         model.addElement(state);
         states.add(state);
+        gameStates.add(new GameCreationData2((stateCount + 1), 0, 0, "", "", "", "", "", "", state));
     }
     
     public void onConnect() {
     	
     }
     
-    public void onNodeMove2(ActionEvent param) {
-    	Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String id = params.get("node_id");
-        int pos = id.lastIndexOf("-"); // Remove Client ID part
-        if (pos != -1) {
-           id = id.substring(pos + 1);
-        }
-        Element element = model.findElement(id);
-        if(element == null) {
-        	 selectedState.setStyleClass(STATE_STYLE);
-             selectedState = null;
-             RequestContext.getCurrentInstance().update("gameState:diagram");
-        }
-    }
-  
+	public List<String> fillDropDown(String query) {
+		List<String> list = new ArrayList<String>();
+		list.add("Game Wide");
+		int teamC = Integer.parseInt(teamCount);
+		int playersPerTeamC = Integer.parseInt(playersPerTeam);
+		List<String> tempCollection = new ArrayList<String>();
+		tempCollection.add("Game Wide");
+		for(int i = 1; i < teamC + 1; i++) {
+			tempCollection.add("Team " + i);
+			for(int n = 1; n < playersPerTeamC + 1; n++) {
+				tempCollection.add("--Player " + n);
+			}
+		}
+		return tempCollection;
+	}
+    
     public void onNodeMove(ActionEvent param) {
     	if(ignoreClick == true) { ignoreClick = false; return; }
     	Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String id = params.get("node_id");
         String x = params.get("node_x");
         String y = params.get("node_y");
+        //String text = params.get("text");
         int pos = id.lastIndexOf("-"); // Remove Client ID part
         if (pos != -1) {
            id = id.substring(pos + 1);
@@ -138,18 +165,36 @@ public class GameCreation2 {
            if(selectedState != null) {
     		   selectedState.setStyleClass(STATE_STYLE);
 		   }
+           StateElement stateElement = (StateElement)element.getData();
+           text = stateElement.getText();
 		   element.setStyleClass(STATE_STYLE_CLICKED);
 		   RequestContext.getCurrentInstance().update("gameState:diagram");
 		   renderOptions = true;
-		   RequestContext.getCurrentInstance().update(":gameState:mainOptions");
+		   RequestContext.getCurrentInstance().update("gameState:mainOptions");
 		   selectedState = element;
 		   ignoreClick = true;
+		   oldElement = element;
         } else {
-        	if(ignoreClick == false) {
+        	if(ignoreClick == false && !text.equals("")) {
+        		for(GameCreationData2 data : gameStates) {
+        			if(data.getElement().equals(oldElement)) {
+        				StateElement stateElement = (StateElement)oldElement.getData();
+        				stateElement.setText(text);
+        				data.setText(text);
+        				text = "";
+        				data.setBuzzerOn(buzzerState);
+        				data.setBuzzerDuration(buzzerDuration);
+        				data.setLedColor(ledColor);
+        				data.setLedDuration(ledDuration);
+        				break;
+        			}
+        		}
                 selectedState.setStyleClass(STATE_STYLE);
                 selectedState = null;
                 RequestContext.getCurrentInstance().update("gameState:diagram");
                 ignoreClick = false;
+                renderOptions = false;
+                RequestContext.getCurrentInstance().update("gameState:mainOptions");
         	}
         }
     }
@@ -180,6 +225,8 @@ public class GameCreation2 {
 		playersPerTeam = null;
 		model = null;
 		stateCount = 0;
+		renderFilter = false;
+		renderOptions = false;
 		init();
 	}
 	
@@ -197,6 +244,26 @@ public class GameCreation2 {
 	
 	public void setStateCount(int stateCount) {
 		this.stateCount = stateCount;
+	}
+	
+	public void setBuzzerState(String buzzerState) {
+		this.buzzerState = buzzerState;
+	}
+	
+	public void setBuzzerDuration(String buzzerDuration) {
+		this.buzzerDuration = buzzerDuration;
+	}
+	
+	public void setLedColor(String ledColor) {
+		this.ledColor = ledColor;
+	}
+	
+	public void setLedDuration(String ledDuration) {
+		this.ledDuration = ledDuration;
+	}
+	
+	public void setText(String text) {
+		this.text = text;
 	}
 	
     public DiagramModel getModel() {
@@ -219,7 +286,31 @@ public class GameCreation2 {
 		return this.stateCount;
 	}
 	
+	public boolean getRenderFilter() {
+		return this.renderFilter;
+	}
+	
 	public boolean getRenderOptions() {
 		return this.renderOptions;
+	}
+	
+	public String getBuzzerState() {
+		return this.buzzerState;
+	}
+	
+	public String getBuzzerDuration() {
+		return this.buzzerDuration;
+	}
+	
+	public String getLedColor() {
+		return this.ledColor;
+	}
+	
+	public String getLedDuration() {
+		return this.ledDuration;
+	}
+	
+	public String getText() {
+		return this.text;
 	}
 }
