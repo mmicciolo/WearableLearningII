@@ -42,7 +42,7 @@ public class VirtualDevice {
 	
 	public void button1() {
 		if(on) {
-			ByteBuffer byteBuffer = ByteBuffer.allocate(2048);
+			ByteBuffer byteBuffer = ByteBuffer.allocate(256);
 			byteBuffer.putInt(3);
 			ButtonPacket buttonPacket = new ButtonPacket();
 			ButtonData data = new ButtonData(playerData.getPlayerId(), 0);
@@ -55,19 +55,40 @@ public class VirtualDevice {
 	
 	public void button2() {
 		if(on) {
-			displayText = "Button 2 Pushed!\nColor: Green";
+			ByteBuffer byteBuffer = ByteBuffer.allocate(256);
+			byteBuffer.putInt(3);
+			ButtonPacket buttonPacket = new ButtonPacket();
+			ButtonData data = new ButtonData(playerData.getPlayerId(), 1);
+			buttonPacket.setButtonData(data);
+			byteBuffer.putInt(0);
+			backendServer.putString(buttonPacket.getGson(), byteBuffer);
+			backendServer.write(byteBuffer);
 		}
 	}
 	
 	public void button3() {
 		if(on) {
-			displayText = "Button 3 Pushed!\nColor: Blue";
+			ByteBuffer byteBuffer = ByteBuffer.allocate(256);
+			byteBuffer.putInt(3);
+			ButtonPacket buttonPacket = new ButtonPacket();
+			ButtonData data = new ButtonData(playerData.getPlayerId(), 2);
+			buttonPacket.setButtonData(data);
+			byteBuffer.putInt(0);
+			backendServer.putString(buttonPacket.getGson(), byteBuffer);
+			backendServer.write(byteBuffer);
 		}
 	}
 	
 	public void button4() {
 		if(on) {
-			displayText = "Button 4 Pushed!\nColor: Black";
+			ByteBuffer byteBuffer = ByteBuffer.allocate(256);
+			byteBuffer.putInt(3);
+			ButtonPacket buttonPacket = new ButtonPacket();
+			ButtonData data = new ButtonData(playerData.getPlayerId(), 3);
+			buttonPacket.setButtonData(data);
+			byteBuffer.putInt(0);
+			backendServer.putString(buttonPacket.getGson(), byteBuffer);
+			backendServer.write(byteBuffer);
 		}
 	}
 	
