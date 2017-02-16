@@ -25,8 +25,8 @@ public class IODaemon extends Task {
 				buffer.flip();
 				packet.clientData.getClientSocket().write(buffer);
 			}
-			Thread.sleep(10);
 			release();
+			Thread.sleep(10);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

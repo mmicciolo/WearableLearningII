@@ -14,12 +14,10 @@ public class GameStartPacket extends JSONPacket implements IJSONPacket {
 	
 	public ByteBuffer assemblePacket() {
 		super.assemblePacket();
-		String out = gson.toJson(this);
-		this.putString(out, buffer);
 		return buffer;
 	}
 	
 	public String getGson() {
-		return gson.toJson(this);
+		return "";
 	}
 }
