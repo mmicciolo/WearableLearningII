@@ -42,7 +42,7 @@ public class BackendServer {
 	private void connect() throws InterruptedException, ExecutionException {
 		try {
 			server = AsynchronousSocketChannel.open();
-			SocketAddress serverAddr = new InetSocketAddress("localhost", 3333);
+			SocketAddress serverAddr = new InetSocketAddress("130.215.242.178", 3333);
 			Future<Void> result = server.connect(serverAddr);
 			result.get();
 		} catch (IOException e) {

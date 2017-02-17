@@ -36,6 +36,10 @@ public class PlayerData {
 		this.currentGameState = currentGameState;
 	}
 	
+	public void setClientData(ClientData clientData) {
+		this.clientData = clientData;
+	}
+	
 	public String getPlayerName() {
 		return this.playerName;
 	}

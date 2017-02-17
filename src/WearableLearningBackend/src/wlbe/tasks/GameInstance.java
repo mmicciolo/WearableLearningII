@@ -105,7 +105,10 @@ public class GameInstance extends Task {
 		if(packet.getGameInstanceId() == gameInstanceData.getGameInstanceId()) {
 			for(PlayerData player : players) {
 				if(player.getPlayerName().equals(packet.getStudentName())) {
+					player.setClientData(packet.getClientData());
 					logger.write("Client Reconnected...");
+					sendPlayerData(player);
+					sendGameState(player);
 					return;
 				}
 			}
