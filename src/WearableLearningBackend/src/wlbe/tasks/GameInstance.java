@@ -266,13 +266,15 @@ public class GameInstance extends Task {
 //						}
 //					}
 				} else if(teamId > 0 & playerId == 0) {
-					for(int n = 0; n < player.getPlayerNumber(); n++) {
-						resultSet.next();
-					}
-					int nextGameState = resultSet.getInt("nextGameStateTransition");
-					if(nextGameState != 0) {
-						player.setCurrentGameState(nextGameState);
-						player.setCurrentGameStateId(resultSet.getInt("gameStateId"));
+					if(resultSet.next()) {
+						for(int n = 0; n < player.getTeamNumber() - 1; n++) {
+							resultSet.next();
+						}
+						int nextGameState = resultSet.getInt("nextGameStateTransition");
+						if(nextGameState != 0) {
+							player.setCurrentGameState(nextGameState);
+							player.setCurrentGameStateId(resultSet.getInt("gameStateId"));
+						}
 					}
 				} else if (teamId == 0 && playerId > 0) {
 					if(resultSet.next()) {
