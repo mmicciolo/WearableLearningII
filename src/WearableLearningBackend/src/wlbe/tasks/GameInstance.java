@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import wl.shared.json.packet.IJSONPacket;
 import wl.shared.json.packets.ButtonPacket;
 import wl.shared.json.packets.DisplayPacket;
 import wl.shared.json.packets.GameStartPacket;
@@ -68,7 +69,7 @@ public class GameInstance extends Task {
 	public void eventHandler(IEvent e) {
 		if(e instanceof PacketRecieved) {
 			PacketRecieved packetRecieved = (PacketRecieved) e;
-			Packet packet = (Packet)packetRecieved.getPacket();
+			Packet packet = (Packet)packetRecieved.getPacket(); if (packet == null) { return; }
 			if(packet.getClientData().getGameInstanceId() == gameInstanceData.getGameInstanceId() || packet.getClientData().getGameInstanceId() == -1) {
 				switch(packetRecieved.getPacket().getType()) {
 				case PLAYER_CONNECT:
@@ -113,9 +114,20 @@ public class GameInstance extends Task {
 				}
 			}
 			PlayerData player = new PlayerData(packet.getStudentName(), Integer.parseInt(packet.getSelectedTeam().replace("Team ", "")), packet.getClientData());
-			players.add(player);
-			player.setPlayerNumber(gameInstanceData.addPlayer(Integer.parseInt(packet.getSelectedTeam().replace("Team ", ""))));
-			setupNewPlayer(player);
+			int playerId = -1;
+			if((playerId = gameInstanceData.addPlayer(Integer.parseInt(packet.getSelectedTeam().replace("Team ", "")))) != -1) {
+				players.add(player);
+				player.setPlayerNumber(playerId);
+				setupNewPlayer(player);
+			} else {
+				//Team Full
+				IJSONPacket display = new DisplayPacket("Team " + packet.getSelectedTeam() + " is full!");
+				JSONPacket jsonPacket = new JSONPacket();
+				jsonPacket.setJSONPacket(display);
+				Server server = (Server) ModuleManager.getModule(ModuleManager.Modules.SERVER);
+				server.write(player.getClientData(), jsonPacket);
+				logger.write("Client Disconnected... " + packet.getSelectedTeam() + " is full!");
+			}
 		}
 	}
 	
@@ -279,7 +291,19 @@ public class GameInstance extends Task {
 							player.setCurrentGameStateId(resultSet.getInt("gameStateId"));
 						}
 					}
-				} else if (teamId == 0 && playerId > 0) {
+				} else if(teamId > 0 && playerId == -1) {
+					if(resultSet.next()) {
+						for(int n = 0; n < player.getPlayerNumber() - 1; n++) {
+							resultSet.next();
+						}
+						int nextGameState = resultSet.getInt("nextGameStateTransition");
+						if(nextGameState != 0) {
+							player.setCurrentGameState(nextGameState);
+							player.setCurrentGameStateId(resultSet.getInt("gameStateId"));
+						}
+					}
+					
+				}else if (teamId == 0 && playerId > 0) {
 					if(resultSet.next()) {
 						int nextGameState = resultSet.getInt("nextGameStateTransition");
 						if(nextGameState != 0) {
