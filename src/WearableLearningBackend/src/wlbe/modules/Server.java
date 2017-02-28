@@ -102,7 +102,7 @@ public class Server extends Module {
 	private void setupServerSocket() {
 		try {
 			serverSocket = AsynchronousServerSocketChannel.open();
-			InetSocketAddress sAddr = new InetSocketAddress("130.215.242.178", 3333);
+			InetSocketAddress sAddr = new InetSocketAddress("130.215.242.172", 3333);
 			serverSocket.bind(sAddr);
 			logger.write("Binded...");
 			AcceptIncomingConnections();

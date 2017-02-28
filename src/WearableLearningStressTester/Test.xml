@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StressTest>
+	<ServerInfo>
+		<ServerIp>127.0.0.1</ServerIp>
+		<PortNumber>3333</PortNumber>
+	</ServerInfo>
+	<GameInfo>
+		<GameId>8</GameId>
+		<Title>My Second Game</Title>
+		<TeamCount>1</TeamCount>
+		<PlayersPerTeam>2</PlayersPerTeam>
+	</GameInfo>
+	<Game>
+		<State>
+			<GameStateId>31</GameStateId>
+			<GameStateCount>1</GameStateCount>
+			<TeamNumber>0</TeamNumber>
+			<TeamPlayerNumber>0</TeamPlayerNumber>
+			<TextContent>Welcome all players! Press any button to go to team state.</TextContent>
+			<Button1>2</Button1>
+			<Button2>2</Button2>
+			<Button3>2</Button3>
+			<Button4>2</Button4>
+		</State>
+		<State>
+			<GameStateId>32</GameStateId>
+			<GameStateCount>2</GameStateCount>
+			<TeamNumber>1</TeamNumber>
+			<TeamPlayerNumber>0</TeamPlayerNumber>
+			<TextContent>Hello Team 1! Press a button to go to a player state.</TextContent>
+			<Team>
+				<Button1>3</Button1>
+				<Button2>3</Button2>
+				<Button3>3</Button3>
+				<Button4>3</Button4>
+			</Team>
+			<Team>
+				<Button1>4</Button1>
+				<Button2>4</Button2>
+				<Button3>4</Button3>
+				<Button4>4</Button4>
+			</Team>
+		</State>
+		<State>
+			<GameStateId>33</GameStateId>
+			<GameStateCount>3</GameStateCount>
+			<TeamNumber>0</TeamNumber>
+			<TeamPlayerNumber>1</TeamPlayerNumber>
+			<TextContent>Player 1 state. Press a button to go to state 1.</TextContent>
+			<Button1>1</Button1>
+			<Button2>1</Button2>
+			<Button3>1</Button3>
+			<Button4>1</Button4>
+		</State>
+		<State>
+			<GameStateId>34</GameStateId>
+			<GameStateCount>4</GameStateCount>
+			<TeamNumber>0</TeamNumber>
+			<TeamPlayerNumber>2</TeamPlayerNumber>
+			<TextContent>Player 2 state. Press a button to go to state 1.</TextContent>
+			<Button1>1</Button1>
+			<Button2>1</Button2>
+			<Button3>1</Button3>
+			<Button4>1</Button4>
+		</State>
+	</Game>
+	<Players>
+		<Player>
+			<StudentName>Micciolo, Matthew</StudentName>
+			<GameInstanceId>15</GameInstanceId>
+			<TeamNumber>1</TeamNumber>
+			<TeamPlayerNumber>1</TeamPlayerNumber>
+		</Player>
+		<Player>
+			<StudentName>Last Name, A student</StudentName>
+			<GameInstanceId>15</GameInstanceId>
+			<TeamNumber>1</TeamNumber>
+			<TeamPlayerNumber>2</TeamPlayerNumber>
+		</Player>
+	</Players>
+</StressTest>

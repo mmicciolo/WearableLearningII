@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StressTest>
+	<ServerInfo>
+		<ServerIp>127.0.0.1</ServerIp>
+		<PortNumber>3333</PortNumber>
+	</ServerInfo>
+	<GameInfo>
+		<GameId>9</GameId>
+		<Title>My Second Game</Title>
+		<TeamCount>3</TeamCount>
+		<PlayersPerTeam>3</PlayersPerTeam>
+	</GameInfo>
+	<Game>
+		<State>
+			<GameStateId>36</GameStateId>
+			<GameStateCount>1</GameStateCount>
+			<TeamNumber>0</TeamNumber>
+			<TeamPlayerNumber>0</TeamPlayerNumber>
+			<TextContent>Welcome to the stress test!</TextContent>
+			<Button1>2</Button1>
+			<Button2>2</Button2>
+			<Button3>2</Button3>
+			<Button4>2</Button4>
+		</State>
+		<State>
+			<GameStateId>37</GameStateId>
+			<GameStateCount>2</GameStateCount>
+			<TeamNumber>1</TeamNumber>
+			<TeamPlayerNumber>0</TeamPlayerNumber>
+			<TextContent>Welcome to team 1!</TextContent>
+			<Team>
+				<Button1>40</Button1>
+				<Button2>40</Button2>
+				<Button3>40</Button3>
+				<Button4>40</Button4>
+			</Team>
+			<Team>
+				<Button1>41</Button1>
+				<Button2>41</Button2>
+				<Button3>41</Button3>
+				<Button4>41</Button4>
+			</Team>
+			<Team>
+				<Button1>42</Button1>
+				<Button2>42</Button2>
+				<Button3>42</Button3>
+				<Button4>42</Button4>
+			</Team>
+		</State>
+		<State>
+			<GameStateId>38</GameStateId>
+			<GameStateCount>3</GameStateCount>
+			<TeamNumber>2</TeamNumber>
+			<TeamPlayerNumber>0</TeamPlayerNumber>
+			<TextContent>Welcome to team 2!</TextContent>
+			<Team>
+				<Button1>43</Button1>
+				<Button2>43</Button2>
+				<Button3>43</Button3>
+				<Button4>43</Button4>
+			</Team>
+			<Team>
+				<Button1>44</Button1>
+				<Button2>44</Button2>
+				<Button3>44</Button3>
+				<Button4>44</Button4>
+			</Team>
+			<Team>
+				<Button1>45</Button1>
+				<Button2>45</Button2>
+				<Button3>45</Button3>
+				<Button4>45</Button4>
+			</Team>
+		</State>
+		<State>
+			<GameStateId>39</GameStateId>
+			<GameStateCount>4</GameStateCount>
+			<TeamNumber>3</TeamNumber>
+			<TeamPlayerNumber>0</TeamPlayerNumber>
+			<TextContent>Welcome to team 3!</TextContent>
+			<Team>
+				<Button1>46</Button1>
+				<Button2>46</Button2>
+				<Button3>46</Button3>
+				<Button4>46</Button4>
+			</Team>
+			<Team>
+				<Button1>47</Button1>
+				<Button2>47</Button2>
+				<Button3>47</Button3>
+				<Button4>47</Button4>
+			</Team>
+			<Team>
+				<Button1>48</Button1>
+				<Button2>48</Button2>
+				<Button3>48</Button3>
+				<Button4>48</Button4>
+			</Team>
+		</State>
+		<State>
+			<GameStateId>40</GameStateId>
+			<GameStateCount>5</GameStateCount>
+			<TeamNumber>0</TeamNumber>
+			<TeamPlayerNumber>1</TeamPlayerNumber>
+			<TextContent>Team 1, Player 1.</TextContent>
+			<Button1>1</Button1>
+			<Button2>1</Button2>
+			<Button3>1</Button3>
+			<Button4>1</Button4>
+		</State>
+		<State>
+			<GameStateId>41</GameStateId>
+			<GameStateCount>6</GameStateCount>
+			<TeamNumber>0</TeamNumber>
+			<TeamPlayerNumber>2</TeamPlayerNumber>
+			<TextContent>Team 1, Player 2.</TextContent>
+			<Button1>1</Button1>
+			<Button2>1</Button2>
+			<Button3>1</Button3>
+			<Button4>1</Button4>
+		</State>
+		<State>
+			<GameStateId>42</GameStateId>
+			<GameStateCount>7</GameStateCount>
+			<TeamNumber>0</TeamNumber>
+			<TeamPlayerNumber>3</TeamPlayerNumber>
+			<TextContent>Team 1, Player 3.</TextContent>
+			<Button1>1</Button1>
+			<Button2>1</Button2>
+			<Button3>1</Button3>
+			<Button4>1</Button4>
+		</State>
+		<State>
+			<GameStateId>43</GameStateId>
+			<GameStateCount>8</GameStateCount>
+			<TeamNumber>0</TeamNumber>
+			<TeamPlayerNumber>1</TeamPlayerNumber>
+			<TextContent>Team 2, Player 1.</TextContent>
+			<Button1>1</Button1>
+			<Button2>1</Button2>
+			<Button3>1</Button3>
+			<Button4>1</Button4>
+		</State>
+		<State>
+			<GameStateId>44</GameStateId>
+			<GameStateCount>9</GameStateCount>
+			<TeamNumber>0</TeamNumber>
+			<TeamPlayerNumber>2</TeamPlayerNumber>
+			<TextContent>Team 2, Player 2.</TextContent>
+			<Button1>1</Button1>
+			<Button2>1</Button2>
+			<Button3>1</Button3>
+			<Button4>1</Button4>
+		</State>
+				<State>
+			<GameStateId>45</GameStateId>
+			<GameStateCount>10</GameStateCount>
+			<TeamNumber>0</TeamNumber>
+			<TeamPlayerNumber>3</TeamPlayerNumber>
+			<TextContent>Team 2, Player 3.</TextContent>
+			<Button1>1</Button1>
+			<Button2>1</Button2>
+			<Button3>1</Button3>
+			<Button4>1</Button4>
+		</State>
+		<State>
+			<GameStateId>46</GameStateId>
+			<GameStateCount>11</GameStateCount>
+			<TeamNumber>0</TeamNumber>
+			<TeamPlayerNumber>1</TeamPlayerNumber>
+			<TextContent>Team 3, Player 1.</TextContent>
+			<Button1>1</Button1>
+			<Button2>1</Button2>
+			<Button3>1</Button3>
+			<Button4>1</Button4>
+		</State>
+		<State>
+			<GameStateId>47</GameStateId>
+			<GameStateCount>12</GameStateCount>
+			<TeamNumber>0</TeamNumber>
+			<TeamPlayerNumber>2</TeamPlayerNumber>
+			<TextContent>Team 3, Player 2.</TextContent>
+			<Button1>1</Button1>
+			<Button2>1</Button2>
+			<Button3>1</Button3>
+			<Button4>1</Button4>
+		</State>
+				<State>
+			<GameStateId>48</GameStateId>
+			<GameStateCount>13</GameStateCount>
+			<TeamNumber>0</TeamNumber>
+			<TeamPlayerNumber>3</TeamPlayerNumber>
+			<TextContent>Team 3, Player 3.</TextContent>
+			<Button1>1</Button1>
+			<Button2>1</Button2>
+			<Button3>1</Button3>
+			<Button4>1</Button4>
+		</State>
+	</Game>
+	<Players>
+		<Player>
+			<StudentName>Test Student 1, Test Student 1</StudentName>
+			<GameInstanceId>15</GameInstanceId>
+			<TeamNumber>1</TeamNumber>
+			<TeamPlayerNumber>1</TeamPlayerNumber>
+		</Player>
+		<Player>
+			<StudentName>Test Student 2, Test Student 2</StudentName>
+			<GameInstanceId>15</GameInstanceId>
+			<TeamNumber>1</TeamNumber>
+			<TeamPlayerNumber>2</TeamPlayerNumber>
+		</Player>
+		<Player>
+			<StudentName>Test Student 3, Test Student 3</StudentName>
+			<GameInstanceId>15</GameInstanceId>
+			<TeamNumber>1</TeamNumber>
+			<TeamPlayerNumber>3</TeamPlayerNumber>
+		</Player>
+		
+		<Player>
+			<StudentName>Test Student 4, Test Student 4</StudentName>
+			<GameInstanceId>15</GameInstanceId>
+			<TeamNumber>2</TeamNumber>
+			<TeamPlayerNumber>1</TeamPlayerNumber>
+		</Player>
+		<Player>
+			<StudentName>Test Student 5, Test Student 5</StudentName>
+			<GameInstanceId>15</GameInstanceId>
+			<TeamNumber>2</TeamNumber>
+			<TeamPlayerNumber>2</TeamPlayerNumber>
+		</Player>
+		<Player>
+			<StudentName>Test Student 6, Test Student 6</StudentName>
+			<GameInstanceId>15</GameInstanceId>
+			<TeamNumber>2</TeamNumber>
+			<TeamPlayerNumber>3</TeamPlayerNumber>
+		</Player>
+		
+		<Player>
+			<StudentName>Test Student 7, Test Student 7</StudentName>
+			<GameInstanceId>15</GameInstanceId>
+			<TeamNumber>3</TeamNumber>
+			<TeamPlayerNumber>1</TeamPlayerNumber>
+		</Player>
+		<Player>
+			<StudentName>Test Student 8, Test Student 8</StudentName>
+			<GameInstanceId>15</GameInstanceId>
+			<TeamNumber>3</TeamNumber>
+			<TeamPlayerNumber>2</TeamPlayerNumber>
+		</Player>
+		<Player>
+			<StudentName>Test Student 9, Test Student 9</StudentName>
+			<GameInstanceId>15</GameInstanceId>
+			<TeamNumber>3</TeamNumber>
+			<TeamPlayerNumber>3</TeamPlayerNumber>
+		</Player>
+	</Players>
+</StressTest>

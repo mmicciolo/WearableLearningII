@@ -198,7 +198,7 @@ public class GameInstance extends Task {
 		String text = "";
 		try {
 			Statement statement = mySQLDaemon.getConnection().createStatement();
-			ResultSet resultSet = statement.executeQuery("SELECT * FROM gameState WHERE gameId=" + gameInstanceData.getGameId() + " AND gameStateCount=" + player.getCurrentGameState());
+			ResultSet resultSet = statement.executeQuery("SELECT * FROM gamestate WHERE gameId=" + gameInstanceData.getGameId() + " AND gameStateCount=" + player.getCurrentGameState());
 			if(resultSet.next()) {
 				text = resultSet.getString("textContent");
 				player.setCurrentGameStateId(resultSet.getInt("gameStateId"));
@@ -253,12 +253,12 @@ public class GameInstance extends Task {
 	private void setNextGameStateForPlayer(ButtonColor buttonColor, PlayerData player) {		
 		try {
 			Statement statementt = mySQLDaemon.getConnection().createStatement();
-			ResultSet rs = statementt.executeQuery("SELECT * FROM gameState WHERE gameStateId=" + player.getCurrentGameStateId());
+			ResultSet rs = statementt.executeQuery("SELECT * FROM gamestate WHERE gameStateId=" + player.getCurrentGameStateId());
 			if(rs.next()) {
 				int teamId = rs.getInt("teamId");
 				int playerId = rs.getInt("playerId");
 				Statement statement = mySQLDaemon.getConnection().createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT * FROM gameStateTransitions WHERE gameStateId=" + player.getCurrentGameStateId() +" AND singlePushButtonColor=" + buttonColor.ordinal());
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM gamestatetransitions WHERE gameStateId=" + player.getCurrentGameStateId() +" AND singlePushButtonColor=" + buttonColor.ordinal());
 				if(teamId == 0 && playerId == 0) {
 					if(resultSet.next()) {
 						for(int i = 1; i <= gameInstanceData.getTeamCount(); i++) {
