@@ -1,0 +1,1158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<wearableLearningGame>
+	<game>
+		<title>Estimate It!</title>
+		<teamCount>3</teamCount>
+		<playersPerTeam>3</playersPerTeam>
+	</game>
+	<gameStates>
+	
+		<!-- Beginning Global Game States -->
+	
+		<state>
+			<gameStateCount>1</gameStateCount>
+			<teamId>0</teamId>
+			<playerId>0</playerId>
+			<text>Welcome To Estimate it! Push a button to start.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>2</button1>
+			<button2>2</button2>
+			<button3>2</button3>
+			<button4>2</button4>
+		</state>
+		<state>
+			<gameStateCount>2</gameStateCount>
+			<teamId>0</teamId>
+			<playerId>0</playerId>
+			<text>Your job is to find shapes scattered in the game area. When you find the right shape, push the corresponding button. For instance, push red to continue.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>3</button1>
+			<button2>3</button2>
+			<button3>3</button3>
+			<button4>3</button4>
+		</state>
+		<state>
+			<gameStateCount>3</gameStateCount>
+			<teamId>0</teamId>
+			<playerId>0</playerId>
+			<text>Now push green.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>4</button1>
+			<button2>5</button2>
+			<button3>4</button3>
+			<button4>4</button4>
+		</state>
+		<state>
+			<gameStateCount>4</gameStateCount>
+			<teamId>0</teamId>
+			<playerId>0</playerId>
+			<text>No, that was not green, push a button to try again.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>3</button1>
+			<button2>3</button2>
+			<button3>3</button3>
+			<button4>3</button4>
+		</state>
+		
+		<!-- Team 1 Level 1 Ready? -->
+		
+		<state>
+			<gameStateCount>5</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>Each person in your team will look for a different object. Ready to Start? Push any button to get your first clue.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>6</button1>
+			<button2>6</button2>
+			<button3>6</button3>
+			<button4>6</button4>
+			<button5>10</button5>
+			<button6>10</button6>
+			<button7>10</button7>
+			<button8>10</button8>
+			<button9>14</button9>
+			<button10>14</button10>
+			<button11>14</button11>
+			<button12>14</button12>
+		</state>
+		
+		<!-- Team 1 Player 1 -->
+		
+		<!-- Team 1 Player 1 Question (Green) -->
+		
+		<state>
+			<gameStateCount>6</gameStateCount>
+			<teamId>0</teamId>
+			<playerId>1</playerId>
+			<text>Find a cube with a face 6" long. Press the black button if you want a hint</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>8</button1>
+			<button2>58</button2>
+			<button3>8</button3>
+			<button4>7</button4>
+		</state>
+		
+		<!-- Team 1 Player 1 Hint -->
+		
+		<state>
+			<gameStateCount>7</gameStateCount>
+			<teamId>0</teamId>
+			<playerId>1</playerId>
+			<text>Hint: A cube is a box with 6 square faces (a face is a side). Find a cube with a face 6” long.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>6</button1>
+			<button2>6</button2>
+			<button3>6</button3>
+			<button4>6</button4>
+		</state>
+		
+		<!-- Team 1 Player 1 Incorrect -->
+		
+		<state>
+			<gameStateCount>8</gameStateCount>
+			<teamId>0</teamId>
+			<playerId>1</playerId>
+			<text>Incorrect, press any button to try again.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>6</button1>
+			<button2>6</button2>
+			<button3>6</button3>
+			<button4>6</button4>
+		</state>
+		
+		<!-- Team 1 Color 1 Correct (Red) -->
+		
+		<state>
+			<gameStateCount>58</gameStateCount>
+			<teamId>0</teamId>
+			<playerId>1</playerId>
+			<text>Now enter the second color.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>59</button1>
+			<button2>8</button2>
+			<button3>8</button3>
+			<button4>8</button4>
+		</state>
+		
+		<!-- Team 1 Color 2 Correct (Black) -->
+		
+		<state>
+			<gameStateCount>59</gameStateCount>
+			<teamId>0</teamId>
+			<playerId>1</playerId>
+			<text>Now enter the third color.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>8</button1>
+			<button2>8</button2>
+			<button3>8</button3>
+			<button4>60</button4>
+		</state>
+		
+		<!-- Team 1 Color 3 Correct (Blue) -->
+		
+		<state>
+			<gameStateCount>60</gameStateCount>
+			<teamId>0</teamId>
+			<playerId>1</playerId>
+			<text>Now enter the fourth color.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>8</button1>
+			<button2>8</button2>
+			<button3>9</button3>
+			<button4>8</button4>
+		</state>
+		
+		<!-- Team 1 Player 1 Final Correct -->
+		
+		<state>
+			<gameStateCount>9</gameStateCount>
+			<teamId>0</teamId>
+			<playerId>1</playerId>
+			<text>Congratulations! You have found the cube. Press any button to continue.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>18</button1>
+			<button2>18</button2>
+			<button3>18</button3>
+			<button4>18</button4>
+		</state>
+		
+		<!-- Team 1 Player 2 -->
+		
+		<!-- Question -->
+		
+		<state>
+			<gameStateCount>10</gameStateCount>
+			<teamId>0</teamId>
+			<playerId>2</playerId>
+			<text>Find a rectangular prism with its longest edge about 6”. Press the black button if you want a hint.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>13</button1>
+			<button2>12</button2>
+			<button3>12</button3>
+			<button4>11</button4>
+		</state>
+		
+		<!-- Hint -->
+		
+		<state>
+			<gameStateCount>11</gameStateCount>
+			<teamId>0</teamId>
+			<playerId>2</playerId>
+			<text>Hint: A rectangular prism is like a shoebox. An edge is a border. Find a rectangular prism with longest edge about 6”.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>10</button1>
+			<button2>10</button2>
+			<button3>10</button3>
+			<button4>10</button4>
+		</state>
+		
+		<!-- Incorrect -->
+		
+		<state>
+			<gameStateCount>12</gameStateCount>
+			<teamId>0</teamId>
+			<playerId>2</playerId>
+			<text>Incorrect, press any button to try again.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>10</button1>
+			<button2>10</button2>
+			<button3>10</button3>
+			<button4>10</button4>
+		</state>
+		
+		<!-- Correct -->
+		
+		<state>
+			<gameStateCount>13</gameStateCount>
+			<teamId>0</teamId>
+			<playerId>2</playerId>
+			<text>Congratulations! You have found the prism. Rectangular prism with longest edge of  6”. Push BLACK to continue.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>18</button1>
+			<button2>18</button2>
+			<button3>18</button3>
+			<button4>18</button4>
+		</state>
+		
+		<!-- Team 1 Player 3 -->
+		
+		<!-- Question -->
+		
+		<state>
+			<gameStateCount>14</gameStateCount>
+			<teamId>0</teamId>
+			<playerId>3</playerId>
+			<text>Find a 6” tall cylinder. Press the black button if you want a hint.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>17</button1>
+			<button2>16</button2>
+			<button3>16</button3>
+			<button4>15</button4>
+		</state>
+		
+		<!-- Hint -->
+		
+		<state>
+			<gameStateCount>15</gameStateCount>
+			<teamId>0</teamId>
+			<playerId>3</playerId>
+			<text>I am a cylinder: My shape is like a soda can. Find a 6” tall cylinder.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>14</button1>
+			<button2>14</button2>
+			<button3>14</button3>
+			<button4>14</button4>
+		</state>
+		
+		<!-- Incorrect -->
+		
+		<state>
+			<gameStateCount>16</gameStateCount>
+			<teamId>0</teamId>
+			<playerId>3</playerId>
+			<text>Incorrect, press any button to try again.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>14</button1>
+			<button2>14</button2>
+			<button3>14</button3>
+			<button4>14</button4>
+		</state>
+		
+		<!-- Correct -->
+		
+		<state>
+			<gameStateCount>17</gameStateCount>
+			<teamId>0</teamId>
+			<playerId>3</playerId>
+			<text>Congratulations! You have found the cylinder. You found a 6” tall cylinder. Push BLACK to continue.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>18</button1>
+			<button2>18</button2>
+			<button3>18</button3>
+			<button4>18</button4>
+		</state>
+		
+		<!-- Team 1 Level 1 Complete -->
+		
+		<state>
+			<gameStateCount>18</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>Now take your shape to the starting area. Press black to continue.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>19</button1>
+			<button2>19</button2>
+			<button3>19</button3>
+			<button4>19</button4>
+			<button5>19</button5>
+			<button6>19</button6>
+			<button7>19</button7>
+			<button8>19</button8>
+			<button9>19</button9>
+			<button10>19</button10>
+			<button11>19</button11>
+			<button12>19</button12>
+		</state>
+		<state>
+			<gameStateCount>19</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>Great Job! You reached LEVEL 2 of the “Estimate it!” game. Wait until you are given instructions. Do not push any buttons.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>20</button1>
+			<button2>20</button2>
+			<button3>20</button3>
+			<button4>20</button4>
+			<button5>20</button5>
+			<button6>20</button6>
+			<button7>20</button7>
+			<button8>20</button8>
+			<button9>20</button9>
+			<button10>20</button10>
+			<button11>20</button11>
+			<button12>20</button12>
+		</state>
+		
+		<!-- Team 1 Level 2 Ready? -->
+		
+		<state>
+			<gameStateCount>20</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>Listen carefully to the organizers as they tell you about the 2nd part. Wait and do not push any buttons until you are told.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>21</button1>
+			<button2>21</button2>
+			<button3>21</button3>
+			<button4>21</button4>
+			<button5>21</button5>
+			<button6>21</button6>
+			<button7>21</button7>
+			<button8>21</button8>
+			<button9>21</button9>
+			<button10>21</button10>
+			<button11>21</button11>
+			<button12>21</button12>
+		</state>
+		
+		<state>
+			<gameStateCount>21</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>Work as a team to find as many shapes as you can before time runs out. You have 8  minutes. Push the black button to continue.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>22</button1>
+			<button2>22</button2>
+			<button3>22</button3>
+			<button4>22</button4>
+			<button5>22</button5>
+			<button6>22</button6>
+			<button7>22</button7>
+			<button8>22</button8>
+			<button9>22</button9>
+			<button10>22</button10>
+			<button11>22</button11>
+			<button12>22</button12>
+		</state>
+		
+		<!-- Team 1 Together Object 1 Color 1 (Green) -->
+		
+		<state>
+			<gameStateCount>22</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>Find a volume about 6” wide, with no flat faces. Press the black button if you want a hint</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>24</button1>
+			<button2>25</button2>
+			<button3>24</button3>
+			<button4>24</button4>
+			<button5>24</button5>
+			<button6>25</button6>
+			<button7>24</button7>
+			<button8>24</button8>
+			<button9>24</button9>
+			<button10>25</button10>
+			<button11>24</button11>
+			<button12>24</button12>
+		</state>
+		
+		<!-- Team 1 Hint -->
+		
+		<state>
+			<gameStateCount>23</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>Hint: I am a sphere, like a ball 6” tall. Find a shape about 6” wide, with no flat faces.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>22</button1>
+			<button2>22</button2>
+			<button3>22</button3>
+			<button4>22</button4>
+			<button5>22</button5>
+			<button6>22</button6>
+			<button7>22</button7>
+			<button8>22</button8>
+			<button9>22</button9>
+			<button10>22</button10>
+			<button11>22</button11>
+			<button12>22</button12>
+		</state>
+		
+		<!-- Team 1 Incorrect -->
+		
+		<state>
+			<gameStateCount>24</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>That was not the right color. Press a button to try entering the sequence again.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>22</button1>
+			<button2>22</button2>
+			<button3>22</button3>
+			<button4>22</button4>
+			<button5>22</button5>
+			<button6>22</button6>
+			<button7>22</button7>
+			<button8>22</button8>
+			<button9>22</button9>
+			<button10>22</button10>
+			<button11>22</button11>
+			<button12>22</button12>
+		</state>
+		
+		<!-- Team 1 Color 2 Correct (Red) -->
+		
+		<state>
+			<gameStateCount>25</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>Now enter the second color.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>26</button1>
+			<button2>24</button2>
+			<button3>24</button3>
+			<button4>24</button4>
+			<button5>26</button5>
+			<button6>24</button6>
+			<button7>24</button7>
+			<button8>24</button8>
+			<button9>26</button9>
+			<button10>24</button10>
+			<button11>24</button11>
+			<button12>24</button12>
+		</state>
+		
+		<!-- Team 1 Color 3 Correct (Blue) -->
+		
+		<state>
+			<gameStateCount>26</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>Now enter the third color.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>24</button1>
+			<button2>24</button2>
+			<button3>27</button3>
+			<button4>24</button4>
+			<button5>24</button5>
+			<button6>24</button6>
+			<button7>27</button7>
+			<button8>24</button8>
+			<button9>24</button9>
+			<button10>24</button10>
+			<button11>27</button11>
+			<button12>24</button12>
+		</state>
+		
+		<!-- Team 1 Color 4Correct (Black) -->
+		
+		<state>
+			<gameStateCount>27</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>Now enter the fourth color.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>24</button1>
+			<button2>24</button2>
+			<button3>24</button3>
+			<button4>28</button4>
+			<button5>24</button5>
+			<button6>24</button6>
+			<button7>24</button7>
+			<button8>28</button8>
+			<button9>24</button9>
+			<button10>24</button10>
+			<button11>24</button11>
+			<button12>28</button12>
+		</state>
+		
+		<!-- Final Correct Object 1 -->
+		
+		<state>
+			<gameStateCount>28</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>Congratulations! You have found the sphere. You found a volume with no flat faces. Push BLACK to continue.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>29</button1>
+			<button2>29</button2>
+			<button3>29</button3>
+			<button4>29</button4>
+			<button5>29</button5>
+			<button6>29</button6>
+			<button7>29</button7>
+			<button8>29</button8>
+			<button9>29</button9>
+			<button10>29</button10>
+			<button11>29</button11>
+			<button12>29</button12>
+		</state>
+		
+		<!-- Wait For Other Team Members -->
+		
+		<state>
+			<gameStateCount>29</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>Now WAIT for everybody in your team to enter colors for this object too. After everybody is done, you will be moved on to continue.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>30</button1>
+			<button2>30</button2>
+			<button3>30</button3>
+			<button4>30</button4>
+			<button5>30</button5>
+			<button6>30</button6>
+			<button7>30</button7>
+			<button8>30</button8>
+			<button9>30</button9>
+			<button10>30</button10>
+			<button11>30</button11>
+			<button12>30</button12>
+		</state>
+		
+		<state>
+			<gameStateCount>30</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>Please take your team’s shape to the starting area. Then push BLACK to finish this level.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>31</button1>
+			<button2>31</button2>
+			<button3>31</button3>
+			<button4>31</button4>
+			<button5>31</button5>
+			<button6>31</button6>
+			<button7>31</button7>
+			<button8>31</button8>
+			<button9>31</button9>
+			<button10>31</button10>
+			<button11>31</button11>
+			<button12>31</button12>
+		</state>
+		
+		<!-- Team 1 Together Object 2 Color 1 (Blue) -->
+		
+		<state>
+			<gameStateCount>31</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>Find a volume where each face has 4 right angles and all sides are 6” long. Press the black button if you want a hint.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>33</button1>
+			<button2>33</button2>
+			<button3>34</button3>
+			<button4>32</button4>
+			<button5>33</button5>
+			<button6>33</button6>
+			<button7>34</button7>
+			<button8>32</button8>
+			<button9>33</button9>
+			<button10>33</button10>
+			<button11>34</button11>
+			<button12>32</button12>
+		</state>
+		
+		<!-- Team 1 Hint -->
+		
+		<state>
+			<gameStateCount>32</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>I am a cube: all faces are squares (4 right angles and same length sides). Find a volume where each face has 4 right angles and all sides are 6” long.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>31</button1>
+			<button2>31</button2>
+			<button3>31</button3>
+			<button4>31</button4>
+			<button5>31</button5>
+			<button6>31</button6>
+			<button7>31</button7>
+			<button8>31</button8>
+			<button9>31</button9>
+			<button10>31</button10>
+			<button11>31</button11>
+			<button12>31</button12>
+		</state>
+		
+		<!-- Team 1 Incorrect -->
+		
+		<state>
+			<gameStateCount>33</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>That was not the right color. Press a button to try entering the sequence again.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>31</button1>
+			<button2>31</button2>
+			<button3>31</button3>
+			<button4>31</button4>
+			<button5>31</button5>
+			<button6>31</button6>
+			<button7>31</button7>
+			<button8>31</button8>
+			<button9>31</button9>
+			<button10>31</button10>
+			<button11>31</button11>
+			<button12>31</button12>
+		</state>
+		
+		<!-- Team 1 Color 2 Correct (Green) -->
+		
+		<state>
+			<gameStateCount>34</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>Now enter the second color.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>33</button1>
+			<button2>35</button2>
+			<button3>33</button3>
+			<button4>33</button4>
+			<button5>33</button5>
+			<button6>35</button6>
+			<button7>33</button7>
+			<button8>33</button8>
+			<button9>33</button9>
+			<button10>35</button10>
+			<button11>33</button11>
+			<button12>33</button12>
+		</state>
+		
+		<!-- Team 1 Color 3 Correct (Red) -->
+		
+		<state>
+			<gameStateCount>35</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>Now enter the third color.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>36</button1>
+			<button2>33</button2>
+			<button3>33</button3>
+			<button4>33</button4>
+			<button5>36</button5>
+			<button6>33</button6>
+			<button7>33</button7>
+			<button8>33</button8>
+			<button9>36</button9>
+			<button10>33</button10>
+			<button11>33</button11>
+			<button12>3</button12>
+		</state>
+		
+		<!-- Team 1 Color 4 Correct (Blue) -->
+		
+		<state>
+			<gameStateCount>36</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>Now enter the fourth color.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>33</button1>
+			<button2>33</button2>
+			<button3>37</button3>
+			<button4>33</button4>
+			<button5>33</button5>
+			<button6>33</button6>
+			<button7>37</button7>
+			<button8>33</button8>
+			<button9>33</button9>
+			<button10>33</button10>
+			<button11>37</button11>
+			<button12>33</button12>
+		</state>
+		
+		<!-- Final Correct Object 1 -->
+		
+		<state>
+			<gameStateCount>37</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>Congratulations! You have found the cube. You found a volume with no flat faces. Push BLACK to continue.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>38</button1>
+			<button2>38</button2>
+			<button3>38</button3>
+			<button4>38</button4>
+			<button5>38</button5>
+			<button6>38</button6>
+			<button7>38</button7>
+			<button8>38</button8>
+			<button9>38</button9>
+			<button10>38</button10>
+			<button11>38</button11>
+			<button12>38</button12>
+		</state>
+		
+		<!-- Team 1 Level 2 Complete -->
+		
+		<state>
+			<gameStateCount>38</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>Now WAIT for everybody in your team to enter colors for this object too. After everybody is done, you will be moved on to continue.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>39</button1>
+			<button2>39</button2>
+			<button3>39</button3>
+			<button4>39</button4>
+			<button5>39</button5>
+			<button6>39</button6>
+			<button7>39</button7>
+			<button8>39</button8>
+			<button9>39</button9>
+			<button10>39</button10>
+			<button11>39</button11>
+			<button12>39</button12>
+		</state>
+		
+		<state>
+			<gameStateCount>39</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>Please take your team’s shape to the starting area. Then push BLACK to find another object as a team.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>40</button1>
+			<button2>40</button2>
+			<button3>40</button3>
+			<button4>40</button4>
+			<button5>40</button5>
+			<button6>40</button6>
+			<button7>40</button7>
+			<button8>40</button8>
+			<button9>40</button9>
+			<button10>40</button10>
+			<button11>40</button11>
+			<button12>40</button12>
+		</state>
+		
+		<!-- Team 1 Level 3 Object 1 Red-->
+		
+		<state>
+			<gameStateCount>40</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>Find a sphere about 6” tall. Press the black button if you want a hint</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>43</button1>
+			<button2>42</button2>
+			<button3>42</button3>
+			<button4>41</button4>
+			<button5>43</button5>
+			<button6>42</button6>
+			<button7>42</button7>
+			<button8>41</button8>
+			<button9>43</button9>
+			<button10>42</button10>
+			<button11>42</button11>
+			<button12>41</button12>
+		</state>
+		
+		<!-- Team 1 Level 3 Hint Object 1 -->
+		
+		<state>
+			<gameStateCount>41</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>Hint: My shape is like a ball. This  sphere is  6” tall...</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>40</button1>
+			<button2>40</button2>
+			<button3>40</button3>
+			<button4>40</button4>
+			<button5>40</button5>
+			<button6>40</button6>
+			<button7>40</button7>
+			<button8>40</button8>
+			<button9>40</button9>
+			<button10>40</button10>
+			<button11>40</button11>
+			<button12>40</button12>
+		</state>
+
+		<!-- Team 1 Level 3 Wrong Object 1 -->
+		
+		<state>
+			<gameStateCount>42</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>That was not the right color... Try entering all colors again, or press BLACK for a hint.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>40</button1>
+			<button2>40</button2>
+			<button3>40</button3>
+			<button4>40</button4>
+			<button5>40</button5>
+			<button6>40</button6>
+			<button7>40</button7>
+			<button8>40</button8>
+			<button9>40</button9>
+			<button10>40</button10>
+			<button11>40</button11>
+			<button12>40</button12>
+		</state>
+		
+		<!-- Blue -->
+		
+		<state>
+			<gameStateCount>43</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>Now enter the second color.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>42</button1>
+			<button2>42</button2>
+			<button3>44</button3>
+			<button4>42</button4>
+			<button5>42</button5>
+			<button6>42</button6>
+			<button7>42</button7>
+			<button8>44</button8>
+			<button9>42</button9>
+			<button10>42</button10>
+			<button11>44</button11>
+			<button12>42</button12>
+		</state>
+		
+		<!-- Black -->
+		
+		<state>
+			<gameStateCount>44</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>Now enter the third color.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>42</button1>
+			<button2>42</button2>
+			<button3>42</button3>
+			<button4>45</button4>
+			<button5>42</button5>
+			<button6>42</button6>
+			<button7>42</button7>
+			<button8>45</button8>
+			<button9>42</button9>
+			<button10>42</button10>
+			<button11>42</button11>
+			<button12>45</button12>
+		</state>
+		
+		<!-- Red -->
+		
+		<state>
+			<gameStateCount>45</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>Now enter the fourth color.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>46</button1>
+			<button2>42</button2>
+			<button3>42</button3>
+			<button4>42</button4>
+			<button5>46</button5>
+			<button6>42</button6>
+			<button7>42</button7>
+			<button8>42</button8>
+			<button9>46</button9>
+			<button10>42</button10>
+			<button11>42</button11>
+			<button12>42</button12>
+		</state>
+		
+		<!-- Team 1 Level 3 Correct Object 1 -->
+		
+		<state>
+			<gameStateCount>46</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>Congratulations! You have found the sphere. You found a sphere about 6” tall. Push BLACK to continue.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>47</button1>
+			<button2>47</button2>
+			<button3>47</button3>
+			<button4>47</button4>
+			<button5>47</button5>
+			<button6>47</button6>
+			<button7>47</button7>
+			<button8>47</button8>
+			<button9>47</button9>
+			<button10>47</button10>
+			<button11>47</button11>
+			<button12>47</button12>
+		</state>
+		
+		<!-- Team 1 Level 3 Object 1 Complete -->
+		
+		<state>
+			<gameStateCount>47</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>Now WAIT for everybody in your team to enter colors for this object too. After everybody is done, you will be moved on to continue.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>48</button1>
+			<button2>48</button2>
+			<button3>48</button3>
+			<button4>48</button4>
+			<button5>48</button5>
+			<button6>48</button6>
+			<button7>48</button7>
+			<button8>48</button8>
+			<button9>48</button9>
+			<button10>48</button10>
+			<button11>48</button11>
+			<button12>48</button12>
+		</state>
+		
+		<state>
+			<gameStateCount>48</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>Please take your team’s shape to the starting area. Then push BLACK to finish this level.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>49</button1>
+			<button2>49</button2>
+			<button3>49</button3>
+			<button4>49</button4>
+			<button5>49</button5>
+			<button6>49</button6>
+			<button7>49</button7>
+			<button8>49</button8>
+			<button9>49</button9>
+			<button10>49</button10>
+			<button11>49</button11>
+			<button12>49</button12>
+		</state>
+		
+		<!-- Team 1 Level 3 Object 2 Blue -->
+		
+		<state>
+			<gameStateCount>49</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>Find a volume with 4 faces, with all acute angles. Press the black button if you want a hint.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>51</button1>
+			<button2>51</button2>
+			<button3>52</button3>
+			<button4>50</button4>
+			<button5>51</button5>
+			<button6>51</button6>
+			<button7>52</button7>
+			<button8>50</button8>
+			<button9>51</button9>
+			<button10>51</button10>
+			<button11>52</button11>
+			<button12>50</button12>
+		</state>
+		
+		<!-- Team Level 3 Object 2 Hint -->
+		
+		<state>
+			<gameStateCount>50</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>An acute angle measures less than 90 degrees. Find a shape with 4 faces, with all acute angles.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>49</button1>
+			<button2>49</button2>
+			<button3>49</button3>
+			<button4>49</button4>
+			<button5>49</button5>
+			<button6>49</button6>
+			<button7>49</button7>
+			<button8>49</button8>
+			<button9>49</button9>
+			<button10>49</button10>
+			<button11>49</button11>
+			<button12>49</button12>
+		</state>
+		
+		<!-- Team 1 Level 3 Object 2 Wrong -->
+		
+		<state>
+			<gameStateCount>51</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>That was not the right color... Try entering all colors again, or press BLACK for a hint.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>49</button1>
+			<button2>49</button2>
+			<button3>49</button3>
+			<button4>49</button4>
+			<button5>49</button5>
+			<button6>49</button6>
+			<button7>49</button7>
+			<button8>49</button8>
+			<button9>49</button9>
+			<button10>49</button10>
+			<button11>49</button11>
+			<button12>49</button12>
+		</state>
+		
+		<!-- Red -->
+		
+		<state>
+			<gameStateCount>52</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>Now enter the second color.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>53</button1>
+			<button2>51</button2>
+			<button3>51</button3>
+			<button4>51</button4>
+			<button5>53</button5>
+			<button6>51</button6>
+			<button7>51</button7>
+			<button8>51</button8>
+			<button9>53</button9>
+			<button10>51</button10>
+			<button11>51</button11>
+			<button12>51</button12>
+		</state>
+		
+		<!-- Black -->
+		
+		<state>
+			<gameStateCount>53</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>Now enter the third color.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>51</button1>
+			<button2>51</button2>
+			<button3>51</button3>
+			<button4>54</button4>
+			<button5>51</button5>
+			<button6>51</button6>
+			<button7>51</button7>
+			<button8>54</button8>
+			<button9>51</button9>
+			<button10>51</button10>
+			<button11>51</button11>
+			<button12>54</button12>
+		</state>
+		
+		<!-- Red -->
+		
+		<state>
+			<gameStateCount>54</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>Now enter the fourth color.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>55</button1>
+			<button2>51</button2>
+			<button3>51</button3>
+			<button4>51</button4>
+			<button5>55</button5>
+			<button6>51</button6>
+			<button7>51</button7>
+			<button8>51</button8>
+			<button9>55</button9>
+			<button10>51</button10>
+			<button11>51</button11>
+			<button12>51</button12>
+		</state>
+		
+		<!-- Team 1 Level 3 Object 3 Correct -->
+		
+		<state>
+			<gameStateCount>55</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>Congratulations! You have found a triangular pyramid. A volume with 4 faces, all acute angles. Push BLACK to continue.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>56</button1>
+			<button2>56</button2>
+			<button3>56</button3>
+			<button4>56</button4>
+			<button5>56</button5>
+			<button6>56</button6>
+			<button7>56</button7>
+			<button8>56</button8>
+			<button9>56</button9>
+			<button10>56</button10>
+			<button11>56</button11>
+			<button12>56</button12>
+		</state>
+		
+		<!-- Team 1 Level 3 Object 3 Complete -->
+		
+		<state>
+			<gameStateCount>56</gameStateCount>
+			<teamId>1</teamId>
+			<playerId>0</playerId>
+			<text>Please take your team’s shape to the starting area. Then push BLACK to finish this level.</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>57</button1>
+			<button2>57</button2>
+			<button3>57</button3>
+			<button4>57</button4>
+			<button5>57</button5>
+			<button6>57</button6>
+			<button7>57</button7>
+			<button8>57</button8>
+			<button9>57</button9>
+			<button10>57</button10>
+			<button11>57</button11>
+			<button12>57</button12>
+		</state>
+		
+		<!-- Game Over -->
+		
+		<state>
+			<gameStateCount>57</gameStateCount>
+			<teamId>0</teamId>
+			<playerId>0</playerId>
+			<text>G A M E    O V E R . Thank you for playing “Estimate It!”</text>
+			<buttonInputType>single</buttonInputType>
+			<button1>1</button1>
+			<button2>1</button2>
+			<button3>1</button3>
+			<button4>1</button4>
+		</state>
+	
+	</gameStates>
+</wearableLearningGame>
